@@ -1,6 +1,5 @@
 # CADET Reference Manual
 
-Another test
 
 
 - Related documents:
