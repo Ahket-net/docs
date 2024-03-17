@@ -1,7 +1,5 @@
-# To Start Writing
+# TOC
 
-[a link](https://github.com/Ahket-net/docs/blob/nael/CADET%20Reference%20Manual.md "CADET")
+- [AHK Token](</Technical/AHK Token.md>)
 
-[Some file](</Technical/AHK Token.md>)
-
-Another modification
+- [Example](</Technical/Example.md>)
