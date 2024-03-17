@@ -1,6 +1,6 @@
 # TOC
 
-File | Tags | Description
+File | Topics | Other
 ---|---|---
 [CADET Reference Manual](<Technical/CADET Reference Manual.md>) | CTO, WEB2, WEB3 | 
 [STASH Reference Manual](<Technical/STASH Reference Manual.md>) | CTO, WEB3 | 
