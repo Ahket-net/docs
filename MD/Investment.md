@@ -1,0 +1,7 @@
+- Investor Package
+   - Current investment: $500K.
+   - Asking for $2 million. We need the money to further develop the product and find market traction.
+   - SAFE plan
+      - Post-money Valuation 
+      - Cap is $50 million
+      - Discount Rate is zero percent. There is no discount rate.
