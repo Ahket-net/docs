@@ -8,3 +8,6 @@ File | Topic | Tags | Owner
 [VAO User Manual](<MD/VAO User Manual.md>) | VAO User Manual | WEB2 | CTO
 [AHK Token](<MD/AHK Token.md>) | AHK Token | WEB3 | CTO
 [Example](<MD/Example.md>) | Example | WEB3 | CTO
+[Investment](<MD/Investment.md>) | Investment | Business | CEO
+[Strategy](<MD/Strategy.md>) | Strategy | Business | CEO
+[Marketing and Sales](<MD/Marketing and Sales.md>) | Marketing and Sales | WEB2, Business | Sales
