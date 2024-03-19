@@ -9,4 +9,3 @@ Example | [Example](<Example.md>) | WEB3 | CTO
 Investment | [Investment](<Investment.md>) | Business | CEO
 Strategy | [Strategy](<Strategy.md>) | Business | CEO
 Marketing and Sales | [Marketing and Sales](<Marketing and Sales.md>) | WEB2, Business | Sales
-
