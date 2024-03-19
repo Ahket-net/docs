@@ -1,0 +1,33 @@
+{
+  "name": "",
+  "isOrdered": true,
+  "folders": {
+    "MD": {
+      "name": "MD",
+      "isOrdered": true,
+      "folders": {},
+      "files": {
+        "CADET Reference Manual": 0,
+        "AHK Token": 1,
+        "Example": 2,
+        "Investment": 3,
+        "Legal Framework": 4,
+        "Marketing and Sales": 5,
+        "README": 6,
+        "STASH Reference Manual": 7,
+        "Strategy": 8,
+        "VAO Reference Manual": 9,
+        "VAO User Manual": 10
+      }
+    },
+    "TXT": {
+      "name": "TXT",
+      "isOrdered": true,
+      "folders": {},
+      "files": {}
+    }
+  },
+  "files": {
+    "README": 0
+  }
+}
