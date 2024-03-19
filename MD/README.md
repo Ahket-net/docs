@@ -1,4 +1,4 @@
-File | Topic | Tags | Owner
+File | Topic | Related Topics | Responsibility of
 ---|---|---|---
 [CADET Reference Manual](<CADET Reference Manual.md>) | CADET | WEB2, WEB3 | CTO
 [STASH Reference Manual](<STASH Reference Manual.md>) | STASH | WEB3 | CTO
