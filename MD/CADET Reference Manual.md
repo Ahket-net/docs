@@ -9,6 +9,38 @@
 >  Object.attribute refers to an attribute, and Object.method() refers to calling a method.
 >  *SimplePresentation* is used to present any object or item in a document, book, or webpage that explain or demonstrate their use and applications.
 
+- [CADET Reference Manual](#cadet-reference-manual)
+  - [About CADET](#about-cadet)
+  - [User Identifier](#user-identifier)
+  - [Proof of Attestation (POA)](#proof-of-attestation-poa)
+    - [Two types of POA](#two-types-of-poa)
+      - [Digital Signature (SIG)](#digital-signature-sig)
+      - [Delegated Digital Signature (DDS)](#delegated-digital-signature-dds)
+  - [Claim Template (CT)](#claim-template-ct)
+    - [Examples of CT:](#examples-of-ct)
+      - [Example 1](#example-1)
+      - [Example 2](#example-2)
+  - [Claim (CL):](#claim-cl)
+  - [Attested Claim (AC)](#attested-claim-ac)
+  - [Verification Form (VF)](#verification-form-vf)
+    - [Verification Form Prototype (VF$)](#verification-form-prototype-vf)
+  - [Attestation (AT)](#attestation-at)
+  - [AT Package (ATP):](#at-package-atp)
+  - [Examples](#examples)
+    - [Example 1:](#example-1-1)
+    - [Example 2](#example-2-1)
+    - [Example 3](#example-3)
+    - [Example 4](#example-4)
+    - [Example 5](#example-5)
+    - [Example 6](#example-6)
+  - [Creation and Verification of Attestations](#creation-and-verification-of-attestations)
+    - [Creating Attestations](#creating-attestations)
+  - [Authentication of AT](#authentication-of-at)
+    - [Authenticating SAT](#authenticating-sat)
+    - [Authenticating DAT](#authenticating-dat)
+    - [Authenticating CAT](#authenticating-cat)
+  - [Validation of ATP](#validation-of-atp)
+
 
 ## About CADET
 
@@ -37,7 +69,7 @@ POA serves as compelling evidence that a signer has committed to a claim. E.g., 
 Attributes:
 - `Type`: The category of the POA. There are two types: `SIG` and `DDS`.
 - `ID`: A unique alpha-numeral identifier associated with each instance of a POA.
-- `IDS`: The public key of the signer that created the POA. We can refer to IDS or signer interchangebly.
+- `IDS`: The public key of the signer that created the POA. We can refer to IDS or signer interchangeably.
 
 Public Methods:
 - `getVerificationFee()`: Returns the `VerificationFee` value required for verification.
@@ -53,7 +85,7 @@ Description:
 The common digital signature created by a public-private key pair. There are no fees to verify a SIG.
 
 Creation:
-- `CreatePOA(SIG, SK, claim)` creates an instant of PAO whose `Type` is `SIG` and `ID` is the result of the common digitial siging function `sign(date, IDS)`. 
+- `CreatePOA(SIG, SK, claim)` creates an instant of PAO whose `Type` is `SIG` and `ID` is the result of the common digital signing function `sign(date, IDS)`. 
 - `CreateSIG(SK, claim)` is the same as `CreatePOA(POAType, SK, claim)`.
 
 Methods:
@@ -72,7 +104,7 @@ Description:
 - It is a representation of a SIG stored on STASH. It is used to *verify* that there is such SIG and that it is authentic---provided that it is authorized by the signer to answer a verification request. It can be considered a generalization of SIG with more flexibility because of the following *unique properties*:
    - **Transferrable Ownership**: The DDS owner has the right to transfer the ownership to another entity.
    - **Revenue Generating**: It can generate revenue to its owner from verification fees.
-   - **Amendable**: The result of a verification can be amended, but not retrospectibly.
+   - **Amendable**: The result of a verification can be amended, but not retrospectively.
    - **Provisory**: The result of verification can be limited by some constrain.
    - **Traceable**: The creation, changes, transfers, verifications are recorded on STASH (see STASH Reference Manual) and can be traced.
 
@@ -84,7 +116,7 @@ Creation:
 DDS Record and STASH:
 - STASH is required to create, update and verify a DDS.
 - `DDS Record`: Each DDS references a DDS Record stored in STASH. The record has a private and public components.
-   - **Private DDS Information**: This information is held with highes security in STASH.
+   - **Private DDS Information**: This information is held with the highest security in STASH.
       - The `claim` hash. STASH does not save the claim itself.
       - The SIG associated with the `claim` hash.
       
@@ -94,12 +126,12 @@ DDS Record and STASH:
             - `Authorized`: The DDS can be used for verification. When a DDS is created for the first time, its authorization is `Authorized`.
                - Authorized is an implicit attestation by the signer at a specific date "is authorizing STASH to verify through DDS."
             - `Unauthorized`: The DDS cannot be used for verification.
-               - Unauthorized is an implicit attestation by the signer at a specific date "is unauthorizing STASH to verify through DDS."
-            - `ConditionalAuthorization`: The DDS can be used for verification if some conditionis satisfied. THe condition is described using a sepcial Verification Form Prototype (see VF$ below). In this case, the DDS is a "conditional DDS" (CDDS).
+               - Unauthorized is an implicit attestation by the signer at a specific date "is deauthorizing STASH to verify through DDS."
+            - `ConditionalAuthorization`: The DDS can be used for verification if some conditions satisfied. The condition is described using a special Verification Form Prototype (see VF$ below). In this case, the DDS is a "conditional DDS" (CDDS).
                - `ConditionalAuthorization` is an implicit attestation by the signer at a specific date "is authorizing STASH to verify through DDS provided that certain condition is satisfied."
          - Because of events are recorded at the time of the signer request, the DDS is strongly timestamped by STASH.
-      - `Owner`: An entity that earns some of the fees paid during verification to STASH. We call the owner of DDS the `DDS owner` or `DDSO`.
-      - `OwnershipTransferrable`: Is a boolean value. If `True` and the owner is NOT the signer of the DDS, then the current owner can transfer the DDS to a new owner; i.e., change `Owner` to the new owners's IDS. It can only be changed by the signer.
+      - `Owner`: An entity that earns a portion of the fees paid during verification to STASH. We call the owner of DDS the `DDS owner` or `DDSO`.
+      - `OwnershipTransferrable`: Is a boolean value. If `True` and the owner is NOT the signer of the DDS, then the current owner can transfer the DDS to a new owner; i.e., change `Owner` to the new owner's IDS. It can only be changed by the signer.
       - `Holder`: An entity that has some rights. We call the holder of DDS the `DDS Holder` or `DDSH`.
       - `HoldTransferrable`: Is a boolean value. If `True` and the holder is NOT the signer of the DDS, then the current holder can transfer the DDS to a new holder; i.e., change `Holder` to the new holder's IDS. It can only be changed by the signer.
       - `VerificationFee`: The fee required for verification. See STASH.
@@ -113,14 +145,14 @@ DDS Record and STASH:
 - `SetDDSP(value)` sets the value of `DDSP`. Only the DDS owner can use this, if allowed by STASH.
 
 **Public Methods**:
-- `getState(targetTime)`: Returns the authorization state of a DDS at some point of time (`targetTime`). It returns the authorization state after the latest chage in `AuthorizationLog` on or before `targetTime`. If the `targetTime` is before the creation of the DDS, then the state is `Unauthorized`.
+- `getState(targetTime)`: Returns the authorization state of a DDS at some point of time (`targetTime`). It returns the authorization state after the latest change in `AuthorizationLog` on or before `targetTime`. If the `targetTime` is before the creation of the DDS, then the state is `Unauthorized`.
 
 - `isConditional(targetTime)`: Is a boolean value. It returns `True` only if `getState(targetTime)` is `ConditionalAuthorization`.
 
 - `getFee()` returns the value of `VerificationFee`.
 
 **SimplePresentation**: 
-Is the concatenation of `DDS` and `ID` number. E.g., `DDS01A9F943` for `ID=01A9F943` .
+Is the concatenation of `DDS` and `ID` number. E.g., `DDS01A9F943` for `ID=01A9F943`.
    - In case of conditional DDS, a suffix `?ConditionalAuthorization` is added at the end.
       - E.g., `DDS1034EB57 ?VF(\Driver License of <name:$VERIFIER> who lives in <address:$IGNORE>\MD_DMV/, $VTIME)`.
 
@@ -137,7 +169,7 @@ Components:
    - Example: "File Attachment <passport: attachment>"
    - Example: In case a variable that is `CL`, `AC` or `AT` (see below), "Attested Balance is <account balance: AC>"
 - `ReaderFriendlyFormat`: Is a reformatting of the SimplePresentation of an object using indentations and line breaks to make it easier to read. It is used when demonstrating or educating about CADET structures.
-- `FormalText`: Is the formal layout to present a thorough textual representation. It ALWAYS include a boilerplate clause that is appropriate for the type of document being templated. The boilerplate clause should reflect the legal and formal aspects relevant to the specific type of document.It is used as the primary presentation to the public.
+- `FormalText`: Is the formal layout to present a thorough textual representation. It ALWAYS includes a boilerplate clause that is appropriate for the type of document being templates. The boilerplate clause should reflect the legal and formal aspects relevant to the specific type of document. It is used as the primary presentation to the public.
    - Example: "Driver License \n Name: <name:text> \n Address: <address:text>".
    - Note that if `FormalText` is not provided, then the `ReaderFriendlyFormat` acts as `FormalText`, and ADDING to it a relevant boilerplate clause.
 
@@ -443,7 +475,7 @@ AT = define(AC,POA)
 ## AT Package (ATP):
 
 Description: 
-Is a package that contains the Attestation (AT) and all associated files referenced in as attachment in the vairables of the AT's claim. If there are no files, then an ATP is identical to AT.
+Is a package that contains the Attestation (AT) and all associated files referenced in as attachment in the variables of the AT's claim. If there are no files, then an ATP is identical to AT.
 
 Components:
 - `AT`: The Attestation, which is a signed AC.
@@ -615,7 +647,7 @@ Attested by:
 
 An entity *attests* a claim means that the entity creates an attestation AT = \Claim\IDS[POA]/, where IDS is the identifier of that entity. This is the same as saying that the entity *signed* the claim, or the entity *issued* an attestation. For this, we call that entity attestor, signer, and issuer, respectively.
 
-The signer has a number of descisions and options:
+The signer has a number of decisions and options:
 - Decision 1: based on POA Type
    - Option 1.1: SIG
    - Option 1.2 (default): DDS
@@ -646,7 +678,7 @@ The signer has a number of descisions and options:
 
 ## Authentication of AT
 
-Authentication is the process of verifing the authenticity of a POA associated with an AT. Note that composite attestation is actually separate attestations, and a composite attestation is authentic if, and only if, all the separate attestations are authentic.
+Authentication is the process of verifying the authenticity of a POA associated with an AT. Note that composite attestation is actually separate attestations, and a composite attestation is authentic if, and only if, all the separate attestations are authentic.
 
 ### Authenticating SAT
 By using `SATAuthentication(SAT)`.
@@ -658,7 +690,7 @@ Implementation:
 By using `DATAuthentication(TT,DAT; VerificationFee)`, which is the same as `DATAuthentication(TT,AC,DDS; VerificationFee)`. `VerificationFee` is the amount required for verification.
 
 Implementation:
-   1. If DAT is CAT, fail and instruct to use Authenticating CAT.
+   1. If DAT is CAT, fail and instruct using Authenticating CAT.
    2. (BEXACTSC) Check DDS authorization at TT.
       2.1 If not authorized, returns 'False'
       2.2 If authorized, proceed.
@@ -691,7 +723,7 @@ Implementation 1:
       7.2 Otherwise return 'False'.
 
 Implementation 2:
-   1. (BEXACTSC) If CAT is DAT, fail and instruct to use Authenticating DAT.
+   1. (BEXACTSC) If CAT is DAT, fail and instruct using Authenticating DAT.
    2. (Registry) If hash(VF$) does not match the DDS State, returns 'False'.
    3. (Registry) If extAC(VF$) matches extAC(ATr) using the matching function, if not return 'False'.
    4. (Registry) If ATr is SAT
@@ -712,7 +744,7 @@ Implementation 2:
       CAT = `\ ID <Name: Jane Doe> <Expiration Date: Oct 12,2024> \IDS_gov[DDSid? VF(\ ID <Name:$IGNORE> <Expiration Date:::>>$VTIME> \IDS_gov/, $VTIME )]/` 
       Authentication as follows:
          `CDATAuthentication(VTIME, AC, DDSid?VF(\ ID <Name:$IGNORE> <Expiration Date:::>>$VTIME> \IDS_gov/, $VTIME), \ ID <Name: Jane Doe> <Expiration Date: Oct 12,2024> \IDS_gov[DDSid]/; VerificationFee)`
-      Note that the rAT is the same as the original CAT, which is a circular condition. In this case, the rAT will be considered authenticated, so that we benefit from the matching of the VF Prototype `VF(\ ID <Name:$IGNORE> <Expiration Date:::>>$VTIME> \IDS_gov/, $VTIME )`. The matching makes shure that the verification time is prior to the expiration date. Otherwise, the DDS will be unauthorized.
+      Note that the rAT is the same as the original CAT, which is a circular condition. In this case, the rAT will be considered authenticated, so that we benefit from the matching of the VF Prototype `VF(\ ID <Name:$IGNORE> <Expiration Date:::>>$VTIME> \IDS_gov/, $VTIME )`. The matching makes sure that the verification time is prior to the expiration date. Otherwise, the DDS will be unauthorized.
       In this example, we can check that the VTIME is before the expiration date, without having to change authorization at the expiration date.
 
 ## Validation of ATP
