@@ -9,7 +9,10 @@
 >  Object.attribute refers to an attribute, and Object.method() refers to calling a method.
 >  *SimplePresentation* is used to present any object or item in a document, book, or webpage that explain or demonstrate their use and applications.
 
+## Table of Contents
+
 - [CADET Reference Manual](#cadet-reference-manual)
+  - [Table of Contents](#table-of-contents)
   - [About CADET](#about-cadet)
   - [User Identifier](#user-identifier)
   - [Proof of Attestation (POA)](#proof-of-attestation-poa)
