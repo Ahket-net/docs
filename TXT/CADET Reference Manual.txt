@@ -1,46 +1,46 @@
 # CADET Reference Manual
 
-- Related documents:
-   - STASH Reference Manual
-   - Legal Framework
+- [CADET Reference Manual](#markdown-header-cadet-reference-manual)
+   - [About CADET](#markdown-header-about-cadet)
+   - [User Identifier](#markdown-header-user-identifier)
+   - [Proof of Attestation (POA)](#markdown-header-proof-of-attestation-poa)
+      - [Two types of POA](#markdown-header-two-types-of-poa)
+         - [Digital Signature (SIG)](#markdown-header-digital-signature-sig)
+         - [Delegated Digital Signature (DDS)](#markdown-header-delegated-digital-signature-dds)
+   - [Claim Template (CT)](#markdown-header-claim-template-ct)
+      - [Examples of CT:](#markdown-header-examples-of-ct)
+         - [Example 1](#markdown-header-example-1)
+         - [Example 2](#markdown-header-example-2)
+   - [Claim (CL):](#markdown-header-claim-cl)
+   - [Attested Claim (AC)](#markdown-header-attested-claim-ac)
+   - [Verification Form (VF)](#markdown-header-verification-form-vf)
+      - [Verification Form Prototype (VF$)](#markdown-header-verification-form-prototype-vf)
+   - [Attestation (AT)](#markdown-header-attestation-at)
+   - [AT Package (ATP):](#markdown-header-at-package-atp)
+   - [Examples](#markdown-header-examples)
+      - [Example 1:](#markdown-header-example-1-1)
+      - [Example 2](#markdown-header-example-2-1)
+      - [Example 3](#markdown-header-example-3)
+      - [Example 4](#markdown-header-example-4)
+      - [Example 5](#markdown-header-example-5)
+      - [Example 6](#markdown-header-example-6)
+   - [Creation and Verification of Attestations](#markdown-header-creation-and-verification-of-attestations)
+      - [Creating Attestations](#markdown-header-creating-attestations)
+   - [Authentication of AT](#markdown-header-authentication-of-at)
+      - [Authenticating SAT](#markdown-header-authenticating-sat)
+      - [Authenticating DAT](#markdown-header-authenticating-dat)
+      - [Authenticating CAT](#markdown-header-authenticating-cat)
+   - [Validation of ATP](#markdown-header-validation-of-atp)
+
  
 > **Notes About This Document**
 >  Any object described will have public and private attributes, as well as public and private methods.
 >  Object.attribute refers to an attribute, and Object.method() refers to calling a method.
 >  *SimplePresentation* is used to present any object or item in a document, book, or webpage that explain or demonstrate their use and applications.
 
-- [CADET Reference Manual](#cadet-reference-manual)
-  - [About CADET](#about-cadet)
-  - [User Identifier](#user-identifier)
-  - [Proof of Attestation (POA)](#proof-of-attestation-poa)
-    - [Two types of POA](#two-types-of-poa)
-      - [Digital Signature (SIG)](#digital-signature-sig)
-      - [Delegated Digital Signature (DDS)](#delegated-digital-signature-dds)
-  - [Claim Template (CT)](#claim-template-ct)
-    - [Examples of CT:](#examples-of-ct)
-      - [Example 1](#example-1)
-      - [Example 2](#example-2)
-  - [Claim (CL):](#claim-cl)
-  - [Attested Claim (AC)](#attested-claim-ac)
-  - [Verification Form (VF)](#verification-form-vf)
-    - [Verification Form Prototype (VF$)](#verification-form-prototype-vf)
-  - [Attestation (AT)](#attestation-at)
-  - [AT Package (ATP):](#at-package-atp)
-  - [Examples](#examples)
-    - [Example 1:](#example-1-1)
-    - [Example 2](#example-2-1)
-    - [Example 3](#example-3)
-    - [Example 4](#example-4)
-    - [Example 5](#example-5)
-    - [Example 6](#example-6)
-  - [Creation and Verification of Attestations](#creation-and-verification-of-attestations)
-    - [Creating Attestations](#creating-attestations)
-  - [Authentication of AT](#authentication-of-at)
-    - [Authenticating SAT](#authenticating-sat)
-    - [Authenticating DAT](#authenticating-dat)
-    - [Authenticating CAT](#authenticating-cat)
-  - [Validation of ATP](#validation-of-atp)
-
+- Related documents:
+   - STASH Reference Manual
+   - Legal Framework
 
 ## About CADET
 
@@ -300,7 +300,7 @@ Components:
 - `CT`: The CT defining the Claim structure.
 - `variableValues`: The values of the `variables` of the CT and match the `variable type`.
 
-CL = define(CT,variableValues), where `define` means the creation of a json object.
+CL = define(CT, variableValues), where `define` means the creation of a json object.
 Generic JSON form of CL:
 ```json
 {
@@ -336,7 +336,7 @@ Components:
 - `CL`: The Claim.
 - `IDS`: The identifier of the issuer of `CL`. It can be referred to as the "Claim Issuer", or the "attestor".
 
-AC = define(CL,IDS)
+AC = define(CL, IDS)
 Generic JSON form of an AC:
 ```json
 {
@@ -441,7 +441,7 @@ Creation:
 
 - In the case of a "composite AC", an AT must be created for each AC by its issuer. Similarly, we call the collection of those ATs a "composite AT".
 
-AT = define(AC,POA)
+AT = define(AC, POA)
 - Generic JSON form of an AT:
 ```json
 {
@@ -664,12 +664,12 @@ The signer has a number of decisions and options:
             - The issuer creates and manages their own Registry to handle their attestations.
          - Option 1.2.2.2 (default): Use a non-Issuer Registry:
             - The issuer uses an existing Registry.
-      - Decision 1.2.3: based on ownership transferrability:
+      - Decision 1.2.3: based on ownership transferability:
          - Option 1.2.3.1 (default): Transferrable ownership
             - `OwnershipTransferrable` is `True`
          - Option 1.2.3.2: Non-Transferrable ownership
             - `OwnershipTransferrable` is `False`
-      - Decision 1.2.3: based on hold transferrability:
+      - Decision 1.2.3: based on hold transferability:
          - Option 1.2.3.1 (default): Transferrable hold
             - `HoldTransferrable` is `True`
          - Option 1.2.3.2: Non-Transferrable hold

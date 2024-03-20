@@ -1,6 +1,7 @@
-**Table of Contents**
+# AHK Token
 
-- [AHK Token Overview](#ahk-token-overview)
+- [AHK Token](#ahk-token)
+  - [AHK Token Overview](#ahk-token-overview)
   - [Interaction with STASH DBN Treasury](#interaction-with-stash-dbn-treasury)
     - [Example of AHK Token Utility](#example-of-ahk-token-utility)
   - [Smart Contract Implementation](#smart-contract-implementation)
@@ -9,7 +10,7 @@
     - [AHK Vesting Contract](#ahk-vesting-contract)
 
 
-# AHK Token Overview
+## AHK Token Overview
 
 - Related documents:
    - STASH Reference Manual
