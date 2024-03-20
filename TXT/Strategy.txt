@@ -1,3 +1,5 @@
+# Strategy
+
 - Related documents:
    - CADET Reference Manual
    - STASH Reference Manual
