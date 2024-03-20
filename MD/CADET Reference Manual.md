@@ -9,6 +9,7 @@
 >  Object.attribute refers to an attribute, and Object.method() refers to calling a method.
 >  *SimplePresentation* is used to present any object or item in a document, book, or webpage that explain or demonstrate their use and applications.
 
+
 ## About CADET
 
 CADET stands for "Cryptographic Attestation Documentation and Evidence Technology". It defines the basic elements and structure developed by Ahket Inc.
