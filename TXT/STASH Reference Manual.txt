@@ -2,7 +2,7 @@
 
 ## Table of Contents <!-- omit from toc -->
 - [STASH Reference Manual](#markdown-header-stash-reference-manual)
-   - [STASH (System for Truthful and Accountable Secrets-Holding)](#markdown-header-stash-system-for-truthful-and-accountable-secrets-holding)
+   - [About STASH](#markdown-header-about-stash)
    - [STASH Components:](#markdown-header-stash-components)
       - [Registries](#markdown-header-registries)
          - [Issuer Registry](#markdown-header-issuer-registry)
@@ -49,9 +49,10 @@
    - CADET Reference Manual
       - In which the terms IDS, SK, POA, SIG, DDS, CL, ACL, ATT, SATT, DATT, CATT, CVF, tbd_CVF, ATTP, and others are defined.
 
-## STASH (System for Truthful and Accountable Secrets-Holding)
-- STASH is the underlying system created and used by Ahket Inc. It is responsible for the creation, update, management, and verification of a DDS.
-- Ahket Inc. has filed a provisional US patent for STASH.
+## About STASH
+SATSH stands for _System for Truthful and Accountable Secrets-Holding_. It is the underlying system created and used by Ahket Inc. It is responsible for the creation, update, management, and verification of a DDS.
+
+> Ahket Inc. has filed a provisional US patent for STASH.
 
 ## STASH Components:
 STASH has two components: Registries and BEXACTSC.

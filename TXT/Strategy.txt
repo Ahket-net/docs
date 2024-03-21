@@ -1,13 +1,12 @@
-# Strategy
+# Strategy <!-- omit from toc -->
 
-- Related documents:
-   - CADET Reference Manual
-   - STASH Reference Manual
-   - VAO Reference Manual
-   - VAO User Manual
-   - Marketing and Sales
+# Table of Contents <!-- omit from toc -->
 
-- Pre Public Blockchain Operations
+- [Pre Public Blockchain Operations](#markdown-header-pre-public-blockchain-operations)
+- [Ahket Strategy](#markdown-header-ahket-strategy)
+
+
+## Pre Public Blockchain Operations
    - The development of STASH and other concepts will take time, and it is hard to solidify a final solution for the blockchain. It is important, therefore, to operate initially on a private blockchain, which we call Ahket Private Chain.
    - Ahket Private Chain (APC)
       - Will be a single node.
@@ -25,7 +24,7 @@
       - Help some verifiers create some shared fund for their verifications.
    - VAO will be able to create some Verification Funds.
 
-- Ahket Strategy
+## Ahket Strategy
    - Ahket operation is planned to evolve through phases. Insights and experiences from a phase will determine the timing of transition to the subsequent one, allowing for adaptive evolution.
       - Phase 1, Current Phase
          - A VAO Stage A.

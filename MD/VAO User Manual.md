@@ -16,12 +16,12 @@
 - Liquidity
    - Transferable Revenue Rights.
 - EXACT Assurances:
-      - Ahket's technology is EXlusive, Accurate, Consistent, and Traceable (EXACT):
-      - EXclusive: Every attestation from issuers is exclusively verifiable via Ahket. In other words, all the stored digital signatures must be secured within Ahket and cannot be leaked.
-      - Accurate: All verification outcomes directly align with the attestations provided by issuers.
-      - Consistent: Regardless of how many times a verification is repeated, the result remains consistent without any contradictions or discrepancies.
-      - Traceable: Every activity, whether it's an attestation, a verification, a transfer of Revenue Rights, or even a distribution of verification fees, is recorded for transparency and easy tracking by relevant users.
-   - The EXACT Assurances are enforced by smart contracts and blockchain technology, as described in STASH Reference Manual.
+   - Ahket's technology is EXlusive, Accurate, Consistent, and Traceable (EXACT):
+   - EXclusive: Every attestation from issuers is exclusively verifiable via Ahket. In other words, all the stored digital signatures must be secured within Ahket and cannot be leaked.
+   - Accurate: All verification outcomes directly align with the attestations provided by issuers.
+   - Consistent: Regardless of how many times a verification is repeated, the result remains consistent without any contradictions or discrepancies.
+   - Traceable: Every activity, whether it's an attestation, a verification, a transfer of Revenue Rights, or even a distribution of verification fees, is recorded for transparency and easy tracking by relevant users.
+- The EXACT Assurances are enforced by smart contracts and blockchain technology, as described in STASH Reference Manual.
 
 ### Other Standout Features
 
