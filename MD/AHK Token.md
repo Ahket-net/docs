@@ -1,14 +1,13 @@
-# AHK Token
+# AHK Token <!-- omit from toc -->
 
 ## Table of Contents <!-- omit from toc -->
-- [AHK Token](#ahk-token)
-   - [AHK Token Overview](#ahk-token-overview)
-   - [Interaction with STASH DBN Treasury](#interaction-with-stash-dbn-treasury)
-      - [Example of AHK Token Utility](#example-of-ahk-token-utility)
-   - [Smart Contract Implementation](#smart-contract-implementation)
-      - [AHK Token Smart Contract (ERC20)](#ahk-token-smart-contract-erc20)
-      - [SMASH Treasury Smart Contract](#smash-treasury-smart-contract)
-      - [AHK Vesting Contract](#ahk-vesting-contract)
+- [AHK Token Overview](#ahk-token-overview)
+- [Interaction with STASH DBN Treasury](#interaction-with-stash-dbn-treasury)
+   - [Example of AHK Token Utility](#example-of-ahk-token-utility)
+- [Smart Contract Implementation](#smart-contract-implementation)
+   - [AHK Token Smart Contract (ERC20)](#ahk-token-smart-contract-erc20)
+   - [SMASH Treasury Smart Contract](#smash-treasury-smart-contract)
+   - [AHK Vesting Contract](#ahk-vesting-contract)
 ---
 
 - Related documents:

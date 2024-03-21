@@ -1,11 +1,10 @@
-# VAO User Manual
+# VAO User Manual <!-- omit from toc -->
 
 ## Table of Contents <!-- omit from toc -->
-- [VAO User Manual](#vao-user-manual)
-   - [Product Overview](#product-overview)
-      - [Key Benefits](#key-benefits)
-      - [Other Standout Features](#other-standout-features)
-   - [Manual](#manual)
+- [Product Overview](#product-overview)
+   - [Key Benefits](#key-benefits)
+   - [Other Standout Features](#other-standout-features)
+- [Manual](#manual)
 
 ---
 

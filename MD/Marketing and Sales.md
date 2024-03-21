@@ -1,12 +1,11 @@
-# Marketing and Sales
+# Marketing and Sales <!-- omit from toc -->
 
 ## Table of Contents <!-- omit from toc -->
-- [Marketing and Sales](#marketing-and-sales)
-   - [Overview](#overview)
-   - [Business Model](#business-model)
-   - [Product Overview](#product-overview)
-   - [Market Analysis](#market-analysis)
-   - [Marketing and Sales Strategy](#marketing-and-sales-strategy)
+- [Overview](#overview)
+- [Business Model](#business-model)
+- [Product Overview](#product-overview)
+- [Market Analysis](#market-analysis)
+- [Marketing and Sales Strategy](#marketing-and-sales-strategy)
 ---
 
 - Related documents:

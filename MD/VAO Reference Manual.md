@@ -1,18 +1,17 @@
-# VAO Reference Manual
+# VAO Reference Manual <!-- omit from toc -->
 
 ## Table of Contents <!-- omit from toc -->
-- [VAO Reference Manual](#vao-reference-manual)
-   - [About VAO](#about-vao)
-   - [VAO's Glossary Peculiarities](#vaos-glossary-peculiarities)
-      - [Simple Attestation](#simple-attestation)
-      - [Rewarding Attestation](#rewarding-attestation)
-      - [Attestation Owner in VAO](#attestation-owner-in-vao)
-      - [Points](#points)
-      - [Points Redemption Rate (PRR)](#points-redemption-rate-prr)
-   - [VAO Operation](#vao-operation)
-      - [Creating and Verifying Attestations](#creating-and-verifying-attestations)
-   - [Ahket Inc Revenue](#ahket-inc-revenue)
-   - [Access to Ahket's STASH](#access-to-ahkets-stash)
+- [About VAO](#about-vao)
+- [VAO's Glossary Peculiarities](#vaos-glossary-peculiarities)
+   - [Simple Attestation](#simple-attestation)
+   - [Rewarding Attestation](#rewarding-attestation)
+   - [Attestation Owner in VAO](#attestation-owner-in-vao)
+   - [Points](#points)
+   - [Points Redemption Rate (PRR)](#points-redemption-rate-prr)
+- [VAO Operation](#vao-operation)
+   - [Creating and Verifying Attestations](#creating-and-verifying-attestations)
+- [Ahket Inc Revenue](#ahket-inc-revenue)
+- [Access to Ahket's STASH](#access-to-ahkets-stash)
 
 ---
 

@@ -1,5 +1,16 @@
 # Legal Framework
 
+- [Legal Framework](#legal-framework)
+   - [Overview](#overview)
+   - [AT as an Executed Document](#at-as-an-executed-document)
+      - [Digital Signature (SIG)](#digital-signature-sig)
+         - [Signature Block](#signature-block)
+   - [Claim's Boilerplate Clauses](#claims-boilerplate-clauses)
+      - [Case 1: Attestation Document](#case-1-attestation-document)
+      - [Case 2: Contract](#case-2-contract)
+   - [DDS and CDDS](#dds-and-cdds)
+
+---
 - Related documents:
    - CADET Reference Manual
       - In which the terms IDS, SK, POA, SIG, DDS, CL, ACL, ATT, SATT, DATT, CATT, CVF, CVFP, ATTP, and others are defined.
