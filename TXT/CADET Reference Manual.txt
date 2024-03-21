@@ -1,34 +1,23 @@
 # CADET Reference Manual
 
-- Related documents:
-   - STASH Reference Manual
-   - Legal Framework
- 
-> **Notes About This Document**
->  Any object described will have public and private attributes, as well as public and private methods.
->  Object.attribute refers to an attribute, and Object.method() refers to calling a method.
->  *SimplePresentation* is used to present any object or item in a document, book, or webpage that explain or demonstrate their use and applications.
-
-## Table of Contents
-
+## Table of Contents <!-- omit from toc -->
 - [CADET Reference Manual](#cadet-reference-manual)
-  - [Table of Contents](#table-of-contents)
   - [About CADET](#about-cadet)
   - [User Identifier](#user-identifier)
   - [Proof of Attestation (POA)](#proof-of-attestation-poa)
-    - [Two types of POA](#two-types-of-poa)
+    - [There are Two Types of POA](#there-are-two-types-of-poa)
       - [Digital Signature (SIG)](#digital-signature-sig)
       - [Delegated Digital Signature (DDS)](#delegated-digital-signature-dds)
-  - [Claim Template (CT)](#claim-template-ct)
-    - [Examples of CT:](#examples-of-ct)
+  - [Claim Template (CLT)](#claim-template-clt)
+    - [Examples of CLT:](#examples-of-clt)
       - [Example 1](#example-1)
       - [Example 2](#example-2)
   - [Claim (CL):](#claim-cl)
-  - [Attested Claim (AC)](#attested-claim-ac)
-  - [Verification Form (VF)](#verification-form-vf)
-    - [Verification Form Prototype (VF$)](#verification-form-prototype-vf)
-  - [Attestation (AT)](#attestation-at)
-  - [AT Package (ATP):](#at-package-atp)
+  - [Attested Claim (ACL)](#attested-claim-acl)
+  - [Claim Verification Form (CVF)](#claim-verification-form-cvf)
+    - [Claim Verification Form Prototype (CVFP)](#claim-verification-form-prototype-cvfp)
+  - [Attestation (ATT)](#attestation-att)
+  - [ATT Package (ATTP):](#att-package-attp)
   - [Examples](#examples)
     - [Example 1:](#example-1-1)
     - [Example 2](#example-2-1)
@@ -38,16 +27,25 @@
     - [Example 6](#example-6)
   - [Creation and Verification of Attestations](#creation-and-verification-of-attestations)
     - [Creating Attestations](#creating-attestations)
-  - [Authentication of AT](#authentication-of-at)
-    - [Authenticating SAT](#authenticating-sat)
-    - [Authenticating DAT](#authenticating-dat)
-    - [Authenticating CAT](#authenticating-cat)
-  - [Validation of ATP](#validation-of-atp)
+  - [Authentication of ATT](#authentication-of-att)
+    - [Authenticating SATT](#authenticating-satt)
+    - [Authenticating DATT](#authenticating-datt)
+    - [Authenticating CATT](#authenticating-catt)
+  - [Validation of ATTP](#validation-of-attp)
+---
 
+> **Notes About This Document**
+>  Any object described will have public and private attributes, as well as public and private methods.
+>  `object.attribute` refers to the `object`'s attribute, while `object.method()` refers to calling its method.
+>  *SimplePresentation* is used to present any object or item in a document, book, or webpage that explain or demonstrate their use and applications.
+
+- Related documents:
+   - STASH Reference Manual
+   - Legal Framework
 
 ## About CADET
 
-CADET stands for "Cryptographic Attestation Documentation and Evidence Technology". It defines the basic elements and structure developed by Ahket Inc.
+CADET stands for _Cryptographic Attestation Documentation and Evidence Technology_. It defines the basic elements and structure developed by Ahket Inc.
 
 
 ## User Identifier
@@ -80,12 +78,12 @@ Public Methods:
 Creation:
 - `CreatePOA(POAType, SK, claim)`: Creates and returns a POA, where `SK` is the private key of `IDS`. Its exact implementation depends on `POAType`.
 
-### Two types of POA
+### There are Two Types of POA
 
 #### Digital Signature (SIG)
 
 Description:
-The common digital signature created by a public-private key pair. There are no fees to verify a SIG.
+- The common digital signature created by a public-private key pair. There are no fees to verify a SIG.
 
 Creation:
 - `CreatePOA(SIG, SK, claim)` creates an instant of PAO whose `Type` is `SIG` and `ID` is the result of the common digital signing function `sign(date, IDS)`. 
@@ -99,7 +97,7 @@ Notation:
 - A signature created for a specific `claim` and signer '`IDS` can be noted as `SIG[claim,IDS]`. This means that this signature is created by the `SK` associated with that `IDS`. This means that the common digital signature verification function `verify(claim,IDS,SIG[claim,IDS])` is always `True`.
 
 **SimplePresentation**: 
-Is the concatenation of `SIG` and `ID` value. E.g., `SIG1234AB56`.
+Is a concatenation of `SIG` and `ID` value. E.g., `SIG1234AB56`.
 
 #### Delegated Digital Signature (DDS)
 
@@ -130,7 +128,7 @@ DDS Record and STASH:
                - Authorized is an implicit attestation by the signer at a specific date "is authorizing STASH to verify through DDS."
             - `Unauthorized`: The DDS cannot be used for verification.
                - Unauthorized is an implicit attestation by the signer at a specific date "is deauthorizing STASH to verify through DDS."
-            - `ConditionalAuthorization`: The DDS can be used for verification if some conditions satisfied. The condition is described using a special Verification Form Prototype (see VF$ below). In this case, the DDS is a "conditional DDS" (CDDS).
+            - `ConditionalAuthorization`: The DDS can be used for verification if some conditions satisfied. The condition is described using a special Claim Verification Form Prototype (see CVFP below). In this case, the DDS is a "conditional DDS" (CDDS).
                - `ConditionalAuthorization` is an implicit attestation by the signer at a specific date "is authorizing STASH to verify through DDS provided that certain condition is satisfied."
          - Because of events are recorded at the time of the signer request, the DDS is strongly timestamped by STASH.
       - `Owner`: An entity that earns a portion of the fees paid during verification to STASH. We call the owner of DDS the `DDS owner` or `DDSO`.
@@ -157,26 +155,26 @@ DDS Record and STASH:
 **SimplePresentation**: 
 Is the concatenation of `DDS` and `ID` number. E.g., `DDS01A9F943` for `ID=01A9F943`.
    - In case of conditional DDS, a suffix `?ConditionalAuthorization` is added at the end.
-      - E.g., `DDS1034EB57 ?VF(\Driver License of <name:$VERIFIER> who lives in <address:$IGNORE>\MD_DMV/, $VTIME)`.
+      - E.g., `DDS1034EB57 ?CVF(\Driver License of {name:tbd_VERIFIER} who lives in {address:tbd_IGNORE}\MD_DMV/, tbd_VTIME)`.
 
 
-## Claim Template (CT)
+## Claim Template (CLT)
 
 Description:
-CT is a JSON schema describing the blueprint of a claim. It could be considered as an "empty form".
+CLT is a JSON schema describing the blueprint of a claim. It could be considered as an "empty form".
 
 Components:
 - `variables` that describe the variables of the template.
-- `SimplePresentation`: Is a "string" that provides concise textual representation of the variables, each represented as `<variable name : variable type>`. It is used when demonstrating or educating about CADET structures.
-   - Example: "Driver License of <name:text> who lives in <address:text>"
-   - Example: "File Attachment <passport: attachment>"
-   - Example: In case a variable that is `CL`, `AC` or `AT` (see below), "Attested Balance is <account balance: AC>"
+- `SimplePresentation`: Is a "string" that provides concise textual representation of the variables, each represented as `{variable name : variable type}`. It is used when demonstrating or educating about CADET structures.
+   - Example: "Driver License of {name:text} who lives in {address:text}"
+   - Example: "File Attachment {passport: attachment}"
+   - Example: In case a variable that is `CL`, `ACL` or `ATT` (see below), "Attested Balance is {account balance: ACL}"
 - `ReaderFriendlyFormat`: Is a reformatting of the SimplePresentation of an object using indentations and line breaks to make it easier to read. It is used when demonstrating or educating about CADET structures.
 - `FormalText`: Is the formal layout to present a thorough textual representation. It ALWAYS includes a boilerplate clause that is appropriate for the type of document being templates. The boilerplate clause should reflect the legal and formal aspects relevant to the specific type of document. It is used as the primary presentation to the public.
-   - Example: "Driver License \n Name: <name:text> \n Address: <address:text>".
+   - Example: "Driver License \n Name: {name:text} \n Address: {address:text}".
    - Note that if `FormalText` is not provided, then the `ReaderFriendlyFormat` acts as `FormalText`, and ADDING to it a relevant boilerplate clause.
 
-### Examples of CT:
+### Examples of CLT:
 
 #### Example 1
 
@@ -228,12 +226,12 @@ Components:
       "SimplePresentation": {
          "type": "string",
          "description": "Concise representation of Radiology Report",
-         "const": "Radiology Report of <patientName:string>, Patient ID: <patientID:string>, Date of Birth: <dateOfBirth:date>, Examination Date: <examinationDate:date>, Examination Type: <examinationType:string>, Findings: <findings:string>, Conclusion: <conclusion:string>, Radiologist: <radiologist:string>"
+         "const": "Radiology Report of {patientName:string}, Patient ID: {patientID:string}, Date of Birth: {dateOfBirth:date}, Examination Date: {examinationDate:date}, Examination Type: {examinationType:string}, Findings: {findings:string}, Conclusion: {conclusion:string}, Radiologist: {radiologist:string}"
       },
       "FormalText": {
          "type": "string",
          "description": "Full representation of Radiology Report",
-         "const": "Radiology Report \n Patient Name: <patientName:string>\n Patient ID: <patientID:string>\n Date of Birth: <dateOfBirth:date>\n Examination Date: <examinationDate:date>\n Examination Type: <examinationType:string>\n Findings: <findings:string>\n Conclusion: <conclusion:string>\n Radiologist: <radiologist:string>"
+         "const": "Radiology Report \n Patient Name: {patientName:string}\n Patient ID: {patientID:string}\n Date of Birth: {dateOfBirth:date}\n Examination Date: {examinationDate:date}\n Examination Type: {examinationType:string}\n Findings: {findings:string}\n Conclusion: {conclusion:string}\n Radiologist: {radiologist:string}"
       }
    },
    "required": ["variables", "SimplePresentation", "FormalText"]
@@ -281,12 +279,12 @@ Components:
       "SimplePresentation": {
          "type": "string",
          "description": "Concise representation of Simple Purchase Agreement",
-         "const": "Simple Purchase Agreement of <seller:string> and <buyer:string> for <item:string> at a price of <price:number> on <date:date>. Additional Terms: <additionalTerms:string>"
+         "const": "Simple Purchase Agreement of {seller:string} and {buyer:string} for {item:string} at a price of {price:number} on {date:date}. Additional Terms: {additionalTerms:string}"
       },
       "FormalText": {
          "type": "string",
          "description": "Full representation of Simple Purchase Agreement",
-         "const": "Simple Purchase Agreement \n Seller:<seller:string>\n Buyer:<buyer:string> \n Item:<item:string> \n Price:$<price:number> \n Date of Purchase:<date:date>.\n Additional Terms: <additionalTerms:string>"
+         "const": "Simple Purchase Agreement \n Seller:{seller:string}\n Buyer:{buyer:string} \n Item:{item:string} \n Price:{price:number} \n Date of Purchase:{date:date}.\n Additional Terms: {additionalTerms:string}"
       }
    },
    "required": ["variables", "SimplePresentation"]
@@ -300,15 +298,15 @@ Description:
 A sequence of bytes whose structure is defined by Claim Template. 
 
 Components:
-- `CT`: The CT defining the Claim structure.
-- `variableValues`: The values of the `variables` of the CT and match the `variable type`.
+- `CLT`: The CLT defining the Claim structure.
+- `variableValues`: The values of the `variables` of the CLT and match the `variable type`.
 
-CL = define(CT,variableValues), where `define` means the creation of a json object.
+CL = define(CLT, variableValues), where `define` means the creation of a json object.
 Generic JSON form of CL:
 ```json
 {
 "CL": {
-      "Claim Template": // String of the CT title,
+      "Claim Template": // String of the CLT title,
       "variableValues": {
          "variable1": "Value of variable1",
          "variable2": 12345
@@ -319,31 +317,31 @@ Generic JSON form of CL:
 ```
 
 **SimplePresentation** of CL: 
-- Is a modification of the SimplePresentation of its CT, where each variable is shown as `<variable name:variable value>`.
-- Example: The SimplePresentation of a driver license claim is `Driver License of <name:Jane Doe> who lives in <address:120 Amber St., Baltimore, MD>`.
-- Example: `Driver License of <name:text> who lives in <address:text>`
-- If a variable is a file attachment, it will show as `<variable name : attachment file name: hash of the file content>`.
-   - Example: `<inspection: attachment Inspection_Report.pdf:ab450d>`
+- Is a modification of the SimplePresentation of its CLT, where each variable is shown as `{variable name:variable value}`.
+- Example: The SimplePresentation of a driver license claim is `Driver License of {name:Jane Doe} who lives in {address:120 Amber St., Baltimore, MD}`.
+- Example: `Driver License of {name:text} who lives in {address:text}`
+- If a variable is a file attachment, it will show as `{variable name : attachment file name: hash of the file content}`.
+   - Example: `{inspection: attachment Inspection_Report.pdf:ab450d}`
    - An attached file could be an image, audio, video, etc.
-- If variable is another `CL`. In this case, it will show as `<variable name: SimplePresentation of CL>`. The same applies to `AC` and `AT`. (see below for examples)
+- If variable is another `CL`. In this case, it will show as `{variable name: SimplePresentation of CL}`. The same applies to `ACL` and `ATT`. (see below for examples)
 
 A Claim could be considered a "filled form".
 
 
-## Attested Claim (AC)
+## Attested Claim (ACL)
 
 Description:
-AC associates a claim with a single entity that is called the "issuer" of that claim. We can also say that "the claim is attested by that issuer." We can also call the issuer the "attestor" of that claim.
+ACL associates a claim with a single entity that is called the "issuer" of that claim. We can also say that "the claim is attested by that issuer." We can also call the issuer the "attestor" of that claim.
 
 Components:
 - `CL`: The Claim.
 - `IDS`: The identifier of the issuer of `CL`. It can be referred to as the "Claim Issuer", or the "attestor".
 
-AC = define(CL,IDS)
-Generic JSON form of an AC:
+ACL = define(CL, IDS)
+Generic JSON form of an ACL:
 ```json
 {
-   "AC": {
+   "ACL": {
          "CL": {
             // JSON of CL
          },
@@ -352,22 +350,22 @@ Generic JSON form of an AC:
 }
 ```
 
-`extCL(AC)` extracts CL from AC.
-`extIDS(AC)` extracts IDS from AC.
+`extCL(ACL)` extracts CL from ACL.
+`extIDS(ACL)` extracts IDS from ACL.
 
-- If a single Claim needs to be attested by multiple issuers, then an AC must be created by each issuer for that Claim. We call the group of ATs that have the same Claim a "composite AC".
+- If a single Claim needs to be attested by multiple issuers, then an ACL must be created by each issuer for that Claim. We call the group of ATs that have the same Claim a "composite ACL".
 
-**SimplePresentation** of AC: 
+**SimplePresentation** of ACL: 
 - Is in the form `\SimplePresentation of CL \IDS/`. 
-- Example: The SimplePresentation of an AC of a driver license is `\Driver License of <name:Jane Doe> who lives in <address:120 Amber St., Baltimore, MD> \MD_DMV/`.
-- The SimplePresentation of a composite AC is a single SimplePresentation with one claim and multiple issuers.
-   - Example: The SimplePresentation of the composite AC `\ CL SimplePresentation \IDS1/` and `\ CL SimplePresentation \IDS2/` is `\ CL SimplePresentation \IDS1 + IDS2/`.
+- Example: The SimplePresentation of an ACL of a driver license is `\Driver License of {name:Jane Doe} who lives in {address:120 Amber St., Baltimore, MD} \MD_DMV/`.
+- The SimplePresentation of a composite ACL is a single SimplePresentation with one claim and multiple issuers.
+   - Example: The SimplePresentation of the composite ACL `\ CL SimplePresentation \IDS1/` and `\ CL SimplePresentation \IDS2/` is `\ CL SimplePresentation \IDS1 + IDS2/`.
    - ALWAYS USE this SimplePresentation for multiple ACs with the same Claim and different issuers. As in the case of a contract with multiple signers.
 
-An AC could be considered a "filled form" with a name representing the `IDS` attached to the end of the form.
+An ACL could be considered a "filled form" with a name representing the `IDS` attached to the end of the form.
 
 
-## Verification Form (VF)
+## Claim Verification Form (CVF)
 
 Description: 
 It provides the needed information for verification.
@@ -378,13 +376,13 @@ Components:
 - `TT`: Target Time.
 
 Use:
-- It is used when verifying a POA as `POA.verify(VF.CL,VF.TT)`, given that `POA.IDS` is the same as `VF.IDS`.
+- It is used when verifying a POA as `POA.verify(CVF.CL,CVF.TT)`, given that `POA.IDS` is the same as `CVF.IDS`.
 
-VF = define(CL,IDS,TT)
-- The generic JSON of a VF is:
+CVF = define(CL,IDS,TT)
+- The generic JSON of a CVF is:
 ```json
 {
-   "VF": {
+   "CVF": {
       "CL": {
          // JSON of CL
       },
@@ -393,40 +391,40 @@ VF = define(CL,IDS,TT)
    }
 }
 ```
-`extCL(VF)` extracts CL from VF.
-`extIDS(VF)` extracts IDS from VF.
-`extTT(VF)` extracts TT from VF.
-`extAC(VF)` extracts the AC `define(CL,IDS)` from VF.
+`extCL(CVF)` extracts CL from CVF.
+`extIDS(CVF)` extracts IDS from CVF.
+`extTT(CVF)` extracts TT from CVF.
+`extAC(CVF)` extracts the ACL `define(CL,IDS)` from CVF.
 
-**SimplePresentation** of VF
-- Is the form `VF(SimplePresentation of AC, TT)`. 
-- Example: `VF(\Driver License of <name:Jane Doe> who lives in <address:120 Amber St., Baltimore, MD> \MD_DMV/, Dec 20, 2022)`.
+**SimplePresentation** of CVF
+- Is the form `CVF(SimplePresentation of ACL, TT)`. 
+- Example: `CVF(\Driver License of {name:Jane Doe} who lives in {address:120 Amber St., Baltimore, MD} \MD_DMV/, Dec 20, 2022)`.
 
-### Verification Form Prototype (VF$)
+### Claim Verification Form Prototype (CVFP)
 
 Description: 
-Is a special form of VF, where some of its variable values are special *placeholders* whose actual values would be known at verification time; i.e., when using `POA.verify(VF.CL,VF.TT)`. A VF$ is used to define a group of VFs that match the placeholders.
+Is a special form of CVF, where some of its variable values are special *placeholders* whose actual values would be known at verification time; i.e., when using `POA.verify(CVF.CL,CVF.TT)`. A CVFP is used to define a group of VFs that match the placeholders.
 
-The following are the only allowed placeholders to be used in VF$.
-   - `$VERIFIER`: Will be replaced with the IDS of the verifier.
-   - `$VTIME`: Will be replaced with the verification time.
-   - `$ISSUER`: Will be replaced with the POA.IDS.
-   - `$HOLDER`: Will be replaced with the POA.Holder.
-   - `$OWNER`: Will be replaced with the POA.Owner.
-   - `$IGNORE`: Means that the variable can take any value.
+The following are the only allowed placeholders to be used in CVFP.
+   - `tbd_VERIFIER`: Will be replaced with the IDS of the verifier.
+   - `tbd_VTIME`: Will be replaced with the verification time.
+   - `tbd_ISSUER`: Will be replaced with the POA.IDS.
+   - `tbd_HOLDER`: Will be replaced with the POA.Holder.
+   - `tbd_OWNER`: Will be replaced with the POA.Owner.
+   - `tbd_IGNORE`: Means that the variable can take any value.
 
-Example: `VF(Driver License of <name:$VERIFIER> who lives in <address:$IGNORE> \MD_DMV/, $VTIME)`.
+Example: `CVF(Driver License of {name:tbd_VERIFIER} who lives in {address:tbd_IGNORE} \MD_DMV/, tbd_VTIME)`.
 
 Use: 
-- `matchVFPrototype(VF$,VF)` checks if VF values match those in the VF$; if so, it will return `True`, otherwise `False`. 
-   - Example: If VF$ is `VF(\Driver License of <name:$VERIFIER> who lives in <address:$IGNORE> \MD_DMV/, $VTIME)`, then VF `VF(\Driver License of <name:verifierIDS> who lives in <address:120 Amber St., Baltimore, MD> \MD_DMV/, Dec 20, 2022)` will be a `True` match if the `verifierIDS` is the actual verifier and Dec 20, 2022 is the verification time. It does not matter whatever the address is.
+- `matchVFPrototype(CVFP,CVF)` checks if CVF values match those in the CVFP; if so, it will return `True`, otherwise `False`. 
+   - Example: If CVFP is `CVF(\Driver License of {name:tbd_VERIFIER} who lives in {address:tbd_IGNORE} \MD_DMV/, tbd_VTIME)`, then CVF `CVF(\Driver License of {name:verifierIDS} who lives in {address:120 Amber St., Baltimore, MD} \MD_DMV/, Dec 20, 2022)` will be a `True` match if the `verifierIDS` is the actual verifier and Dec 20, 2022 is the verification time. It does not matter whatever the address is.
 
 
-## Attestation (AT)
+## Attestation (ATT)
 
 Description: 
 - It is a Claim attested to by a single issuer who commits by creating a POA. 
-- It is association of an AC with a POA created by the issuer of that AC; i.e., an AT is a signed AC. 
+- It is association of an ACL with a POA created by the issuer of that ACL; i.e., an ATT is a signed ACL. 
 - The issuer of the attestation is both the issuer of the Claim and the signer of the POA.
 - It could also be considered a "filled-and-signed form".
 
@@ -434,73 +432,73 @@ Components:
 - `CL`: The Claim.
 - `IDS`: The identifier of the issuer of CL, who should be the signer of the POA. It can be referred to as the "Issuer" or "Claim Issuer".
 - `POA`: The POA associating the IDS with the CL. It can be a SIG, a DDS, or CDDS.
-   - Simple Attestation (SAT) is an attestation whose POA is SIG.
-   - Delegated Attestation (DAT) is an attestation whose POA is DDS.
-   - Conditional Attestation (CAT) is an attestation whose POA is CDDS.
+   - Simple Attestation (SATT) is an attestation whose POA is SIG.
+   - Delegated Attestation (DATT) is an attestation whose POA is DDS.
+   - Conditional Attestation (CATT) is an attestation whose POA is CDDS.
 
 Creation:
-- The issuer of AC creates a POA using `CreatePOA(POAType, SK, claimData)`, where `claimData` is the CL of the AC or its hash.
-- The AT is created from the AC and the created POA.
+- The issuer of ACL creates a POA using `CreatePOA(POAType, SK, claimData)`, where `claimData` is the CL of the ACL or its hash.
+- The ATT is created from the ACL and the created POA.
 
-- In the case of a "composite AC", an AT must be created for each AC by its issuer. Similarly, we call the collection of those ATs a "composite AT".
+- In the case of a "composite ACL", an ATT must be created for each ACL by its issuer. Similarly, we call the collection of those ATs a "composite ATT".
 
-AT = define(AC,POA)
-- Generic JSON form of an AT:
+ATT = define(ACL, POA)
+- Generic JSON form of an ATT:
 ```json
 {
-   "AT": {
-      "AC": {
-         // JSON of AC
+   "ATT": {
+      "ACL": {
+         // JSON of ACL
       },
       "POA": {
          "Type": "Type of the POA (e.g., SIG or DDS)",
          "ID": "Unique identifier of the POA",
-         "IDS": "Identity Seal of the POA signer, which should match the AC's IDS"
+         "IDS": "Identity Seal of the POA signer, which should match the ACL's IDS"
       }
    }
 }
 ```
 
-`extAC(AT)` extracts the AC from AT.
-`extPOA(AT)` extracts the POA from AT.
-`extCL(AT) = extCL(extAC(AT))`
-`extIDS(AT) = extIDS(extAC(AT))`
+`extAC(ATT)` extracts the ACL from ATT.
+`extPOA(ATT)` extracts the POA from ATT.
+`extCL(ATT) = extCL(extAC(ATT))`
+`extIDS(ATT) = extIDS(extAC(ATT))`
 
-**SimplePresentation** of AT: 
-- Is the SimplePresentation of the AC, but replacing the `IDS` with `IDS[POA]`.
-   - E.g., `\Driver License of <name:Jane Doe> who lives in <address:120 Amber St., Baltimore, MD> \MD_DMV[SIG14393A93]/`.
-- In case of a composite AT, the same replacement is done for each issuer IDS in the SimplePresentation of its composite AC.
+**SimplePresentation** of ATT: 
+- Is the SimplePresentation of the ACL, but replacing the `IDS` with `IDS[POA]`.
+   - E.g., `\Driver License of {name:Jane Doe} who lives in {address:120 Amber St., Baltimore, MD} \MD_DMV[SIG14393A93]/`.
+- In case of a composite ATT, the same replacement is done for each issuer IDS in the SimplePresentation of its composite ACL.
    - E.g., `\ CL SimplePresentation \IDS1[POA1] + IDS2[POA2]/`. This is the **preferred** `SimplePresentation` for a single Claim with multiple signatures, such as multi party contract.
-- From the perspective of a verifying entity ("verifier"), an AT's authenticity is unknown without verification. If a POA of an AT is verified by E, we can postfix `:Authenticated by verifier` or `:False by verifier` to the `POA`, indicating that E verified the AT's POA to be `True` or `False`, respectively. 
-   - E.g., `\Driver License of <name:Jane Doe> who lives in <address:120 Amber St., Baltimore, MD>\MD_DMV[SIG14393A93:Authenticated by John Darly]/`.
+- From the perspective of a verifying entity ("verifier"), an ATT's authenticity is unknown without verification. If a POA of an ATT is verified by E, we can postfix `:Authenticated by verifier` or `:False by verifier` to the `POA`, indicating that E verified the ATT's POA to be `True` or `False`, respectively. 
+   - E.g., `\Driver License of {name:Jane Doe} who lives in {address:120 Amber St., Baltimore, MD}\MD_DMV[SIG14393A93:Authenticated by John Darly]/`.
 
 
-## AT Package (ATP):
+## ATT Package (ATTP):
 
 Description: 
-Is a package that contains the Attestation (AT) and all associated files referenced in as attachment in the variables of the AT's claim. If there are no files, then an ATP is identical to AT.
+Is a package that contains the Attestation (ATT) and all associated files referenced in as attachment in the variables of the ATT's claim. If there are no files, then an ATTP is identical to ATT.
 
 Components:
-- `AT`: The Attestation, which is a signed AC.
-- `Files`: All files, documents, or supplementary materials in the attachment fields of the AT's CL. These files are essential for verifiability. Each file is identified by its name.
+- `ATT`: The Attestation, which is a signed ACL.
+- `Files`: All files, documents, or supplementary materials in the attachment fields of the ATT's CL. These files are essential for verifiability. Each file is identified by its name.
 
-**SimplePresentation** of ATP: 
-- Is the SimplePresentation of the AT followed by a list of attachments, each denoted by its file name. The format is `SimplePresentation of AT | Files: [File1, File2, ...]`.
-- For example, if an AT for a driver's license has two attached files (a photo and a supporting document), its SimplePresentation could be:
-   `\Driver License of <name:Jane Doe>, <photo:attachment Photo.jpg:5d41402abc4b2a76b9719d911017c592> who lives in <address:120 Amber St., Baltimore, MD>. Included <Supporting Material: attachment Document.pdf:202cb962ac59075b964b07152d234b70> \MD_DMV[SIG14393A93]/ Files: [Photo.jpg, Document.pdf]`.
+**SimplePresentation** of ATTP: 
+- Is the SimplePresentation of the ATT followed by a list of attachments, each denoted by its file name. The format is `SimplePresentation of ATT | Files: [File1, File2, ...]`.
+- For example, if an ATT for a driver's license has two attached files (a photo and a supporting document), its SimplePresentation could be:
+   `\Driver License of {name:Jane Doe}, {photo:attachment Photo.jpg:5d41402abc4b2a76b9719d911017c592} who lives in {address:120 Amber St., Baltimore, MD}. Included {Supporting Material: attachment Document.pdf:202cb962ac59075b964b07152d234b70} \MD_DMV[SIG14393A93]/ Files: [Photo.jpg, Document.pdf]`.
 
-`extAT(ATP)` extracts the AT from ATP.
-`extFiles(AT)` extracts the files from ATP.
+`extAT(ATTP)` extracts the ATT from ATTP.
+`extFiles(ATT)` extracts the files from ATTP.
 
 ## Examples
 
 ### Example 1: 
 
-`\Car Purchase Agreement for a  <car:Toyota Camry> <VIN#:123456789ABCDEF >between <seller:Jack> and <buyer:John> \Jack[DDS12345XYZ ?VF(\Approval from <name:Jack's Wife> \Jack's Wife/,$IGNORE): Authenticated by Sid>] + John[SIG67890ABC:Authenticated by Tim]/` is a representation of an agreement for the purchase of a Toyota Camry, with a specific VIN number, between the seller Jack and the buyer John. Jack's part of the agreement is backed by a DDS (DDS12345XYZ) which is conditional upon the approval from Jack's wife. DDS12345XYZ has been verified as valid by someone named Sid. The agreement also includes John's part, supported by his digital signature (SIG67890ABC), which has been verified as valid by someone named Tim. The agreement effectively uses a composite structure to integrate multiple ACs (from Jack, Jack's wife, and John) into a single document.
+`\Car Purchase Agreement for a  {car:Toyota Camry} {VIN#:123456789ABCDEF }between {seller:Jack} and {buyer:John} \Jack[DDS12345XYZ ?CVF(\Approval from {name:Jack's Wife} \Jack's Wife/,tbd_IGNORE): Authenticated by Sid}] + John[SIG67890ABC:Authenticated by Tim]/` is a representation of an agreement for the purchase of a Toyota Camry, with a specific VIN number, between the seller Jack and the buyer John. Jack's part of the agreement is backed by a DDS (DDS12345XYZ) which is conditional upon the approval from Jack's wife. DDS12345XYZ has been verified as valid by someone named Sid. The agreement also includes John's part, supported by his digital signature (SIG67890ABC), which has been verified as valid by someone named Tim. The agreement effectively uses a composite structure to integrate multiple ATCs (from Jack, Jack's wife, and John) into a single document.
 
 ReaderFriendlyFormat:
 ```
-AT - Car Purchase Agreement:
+ATT - Car Purchase Agreement:
    Car: Toyota Camry
    VIN#: 123456789ABCDEF
    Seller: Jack
@@ -508,11 +506,11 @@ AT - Car Purchase Agreement:
 Attested by:
    Jack[POA ID: DDS12345XYZ] 
    Requires:
-      VF$ - Approval
+      CVFP - Approval
          Name: Jack's Wife
       Attested by:
          Jack's Wife
-      Target Time: $IGNORE 
+      Target Time: tbd_IGNORE 
    Authenticationd by: Sid
 Attested by:
    John [POA ID: SIG67890ABC]
@@ -521,15 +519,15 @@ Attested by:
 
 ### Example 2 
 
-`\Maryland Birth Certificate of <name:Jane Doe>, born on <date of birth:April 10, 1990>, at <place of birth:Baltimore, Maryland>, child of <parent1:John Doe> and <parent2:Mary Smith>, certificate number <certificate number:MD123456>, issued on <issue date:April 20, 1990> \Maryland Department of Health[SIG12345ABC]/` is an example of a verifiable birth certificate.
+`\Maryland Birth Certificate of {name:Jane Doe}, born on {date of birth:April 10, 1990}, at {place of birth:Baltimore, Maryland}, child of {parent1:John Doe} and {parent2:Mary Smith}, certificate number {certificate number:MD123456}, issued on {issue date:April 20, 1990} \Maryland Department of Health[SIG12345ABC]/` is an example of a verifiable birth certificate.
 
 ### Example 3
 
-`\Passport of <name:Jane Doe> with <nationality:USA>, <passport number:US987654321>, <date of birth:Jan 1, 1990>, <place of birth:New York, USA>, <issue date:Jan 1, 2023>, <expiration date:Jan 1, 2033> \US Department of getState[SIG12345ABC]/` is an example of a valid USA passport.
+`\Passport of {name:Jane Doe} with {nationality:USA}, {passport number:US987654321}, {date of birth:Jan 1, 1990}, {place of birth:New York, USA}, {issue date:Jan 1, 2023}, {expiration date:Jan 1, 2033} \US Department of getState[SIG12345ABC]/` is an example of a valid USA passport.
 
 ReaderFriendlyFormat:
 ```
-AT - Passport Information:
+ATT - Passport Information:
    Name: Jane Doe
    Nationality: USA
    Passport Number: US987654321
@@ -543,7 +541,7 @@ Attested by:
 
 ### Example 4
 
-An example CT of a property sales agreement (an example of `nested ATs`):
+An example CLT of a property sales agreement (an example of `nested ATs`):
 ```json
 {
    "title": "Property Sale Agreement",
@@ -557,7 +555,7 @@ An example CT of a property sales agreement (an example of `nested ATs`):
                "description": "Address and description of the property being sold"
             },
             "history": {
-               "type": "AT",
+               "type": "ATT",
                "description": "Attestation detailing the property's history"
             },
             "seller": {
@@ -574,7 +572,7 @@ An example CT of a property sales agreement (an example of `nested ATs`):
       "SimplePresentation": {
          "type": "string",
          "description": "Concise representation of the agreement details",
-         "const": "Property Sale Agreement for <property:string> with History: <history:AT>, between Seller: <seller:string> and Buyer: <buyer:string>"
+         "const": "Property Sale Agreement for {property:string} with History: {history:ATT}, between Seller: {seller:string} and Buyer: {buyer:string}"
       }
    },
    "required": ["variables", "SimplePresentation"]
@@ -582,14 +580,14 @@ An example CT of a property sales agreement (an example of `nested ATs`):
 ```
 
 The SimplePresentation format:
-`\Property Sale Agreement for <property:House at 123 Oak Street, Anytown> (<history:\Property Ownership History of <property:House at 123 Oak Street, Anytown> previously owned by <previous owner:John Doe>, <date of last sale:Jan 1, 2020> \John Doe[DDS12345DEF]/>) between <seller:Alice> and <buyer:Bob> \Alice[SIG67890XYZ] + Bob[SIG12345ABC]/`.  
+`\Property Sale Agreement for {property:House at 123 Oak Street, Anytown} ({history:\Property Ownership History of {property:House at 123 Oak Street, Anytown} previously owned by {previous owner:John Doe}, {date of last sale:Jan 1, 2020} \John Doe[DDS12345DEF]/}) between {seller:Alice} and {buyer:Bob} \Alice[SIG67890XYZ] + Bob[SIG12345ABC]/`.  
 
 The ReaderFriendlyFormat:
 ```
-AT - Property Sale Agreement:
+ATT - Property Sale Agreement:
    Property: House at 123 Oak Street, Anytown
    History:
-      AT - Property Ownership History:
+      ATT - Property Ownership History:
          Property: House at 123 Oak Street, Anytown
          Previously owned by: John Doe
          Date of last sale: Jan 1, 2020
@@ -604,14 +602,14 @@ Attested by:
 
 ### Example 5
 
-`\Property Sale Agreement for <property:House at 456 Maple Drive, Lakeside> (<history:\Property Ownership History of <property:House at 456 Maple Drive, Lakeside> previously owned by <previous owner:Lucas>, <date of last sale:June 15, 2018> <Previous Sale Deed: attachment Sale_Deed_2018.pdf:def456> \Lucas[DDS67890DEF]/>) between <seller:Emily> and <buyer:Mark> <inspection: attachment Inspection_Report.pdf:ab450d> \Emily[SIG12345XYZ] + Mark[SIG98765ABC]/ Files: [Inspection_Report.pdf, Sale_Deed_2018.pdf]` is an example of a nested ATs package.
+`\Property Sale Agreement for {property:House at 456 Maple Drive, Lakeside} ({history:\Property Ownership History of {property:House at 456 Maple Drive, Lakeside} previously owned by {previous owner:Lucas}, {date of last sale:June 15, 2018} {Previous Sale Deed: attachment Sale_Deed_2018.pdf:def456} \Lucas[DDS67890DEF]/}) between {seller:Emily} and {buyer:Mark} {inspection: attachment Inspection_Report.pdf:ab450d} \Emily[SIG12345XYZ] + Mark[SIG98765ABC]/ Files: [Inspection_Report.pdf, Sale_Deed_2018.pdf]` is an example of a nested ATs package.
 
 ReaderFriendlyFormat:
 ```
-AT - Property Sale Agreement:
+ATT - Property Sale Agreement:
    Property: House at 456 Maple Drive, Lakeside
    History:
-      AT - Property Ownership History:
+      ATT - Property Ownership History:
          Property: House at 456 Maple Drive, Lakeside
          Previously owned by: Lucas
          Date of last sale: June 15, 2018
@@ -630,14 +628,14 @@ Files:
 
 ### Example 6
 
-The ReaderFriendlyFormat of `\Medical Record of <name:Jane Doe>, <age:30>, <blood type:O+>, <allergies:\Allergy Information <allergen:Peanuts> \Allergy Specialist[DDS67890ABC]/>, <last visit:January 1, 2023> \Central Hospital[DDS12345XYZ]/` is:
+The ReaderFriendlyFormat of `\Medical Record of {name:Jane Doe}, {age:30}, {blood type:O+}, {allergies:\Allergy Information {allergen:Peanuts} \Allergy Specialist[DDS67890ABC]/}, {last visit:January 1, 2023} \Central Hospital[DDS12345XYZ]/` is:
 ```
-AT - Medical Record:
+ATT - Medical Record:
    Name: Jane Doe
    Age: 30
    Blood Type: O+
    Allergies:
-      AT - Allergy Information:
+      ATT - Allergy Information:
          Allergen: Peanuts
       Attested by: Allergy Specialist [POA ID: DDS67890ABC]
    Last Visit: January 1, 2023
@@ -648,7 +646,7 @@ Attested by:
 
 ### Creating Attestations
 
-An entity *attests* a claim means that the entity creates an attestation AT = \Claim\IDS[POA]/, where IDS is the identifier of that entity. This is the same as saying that the entity *signed* the claim, or the entity *issued* an attestation. For this, we call that entity attestor, signer, and issuer, respectively.
+An entity *attests* a claim means that the entity creates an attestation ATT = \Claim\IDS[POA]/, where IDS is the identifier of that entity. This is the same as saying that the entity *signed* the claim, or the entity *issued* an attestation. For this, we call that entity attestor, signer, and issuer, respectively.
 
 The signer has a number of decisions and options:
 - Decision 1: based on POA Type
@@ -667,37 +665,37 @@ The signer has a number of decisions and options:
             - The issuer creates and manages their own Registry to handle their attestations.
          - Option 1.2.2.2 (default): Use a non-Issuer Registry:
             - The issuer uses an existing Registry.
-      - Decision 1.2.3: based on ownership transferrability:
+      - Decision 1.2.3: based on ownership transferability:
          - Option 1.2.3.1 (default): Transferrable ownership
             - `OwnershipTransferrable` is `True`
          - Option 1.2.3.2: Non-Transferrable ownership
             - `OwnershipTransferrable` is `False`
-      - Decision 1.2.3: based on hold transferrability:
+      - Decision 1.2.3: based on hold transferability:
          - Option 1.2.3.1 (default): Transferrable hold
             - `HoldTransferrable` is `True`
          - Option 1.2.3.2: Non-Transferrable hold
             - `HoldTransferrable` is `False`
 
 
-## Authentication of AT
+## Authentication of ATT
 
-Authentication is the process of verifying the authenticity of a POA associated with an AT. Note that composite attestation is actually separate attestations, and a composite attestation is authentic if, and only if, all the separate attestations are authentic.
+Authentication is the process of verifying the authenticity of a POA associated with an ATT. Note that composite attestation is actually separate attestations, and a composite attestation is authentic if, and only if, all the separate attestations are authentic.
 
-### Authenticating SAT
-By using `SATAuthentication(SAT)`.
-
-Implementation:
-   Returns the result of `verify(extIDS(SAT),extCL(SAT),extSIG(SAT))`, where `verify` is the common digital signature verification function.
-
-### Authenticating DAT
-By using `DATAuthentication(TT,DAT; VerificationFee)`, which is the same as `DATAuthentication(TT,AC,DDS; VerificationFee)`. `VerificationFee` is the amount required for verification.
+### Authenticating SATT
+By using `SATAuthentication(SATT)`.
 
 Implementation:
-   1. If DAT is CAT, fail and instruct using Authenticating CAT.
+   Returns the result of `verify(extIDS(SATT),extCL(SATT),extSIG(SATT))`, where `verify` is the common digital signature verification function.
+
+### Authenticating DATT
+By using `DATAuthentication(TT,DATT; VerificationFee)`, which is the same as `DATAuthentication(TT,ACL,DDS; VerificationFee)`. `VerificationFee` is the amount required for verification.
+
+Implementation:
+   1. If DATT is CATT, fail and instruct using Authenticating CATT.
    2. (BEXACTSC) Check DDS authorization at TT.
       2.1 If not authorized, returns 'False'
       2.2 If authorized, proceed.
-   3. (Registry) Check if the SIG in DDS verifies AC.
+   3. (Registry) Check if the SIG in DDS verifies ACL.
       3.1 If it does, returns 'True'.
       3.2 If not, returns 'False'.
 
@@ -705,54 +703,54 @@ Note:
 BEXACTSC: Means to be handled by BEXACTSC (see STASH Reference Manual).
 Registry: Means to be handled by the right STASH's Registry (see STASH Reference Manual).
 
-### Authenticating CAT
-By using `CATAuthentication(TT,CAT,ATr; VerificationFee)`, which is the same as `CATAuthentication(TT,AC,DDS?VF$, ATr; VerificationFee)`. ATr is required AT that should match.
+### Authenticating CATT
+By using `CATTAuthentication(TT,CATT,ATTr; VerificationFee)`, which is the same as `CATTAuthentication(TT,ACL,DDS?CVFP, ATTr; VerificationFee)`. ATTr is required ATT that should match.
 
 Implementation 1: 
-   1. (BEXACTSC) If CAT is DAT, fail and instruct to use Authenticating DAT.
-   2. (BEXACTSC) If hash(VF$) does not match the DDS State, returns 'False'.
-   3. (BEXACTSC) If extAC(VF$) matches extAC(ATr) using the matching function, if not return 'False'.
-   4. (BEXACTSC) If ATr is SAT
-      4.1 If ATr is not valid, return 'False'
-      4.2 If ATr is valid, then authorize, go to 7.
-   5. (BEXACTSC) If ATr is DAT
-      5.1 If extDDS(ATr)== DDS, go to 7.
-      5.2 Check if extDDS(ATr) is authorized. If not, return 'False'.
-      5.3 Rely on Registry to Authentication ATr.
-   6. (Registry) check if ATr is valid. DATAuthentication(TT$,ATr)
+   1. (BEXACTSC) If CATT is DATT, fail and instruct to use Authenticating DATT.
+   2. (BEXACTSC) If hash(CVFP) does not match the DDS State, returns 'False'.
+   3. (BEXACTSC) If extAC(CVFP) matches extAC(ATTr) using the matching function, if not return 'False'.
+   4. (BEXACTSC) If ATTr is SATT
+      4.1 If ATTr is not valid, return 'False'
+      4.2 If ATTr is valid, then authorize, go to 7.
+   5. (BEXACTSC) If ATTr is DATT
+      5.1 If extDDS(ATTr)== DDS, go to 7.
+      5.2 Check if extDDS(ATTr) is authorized. If not, return 'False'.
+      5.3 Rely on Registry to Authentication ATTr.
+   6. (Registry) check if ATTr is valid. DATAuthentication(tbd_TT,ATTr)
       - If not valid, return 'False'.
-   7. (Registry) check if you hold the '\ extCL(CAT) \ extIDS(CAT)[SIG] /'.
+   7. (Registry) check if you hold the '\ extCL(CATT) \ extIDS(CATT)[SIG] /'.
       7.1 If true, return 'True'.
       7.2 Otherwise return 'False'.
 
 Implementation 2:
-   1. (BEXACTSC) If CAT is DAT, fail and instruct using Authenticating DAT.
-   2. (Registry) If hash(VF$) does not match the DDS State, returns 'False'.
-   3. (Registry) If extAC(VF$) matches extAC(ATr) using the matching function, if not return 'False'.
-   4. (Registry) If ATr is SAT
-      4.1 If ATr is not valid, return 'False'
-      4.2 If ATr is valid, then authorize, go to 7.
-   5. (Registry) If ATr is DAT
-      5.1 If extDDS(ATr)== DDS, go to 7. // "Circular conditional authorization" intended to match format only.
-      5.2 Check if extDDS(ATr) is authorized. If not, return 'False'.
-      5.3 Rely on Registry to Authentication ATr.
-   6. (Registry) check if ATr is valid. DATAuthentication(TT$,ATr)
+   1. (BEXACTSC) If CATT is DATT, fail and instruct using Authenticating DATT.
+   2. (Registry) If hash(CVFP) does not match the DDS State, returns 'False'.
+   3. (Registry) If extAC(CVFP) matches extAC(ATTr) using the matching function, if not return 'False'.
+   4. (Registry) If ATTr is SATT
+      4.1 If ATTr is not valid, return 'False'
+      4.2 If ATTr is valid, then authorize, go to 7.
+   5. (Registry) If ATTr is DATT
+      5.1 If extDDS(ATTr)== DDS, go to 7. // "Circular conditional authorization" intended to match format only.
+      5.2 Check if extDDS(ATTr) is authorized. If not, return 'False'.
+      5.3 Rely on Registry to Authentication ATTr.
+   6. (Registry) check if ATTr is valid. DATAuthentication(tbd_TT,ATTr)
       - If not valid, return 'False'.
-   7. (Registry) check if you hold the `\ extCL(CAT) \extIDS(CAT)[SIG]/`.
+   7. (Registry) check if you hold the `\ extCL(CATT) \extIDS(CATT)[SIG]/`.
       7.1 If true, return 'True'.
       7.2 Otherwise return 'False'.
 
 
    Example of "circular conditional authorization":
-      CAT = `\ ID <Name: Jane Doe> <Expiration Date: Oct 12,2024> \IDS_gov[DDSid? VF(\ ID <Name:$IGNORE> <Expiration Date:::>>$VTIME> \IDS_gov/, $VTIME )]/` 
+      CATT = `\ ID {Name: Jane Doe} {Expiration Date: Oct 12,2024} \IDS_gov[DDSid? CVF(\ ID {Name:tbd_IGNORE} {Expiration Date:::}}tbd_VTIME} \IDS_gov/, tbd_VTIME )]/` 
       Authentication as follows:
-         `CDATAuthentication(VTIME, AC, DDSid?VF(\ ID <Name:$IGNORE> <Expiration Date:::>>$VTIME> \IDS_gov/, $VTIME), \ ID <Name: Jane Doe> <Expiration Date: Oct 12,2024> \IDS_gov[DDSid]/; VerificationFee)`
-      Note that the rAT is the same as the original CAT, which is a circular condition. In this case, the rAT will be considered authenticated, so that we benefit from the matching of the VF Prototype `VF(\ ID <Name:$IGNORE> <Expiration Date:::>>$VTIME> \IDS_gov/, $VTIME )`. The matching makes sure that the verification time is prior to the expiration date. Otherwise, the DDS will be unauthorized.
+         `CDATAuthentication(VTIME, ACL, DDSid?CVF(\ ID {Name:tbd_IGNORE} {Expiration Date:::}}tbd_VTIME} \IDS_gov/, tbd_VTIME), \ ID {Name: Jane Doe} {Expiration Date: Oct 12,2024} \IDS_gov[DDSid]/; VerificationFee)`
+      Note that the rAT is the same as the original CATT, which is a circular condition. In this case, the rAT will be considered authenticated, so that we benefit from the matching of the CVF Prototype `CVF(\ ID {Name:tbd_IGNORE} {Expiration Date:::}}tbd_VTIME} \IDS_gov/, tbd_VTIME )`. The matching makes sure that the verification time is prior to the expiration date. Otherwise, the DDS will be unauthorized.
       In this example, we can check that the VTIME is before the expiration date, without having to change authorization at the expiration date.
 
-## Validation of ATP
+## Validation of ATTP
 
-Validation of ATP includes the authentication of the attestation as well as the validation of the attached files. I.e.:
-   - Check that file attachments are included in the ATP. If not, terminate and return `False`.
+Validation of ATTP includes the authentication of the attestation as well as the validation of the attached files. I.e.:
+   - Check that file attachments are included in the ATTP. If not, terminate and return `False`.
    - Check that the file hash mentioned in the claim matches that of corresponding included file. If not, terminate and return `False`.
 

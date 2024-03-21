@@ -1,11 +1,28 @@
 # VAO Reference Manual
 
+## Table of Contents <!-- omit from toc -->
+- [VAO Reference Manual](#vao-reference-manual)
+   - [About VAO](#about-vao)
+   - [VAO's Glossary Peculiarities](#vaos-glossary-peculiarities)
+      - [Simple Attestation](#simple-attestation)
+      - [Rewarding Attestation](#rewarding-attestation)
+      - [Attestation Owner in VAO](#attestation-owner-in-vao)
+      - [Points](#points)
+      - [Points Redemption Rate (PRR)](#points-redemption-rate-prr)
+   - [VAO Operation](#vao-operation)
+      - [Creating and Verifying Attestations](#creating-and-verifying-attestations)
+   - [Ahket Inc Revenue](#ahket-inc-revenue)
+   - [Access to Ahket's STASH](#access-to-ahkets-stash)
+
+---
+
 - Related documents:
    - CADET Reference Manual
-      - In which the terms IDS, SK, POA, SIG, DDS, CL, AC, AT, SAT, DAT, CAT, VF, VF$, ATP, and others are defined.
+      - In which the terms IDS, SK, POA, SIG, DDS, CL, ACL, ATT, SATT, DATT, CATT, CVF, CVFP, ATTP, and others are defined.
    - STASH Reference Manual
    - VAO User Manual
 
+## About VAO
 VAO is a WEB2 webapp of Ahket, that is:
 - built on top of STASH.
 - the interface between Ahket's users and STASH. It isolates the users from STASH complexity.
@@ -16,23 +33,24 @@ VAO is a WEB2 webapp of Ahket, that is:
 ## VAO's Glossary Peculiarities
 VAO uses different and simpler terms than those used in the CADET and STASH Reference Manuals.
 
-### Simple Attestation is SAT
+### Simple Attestation
+Simple Attestation corresponds to SATT.
+This attestation does not generate any revenue to the issuer. When a VAO user creates a Simple Attestation, VAO creates a SATT, and when a VAO user verifies a Simple Attestation, VAO verifies the SATT.
 
-This attestation does not generate any revenue to the issuer. When a VAO user creates a Simple Attestation, VAO creates a SAT, and when a VAO user verifies a Simple Attestation, VAO verifies the SAT.
+### Rewarding Attestation
 
-### Rewarding Attestation is DAT
-
+Rewarding Attestation corresponds to DATT.
 Based on the pricing, we have two subtypes:
 - *Individual-Price* Rewarding Attestation
    - A user can create, amend and verify Single-Price Attestations if the user's APB holds enough APs to cover the STASH fees.
-   - When a user creates a Single-Price Attestation, VAO creates a DAT on behalf of the user on STASH.
-   - A user can ammend a Single-Price Attestation via STASH.
-   - When a user verifies a Single-Price Attestation, VAO verifies the corresponding DAT through STASH.
-   - Rewards earned by the corresponding DAT on STASH are added as RPs to the owner's RPB.
+   - When a user creates a Single-Price Attestation, VAO creates a DATT on behalf of the user on STASH.
+   - A user can amend a Single-Price Attestation via STASH.
+   - When a user verifies a Single-Price Attestation, VAO verifies the corresponding DATT through STASH.
+   - Rewards earned by the corresponding DATT on STASH are added as RPs to the owner's RPB.
 - *Group-Price* Rewarding Attestation
    - A user that joins the Shared-Reward Program can create, amend and verify as many Group-Price Attestations as the user's Subscription allows.
    - When a program is established, a Reference Price is set on the STASH System (Payments Contract).
-   - When a user creates a Group-Price Attestation, VAO creates a DAT on behalf of the user on STASH who is Group Priced to the Reference Price.
+   - When a user creates a Group-Price Attestation, VAO creates a DATT on behalf of the user on STASH who is Group Priced to the Reference Price.
 
 
 ### Attestation Owner in VAO
@@ -47,7 +65,7 @@ A VAO user can become a "full owner" of an attestation (i.e., the owner of the a
 
 ### Points
 
-In VAO, points are abstractions of DBN in STASH. Each point represent one DBN. Users of VAO don't have direct access to DBNs.
+In VAO, points are abstractions of DBN in STASH. Each point represents one DBN. Users of VAO don't have direct access to DBNs.
 A user cannot transfer points to another user; therefore, the underlying DBNs cannot be transferred from a user to another.
 There are two kinds of points:
 
@@ -68,7 +86,7 @@ There are two kinds of points:
 
 ### Points Redemption Rate (PRR)
 
-This represent the value of RPs in US Dollars (USD).
+This represents the value of RPs in US Dollars (USD).
 The PRR at any time is calculated by dividing the amount of USD in General USD Account (GUSD) divided by the Total Minted DBN (TMDBN) at that time.
 RP Redemption Plan
 A user can redeem RPs for some gift award value in USD calculated from the PRR at that time.
@@ -116,6 +134,6 @@ VAO creates and manages attestations as detailed in the Creation and Verificatio
    - Later, through Decentralized Application (DAPP)
       - These are Web 3.0 (WEB3) solutions.
       - First DAPPs will be created by Ahket Inc.
-      - There will be a number of them, each accessible and operateable using the DBN token.
-      - Others will be able to their their own DAPPs and WEB3 solutions when Ahket Inc. makes the documentation of STASH available and open source the code.
+      - There will be a number of them, each accessible and functioning using the DBN token.
+      - Others will be able to their own DAPPs and WEB3 solutions when Ahket Inc. makes the documentation of STASH available and open source the code.
       - VAO will still provide easy access to users reluctant, or unauthorized, to use DAPPs.

@@ -1,46 +1,44 @@
 # STASH Reference Manual
 
-
-Table of Contents
+## Table of Contents <!-- omit from toc -->
 - [STASH Reference Manual](#stash-reference-manual)
-  - [STASH (System for Truthful and Accountable Secrets-Holding)](#stash-system-for-truthful-and-accountable-secrets-holding)
-  - [STASH Components:](#stash-components)
-    - [Registries](#registries)
-      - [Issuer Registry](#issuer-registry)
-    - [Body of EXACT Smart Contracts (BEXACTSC)](#body-of-exact-smart-contracts-bexactsc)
-      - [EXACT Protocol (EXACTP)](#exact-protocol-exactp)
-        - [Insurance Protocol (Insurance EXACTP)](#insurance-protocol-insurance-exactp)
-          - [Basic Insurance](#basic-insurance)
-          - [Revenue Insurance](#revenue-insurance)
-        - [Registration Protocol (Registration EXACTP)](#registration-protocol-registration-exactp)
-          - [Oblivious Transfer](#oblivious-transfer)
-          - [Exception](#exception)
-        - [Verification Protocol (Verification EXACTP)](#verification-protocol-verification-exactp)
-          - [Ambiguous Result](#ambiguous-result)
-          - [Exception](#exception-1)
-        - [Arbitration Protocol (Arbtiration EXACTP)](#arbitration-protocol-arbtiration-exactp)
-          - [Types of Challenges](#types-of-challenges)
-      - [BEXACTSC](#bexactsc)
-        - [DBN Contract](#dbn-contract)
-        - [Tickets Contract](#tickets-contract)
-        - [Registries Contract](#registries-contract)
-        - [Payments Contract](#payments-contract)
-        - [Arbitration Contract](#arbitration-contract)
-  - [Achieving EXACT Through Financial Enforcement](#achieving-exact-through-financial-enforcement)
-    - [Financial Rewards](#financial-rewards)
-    - [Financial Penalties](#financial-penalties)
-  - [Interacting with STASH](#interacting-with-stash)
-    - [DDS Interactions](#dds-interactions)
-      - [Creating a DDS](#creating-a-dds)
-      - [Changing an existing DDS](#changing-an-existing-dds)
-      - [Verifying a DDS](#verifying-a-dds)
-      - [DDS Arbitration](#dds-arbitration)
-    - [Registry Management Interactions](#registry-management-interactions)
-  - [STASH Accounting](#stash-accounting)
-      - [STASH DBN Treasury](#stash-dbn-treasury)
-      - [STASH DBN Account](#stash-dbn-account)
-
-
+   - [About STASH](#about-stash)
+   - [STASH Components:](#stash-components)
+      - [Registries](#registries)
+         - [Issuer Registry](#issuer-registry)
+      - [Body of EXACT Smart Contracts (BEXACTSC)](#body-of-exact-smart-contracts-bexactsc)
+         - [EXACT Protocol (EXACTP)](#exact-protocol-exactp)
+            - [Insurance Protocol (Insurance EXACTP)](#insurance-protocol-insurance-exactp)
+               - [Basic Insurance](#basic-insurance)
+               - [Revenue Insurance](#revenue-insurance)
+            - [Registration Protocol (Registration EXACTP)](#registration-protocol-registration-exactp)
+               - [Oblivious Transfer](#oblivious-transfer)
+               - [Exception](#exception)
+            - [Verification Protocol (Verification EXACTP)](#verification-protocol-verification-exactp)
+               - [Ambiguous Result](#ambiguous-result)
+               - [Exception](#exception-1)
+            - [Arbitration Protocol (Arbtiration EXACTP)](#arbitration-protocol-arbtiration-exactp)
+               - [Types of Challenges](#types-of-challenges)
+         - [BEXACTSC](#bexactsc)
+            - [DBN Contract](#dbn-contract)
+            - [Tickets Contract](#tickets-contract)
+            - [Registries Contract](#registries-contract)
+            - [Payments Contract](#payments-contract)
+            - [Arbitration Contract](#arbitration-contract)
+   - [Achieving EXACT Through Financial Enforcement](#achieving-exact-through-financial-enforcement)
+      - [Financial Rewards](#financial-rewards)
+      - [Financial Penalties](#financial-penalties)
+   - [Interacting with STASH](#interacting-with-stash)
+      - [DDS Interactions](#dds-interactions)
+         - [Creating a DDS](#creating-a-dds)
+         - [Changing an existing DDS](#changing-an-existing-dds)
+         - [Verifying a DDS](#verifying-a-dds)
+         - [DDS Arbitration](#dds-arbitration)
+      - [Registry Management Interactions](#registry-management-interactions)
+   - [STASH Accounting](#stash-accounting)
+         - [STASH DBN Treasury](#stash-dbn-treasury)
+         - [STASH DBN Account](#stash-dbn-account)
+---
 
 > **Notes About This Document**
 >  Markdown is used. Also, the marker '$' is used to mark latex mathematics and formulas.
@@ -48,11 +46,12 @@ Table of Contents
 
 - Related documents:
    - CADET Reference Manual
-      - In which the terms IDS, SK, POA, SIG, DDS, CL, AC, AT, SAT, DAT, CAT, VF, VF$, ATP, and others are defined.
+      - In which the terms IDS, SK, POA, SIG, DDS, CL, ACL, ATT, SATT, DATT, CATT, CVF, CVFP, ATTP, and others are defined.
 
-## STASH (System for Truthful and Accountable Secrets-Holding)
-- STASH is the underlying system created and used by Ahket Inc. It is responsible for the creation, update, management, and verification of a DDS.
-- Ahket Inc. has filed a provisional US patent for STASH.
+## About STASH
+SATSH stands for _System for Truthful and Accountable Secrets-Holding_. It is the underlying system created and used by Ahket Inc. It is responsible for the creation, update, management, and verification of a DDS.
+
+> Ahket Inc. has filed a provisional US patent for STASH.
 
 ## STASH Components:
 STASH has two components: Registries and BEXACTSC.
@@ -104,50 +103,50 @@ The RID is the sum of two quantities: "Basic Insurance" and "Revenue Insurance".
 
 ###### Revenue Insurance
 This component is calculated from the "Cumulative Future Revenue" (CFR) generated from a DDS. CFR of a DDS is an estimate of the future revenue that DDS owner expects from a DDS based on "Adjusted Cumulative Past Revenue" (jCPR). jCPR is continuously calculated as follows:
-   - When a DDS is created at $ t_0 $, $ jCPR(t_0) = 0 $
-   - When a DDS is verified at time $ t_n $:
-      $ jCPR(t_n) = jCPR(t_{n-1}) \times 2^{(-(t_n - t_{n-1})/T_H)} + R(t_n) $, where
-         - $ t_{n-1} $ is the last verification time before $ t_n $, or $ t_0 $ if there were no verifications before.
-         - $ R(t_n) $ is the DDS owner's revenue (reward) from verification at $ t_n $.
-         - $ T_H $ is a time constant that determines the discount of previous returns over time—which we call the Owner Reward Half Time. I.e., the value of jCPR of a DDS will be halfed after $ T_H $ time.
-   - At any point of time $  t_n =< t < t_{n+1} $,
-         - $ jCPR(t) = jCPR(t_n) \times 2^{(-(t - t_n)/T_H)} $
+   - When a DDS is created at $t_0$, $jCPR(t_0) = 0$
+   - When a DDS is verified at time $t_n$:
+      $jCPR(t_n) = jCPR(t_{n-1}) \times 2^{(-(t_n - t_{n-1})/T_H)} + R(t_n)$, where
+      - $t_{n-1}$ is the last verification time before $t_n$, or $t_0$ if there were no verifications before.
+      - $R(t_n)$ is the DDS owner's revenue (reward) from verification at $t_n$.
+      - $T_H$ is a time constant that determines the discount of previous returns over time—which we call the Owner Reward Half Time. I.e., the value of jCPR of a DDS will be halved after $T_H$ time.
+   - At any point of time $t_n =< t < t_{n+1}$, 
+      - $jCPR(t) = jCPR(t_n) \times 2^{(-(t - t_n)/T_H)}$
 
 The CFR is calculated as follows:
-   - $ CFR(t) = RHI \times jCPR(t) $
-      where RHI is some predefined multiplier (most probably is set to 100%) that determines the amount of jCPR that is covered when a loss occurs.
+   - $CFR(t) = RHI \times jCPR(t)$
+      - where RHI is some predefined multiplier (most probably is set to 100%) that determines the amount of jCPR that is covered when a loss occurs.
 The insured value of a DDS at time $t$ is its $CFR(t)$.
 
-The "Registry Cumulative Future Revenue" (RCFR) of a Registry is the sum of the RCFs of all the DDSs held in the Registry at time $ t $. It is calculated from the "Registry Adjusted Cumulative Past Revenue" (RjCPR), which is the total sum of the $ jCPR(t) $ values of all the held DDSs. Therefore,
-   - $ RCFR(t) =  RHI \times RjCPR(t) $
+The "Registry Cumulative Future Revenue" (RCFR) of a Registry is the sum of the RCFs of all the DDSs held in the Registry at time $t$. It is calculated from the "Registry Adjusted Cumulative Past Revenue" (RjCPR), which is the total sum of the $jCPR(t)$ values of all the held DDSs. Therefore,
+   - $RCFR(t) =  RHI \times RjCPR(t)$
 
 RjCPR can be calculated in a more efficient way as follows:
-   - When the registery is created at $ t_0 $, $ RjCPR(t_0) = 0 $
-   - When any DDS is verified at time $ t_n $, its RjCPR changes as follows: 
-      $ RjCPR(t_n) = RjCPR(t_{n-1}) \times 2^{(-(t_n - t_{n-1})/T_H)} + R(t_n) $, where
-         - t_{n-1} is the last verification time before $ t_n $, or $ t_0 $ if there were no verifications before,
-         - $ R(t_n)=DDSP$, from the verification VerificationFee at time $ t_n $,
-   - At any point of time $ t $, such that $ t_n =< t < t_{n+1} $,
-      $ RjCPR(t) = RjCPR(t_n) \times 2^{(-(t - t_n)/T_H)} $
+   - When the registry is created at $t_0$, $RjCPR(t_0) = 0$
+   - When any DDS is verified at time $t_n$, its $RjCPR$ changes as follows: 
+      $RjCPR(t_n) = RjCPR(t_{n-1}) \times 2^{(-(t_n - t_{n-1})/T_H)} + R(t_n)$, where
+      - $t_{n-1}$ is the last verification time before $t_n$, or $t_0$ if there were no verifications before,
+      - $R(t_n)=DDSP$, from the verification VerificationFee at time $t_n$,
+   - At any point of time $t$, such that $t_n =< t < t_{n+1}$,
+      $RjCPR(t) = RjCPR(t_n) \times 2^{(-(t - t_n)/T_H)}$
 
 For any Registry that is not an Issuer Registry, RID at any time $t$ must be greater than the sum of the required Basic and Revenue Insurances. That is,
-   $ RID(t) > BI(t) + k \times RCF(t) $,
-      where $BI$ is the Basic Insurance, and $k<1$ is some factor representing the risk of failure.
+   $RID(t) > BI(t) + k \times RCF(t)$,
+      where $BI$ is the Basic Insurance, and $k>1$ is some factor representing the risk of failure.
 
 The Registry's shares in VerificationFee and IFEE are deposited into its RID. I.e.,
-   $ RID(t_n) = RID(t_{n-1}) + RegistryShare $
+   $RID(t_n) = RID(t_{n-1}) + RegistryShare$
 
-When a Registry is challenged or penalized (See the Artbitration Protocl) at time $ t $, a "Challenge Penalty" (CP) will be withrdawn from RID. I.e.,
-   $ RID(t_n) = RID(t_{n-1}) - CP(t) $
+When a Registry is challenged or penalized (See the Arbitration Protocol) at time $t$, a "Challenge Penalty" (CP) will be withdrawn from RID. I.e.,
+   $RID(t_n) = RID(t_{n-1}) - CP(t)$
 
-A Registry can withdraw an amount $ w(t) $ at any time $ t $ from the RID with the following limitation:
-   $ w(t) < RID(t) - BI(t) - k \times RCF(t) $.
-   - This is the Registry's insurance surplus, or profit.
-   - Because of the half-time effect, $w(t)$ will increase with time if there are no verification activities.
+A Registry can withdraw an amount $w(t)$ at any time $t$ from the RID with the following limitation:
+   - $w(t) < RID(t) - BI(t) - k \times RCF(t)$.
+      - This is the Registry's insurance surplus, or profit.
+      - Because of the half-time effect, $w(t)$ will increase with time if there are no verification activities.
 
 A Registry can create a DDS for a DDS signer, it must have sufficient RID to do so. 
    - A Registry can create the DDS if the following condition is true:
-      $  RID(t) - BI(t) - k \times RCF(t) >  k \times RHI \times DDSP $.
+      $RID(t) - BI(t) - k \times RCF(t) >  k \times RHI \times DDSP$.
    - If the condition is not satisfied, BEXACTSC will stop the creation of the DDS.
    - A Registry, therefore, must make sure that the condition is satisfied to create a new DDS. This can be done by depositing some amount to the RID. This amount can be considered as an investment by the Registry.
 
@@ -159,7 +158,7 @@ If a DDS is generating no revenue, as in the case DDSP is zero, only the Basic I
 This protocol describes the process of creating or updating a DDS in Registries. The protocol is to uphold the EXclusivity Assurance to by making preventing the leak of the held SIG to the public.
 
 ###### Oblivious Transfer
-Since a leak of a SIG could be from, either, the signer of that DDS or the Registry, it is importatn to identify the culprit when a leak occurs. To do so, a Zero-Knowledge cryptographic technique called 1-n Oblivious Transfer (1-nOT) is used. 
+Since a leak of a SIG could be from, either, the signer of that DDS or the Registry, it is important to identify the culprit when a leak occurs. To do so, a Zero-Knowledge cryptographic technique called 1-n Oblivious Transfer (1-nOT) is used. 
 This is required in the communication between the DDS signer and the Registry, which is not recorded on the blockchain.
 
 Specifications:
@@ -178,7 +177,7 @@ The goal of the Verification EXACTP is to guarantee that the Registry does not p
 Thus, only the DDS verifier would receive an answer on a separate channel from the Registry, while the Registry will only post an "Ambiguous Result" on the blockchain (for traceability).
 
 ###### Ambiguous Result
-When a DDS verifier requests to verify a DAT, it will provide the answer in the following steps.
+When a DDS verifier requests to verify a DATT, it will provide the answer in the following steps.
    1. The Registry creates three random numbers (n1,n2,n3), and then sends n1 to DDS verifier.
    2. DDS verifier commits to n1 by creating a digital S1 of n1 using its Secret Key. DDS verifier then sends S1 to the Registry.
    3. The Registry creates `hash(n1|S1|SIG|n3)`, where SIG is that stored in the Registry. Note that only the Registry knows this, and DDS signer of the DDS knows that it is one of `NSA` that were created---but does not know which one exactly.

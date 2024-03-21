@@ -1,0 +1,7 @@
+{
+   "markdown.extension.list.indentationSize": "inherit",
+   "[markdown]": {
+     "editor.formatOnSave": true,
+     "editor.tabSize": 3
+   }
+ }

@@ -48,7 +48,7 @@ First, here is the Claim Template for a membership card (CT1):
       "Simple Presentation Format": {
          "type": "string",
          "description": "Concise representation of the membership card details",
-         "const": "Membership Card for <memberName:string> (<memberIDS:string>) with ID <membershipID:string>. Valid from <startDate:date> to <endDate:date>. Photo: <photoAttachment:attachment>"
+         "const": "Membership Card for {memberName:string} ({memberIDS:string}) with ID {membershipID:string}. Valid from {startDate:date} to {endDate:date}. Photo: {photoAttachment:attachment}"
       }
    },
    "required": ["variables", "Simple Presentation Format"]
@@ -99,10 +99,10 @@ Attested by:
 
 The Simple Presentation Format of VAT1 is:
 ```
-\Membership Card for <memberName:John Doe> (<memberIDS:47034078473098>) with ID <membershipID:12345XYZ>. Valid from <startDate:2023-01-01> to <endDate:2024-01-01>. Photo: <photoAttachment:attachment JohnDoePhoto.jpg:5d41402abc4b2a76b9719d911017c592> \Cary Country Club[DDS9876ABC]/
+\Membership Card for {memberName:John Doe} ({memberIDS:47034078473098}) with ID {membershipID:12345XYZ}. Valid from {startDate:2023-01-01} to {endDate:2024-01-01}. Photo: {photoAttachment:attachment JohnDoePhoto.jpg:5d41402abc4b2a76b9719d911017c592} \Cary Country Club[DDS9876ABC]/
 ```
 
 The Simple Presentation Format of a VFP of VAT1 (VF1) is:
 ```
-VF(\Membership Card for <memberName:$IGNORE> (<memberIDS:$HOLDER>) with ID <membershipID:$IGNORE>. Valid from <startDate:$IGNORE> to <endDate:$IGNORE>. Photo: <photoAttachment:attachment $IGNORE> \Cary Country Club/, $IGNORE)
+VF(\Membership Card for {memberName:$IGNORE} ({memberIDS:$HOLDER}) with ID {membershipID:$IGNORE}. Valid from {startDate:$IGNORE} to {endDate:$IGNORE}. Photo: {photoAttachment:attachment $IGNORE} \Cary Country Club/, $IGNORE)
 ```

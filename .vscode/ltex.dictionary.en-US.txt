@@ -1,1 +1,8 @@
 Ahket
+AHKET
+SimplePresentation
+Provisory
+variableValues
+json
+verifiability
+ReaderFriendlyFormat
