@@ -1,39 +1,39 @@
 # CADET Reference Manual
 
 ## Table of Contents <!-- omit from toc -->
-- [CADET Reference Manual](#markdown-header-cadet-reference-manual)
-   - [About CADET](#markdown-header-about-cadet)
-   - [User Identifier](#markdown-header-user-identifier)
-   - [Proof of Attestation (POA)](#markdown-header-proof-of-attestation-poa)
-      - [There are Two Types of POA](#markdown-header-there-are-two-types-of-poa)
-         - [Digital Signature (SIG)](#markdown-header-digital-signature-sig)
-         - [Delegated Digital Signature (DDS)](#markdown-header-delegated-digital-signature-dds)
-   - [Claim Template (CLT)](#markdown-header-claim-template-clt)
-      - [Examples of CLT:](#markdown-header-examples-of-clt)
-         - [Example 1](#markdown-header-example-1)
-         - [Example 2](#markdown-header-example-2)
-   - [Claim (CL):](#markdown-header-claim-cl)
-   - [Attested Claim (ACL)](#markdown-header-attested-claim-acl)
-   - [Claim Verification Form (CVF)](#markdown-header-claim-verification-form-cvf)
-      - [Claim Verification Form Prototype (tbd\_CVF)](#markdown-header-claim-verification-form-prototype-tbd_cvf)
-   - [Attestation (ATT)](#markdown-header-attestation-att)
-   - [ATT Package (ATTP):](#markdown-header-att-package-attp)
-   - [Examples](#markdown-header-examples)
-      - [Example 1:](#markdown-header-example-1-1)
-      - [Example 2](#markdown-header-example-2-1)
-      - [Example 3](#markdown-header-example-3)
-      - [Example 4](#markdown-header-example-4)
-      - [Example 5](#markdown-header-example-5)
-      - [Example 6](#markdown-header-example-6)
-   - [Creation and Verification of Attestations](#markdown-header-creation-and-verification-of-attestations)
-      - [Creating Attestations](#markdown-header-creating-attestations)
-   - [Authentication of ATT](#markdown-header-authentication-of-att)
-      - [Authenticating SATT](#markdown-header-authenticating-satt)
-      - [Authenticating DATT](#markdown-header-authenticating-datt)
-      - [Authenticating CATT](#markdown-header-authenticating-catt)
-   - [Validation of ATTP](#markdown-header-validation-of-attp)
+- [CADET Reference Manual](#cadet-reference-manual)
+   - [About CADET](#about-cadet)
+   - [User Identifier](#user-identifier)
+   - [Proof of Attestation (POA)](#proof-of-attestation-poa)
+      - [There are Two Types of POA](#there-are-two-types-of-poa)
+         - [Digital Signature (SIG)](#digital-signature-sig)
+         - [Delegated Digital Signature (DDS)](#delegated-digital-signature-dds)
+   - [Claim Template (CLT)](#claim-template-clt)
+      - [Examples of CLT:](#examples-of-clt)
+         - [Example 1](#example-1)
+         - [Example 2](#example-2)
+   - [Claim (CL):](#claim-cl)
+   - [Attested Claim (ACL)](#attested-claim-acl)
+   - [Claim Verification Form (CVF)](#claim-verification-form-cvf)
+      - [Claim Verification Form Prototype (CVFP)](#claim-verification-form-prototype-cvfp)
+   - [Attestation (ATT)](#attestation-att)
+   - [ATT Package (ATTP):](#att-package-attp)
+   - [Examples](#examples)
+      - [Example 1:](#example-1-1)
+      - [Example 2](#example-2-1)
+      - [Example 3](#example-3)
+      - [Example 4](#example-4)
+      - [Example 5](#example-5)
+      - [Example 6](#example-6)
+   - [Creation and Verification of Attestations](#creation-and-verification-of-attestations)
+      - [Creating Attestations](#creating-attestations)
+   - [Authentication of ATT](#authentication-of-att)
+      - [Authenticating SATT](#authenticating-satt)
+      - [Authenticating DATT](#authenticating-datt)
+      - [Authenticating CATT](#authenticating-catt)
+   - [Validation of ATTP](#validation-of-attp)
+---
 
- 
 > **Notes About This Document**
 >  Any object described will have public and private attributes, as well as public and private methods.
 >  `object.attribute` refers to the `object`'s attribute, while `object.method()` refers to calling its method.
@@ -128,7 +128,7 @@ DDS Record and STASH:
                - Authorized is an implicit attestation by the signer at a specific date "is authorizing STASH to verify through DDS."
             - `Unauthorized`: The DDS cannot be used for verification.
                - Unauthorized is an implicit attestation by the signer at a specific date "is deauthorizing STASH to verify through DDS."
-            - `ConditionalAuthorization`: The DDS can be used for verification if some conditions satisfied. The condition is described using a special Claim Verification Form Prototype (see tbd_CVF below). In this case, the DDS is a "conditional DDS" (CDDS).
+            - `ConditionalAuthorization`: The DDS can be used for verification if some conditions satisfied. The condition is described using a special Claim Verification Form Prototype (see CVFP below). In this case, the DDS is a "conditional DDS" (CDDS).
                - `ConditionalAuthorization` is an implicit attestation by the signer at a specific date "is authorizing STASH to verify through DDS provided that certain condition is satisfied."
          - Because of events are recorded at the time of the signer request, the DDS is strongly timestamped by STASH.
       - `Owner`: An entity that earns a portion of the fees paid during verification to STASH. We call the owner of DDS the `DDS owner` or `DDSO`.
@@ -400,12 +400,12 @@ CVF = define(CL,IDS,TT)
 - Is the form `CVF(SimplePresentation of ACL, TT)`. 
 - Example: `CVF(\Driver License of {name:Jane Doe} who lives in {address:120 Amber St., Baltimore, MD} \MD_DMV/, Dec 20, 2022)`.
 
-### Claim Verification Form Prototype (tbd_CVF)
+### Claim Verification Form Prototype (CVFP)
 
 Description: 
-Is a special form of CVF, where some of its variable values are special *placeholders* whose actual values would be known at verification time; i.e., when using `POA.verify(CVF.CL,CVF.TT)`. A tbd_CVF is used to define a group of VFs that match the placeholders.
+Is a special form of CVF, where some of its variable values are special *placeholders* whose actual values would be known at verification time; i.e., when using `POA.verify(CVF.CL,CVF.TT)`. A CVFP is used to define a group of VFs that match the placeholders.
 
-The following are the only allowed placeholders to be used in tbd_CVF.
+The following are the only allowed placeholders to be used in CVFP.
    - `tbd_VERIFIER`: Will be replaced with the IDS of the verifier.
    - `tbd_VTIME`: Will be replaced with the verification time.
    - `tbd_ISSUER`: Will be replaced with the POA.IDS.
@@ -416,8 +416,8 @@ The following are the only allowed placeholders to be used in tbd_CVF.
 Example: `CVF(Driver License of {name:tbd_VERIFIER} who lives in {address:tbd_IGNORE} \MD_DMV/, tbd_VTIME)`.
 
 Use: 
-- `matchVFPrototype(tbd_CVF,CVF)` checks if CVF values match those in the tbd_CVF; if so, it will return `True`, otherwise `False`. 
-   - Example: If tbd_CVF is `CVF(\Driver License of {name:tbd_VERIFIER} who lives in {address:tbd_IGNORE} \MD_DMV/, tbd_VTIME)`, then CVF `CVF(\Driver License of {name:verifierIDS} who lives in {address:120 Amber St., Baltimore, MD} \MD_DMV/, Dec 20, 2022)` will be a `True` match if the `verifierIDS` is the actual verifier and Dec 20, 2022 is the verification time. It does not matter whatever the address is.
+- `matchVFPrototype(CVFP,CVF)` checks if CVF values match those in the CVFP; if so, it will return `True`, otherwise `False`. 
+   - Example: If CVFP is `CVF(\Driver License of {name:tbd_VERIFIER} who lives in {address:tbd_IGNORE} \MD_DMV/, tbd_VTIME)`, then CVF `CVF(\Driver License of {name:verifierIDS} who lives in {address:120 Amber St., Baltimore, MD} \MD_DMV/, Dec 20, 2022)` will be a `True` match if the `verifierIDS` is the actual verifier and Dec 20, 2022 is the verification time. It does not matter whatever the address is.
 
 
 ## Attestation (ATT)
@@ -506,7 +506,7 @@ ATT - Car Purchase Agreement:
 Attested by:
    Jack[POA ID: DDS12345XYZ] 
    Requires:
-      tbd_CVF - Approval
+      CVFP - Approval
          Name: Jack's Wife
       Attested by:
          Jack's Wife
@@ -704,12 +704,12 @@ BEXACTSC: Means to be handled by BEXACTSC (see STASH Reference Manual).
 Registry: Means to be handled by the right STASH's Registry (see STASH Reference Manual).
 
 ### Authenticating CATT
-By using `CATTAuthentication(TT,CATT,ATTr; VerificationFee)`, which is the same as `CATTAuthentication(TT,ACL,DDS?tbd_CVF, ATTr; VerificationFee)`. ATTr is required ATT that should match.
+By using `CATTAuthentication(TT,CATT,ATTr; VerificationFee)`, which is the same as `CATTAuthentication(TT,ACL,DDS?CVFP, ATTr; VerificationFee)`. ATTr is required ATT that should match.
 
 Implementation 1: 
    1. (BEXACTSC) If CATT is DATT, fail and instruct to use Authenticating DATT.
-   2. (BEXACTSC) If hash(tbd_CVF) does not match the DDS State, returns 'False'.
-   3. (BEXACTSC) If extAC(tbd_CVF) matches extAC(ATTr) using the matching function, if not return 'False'.
+   2. (BEXACTSC) If hash(CVFP) does not match the DDS State, returns 'False'.
+   3. (BEXACTSC) If extAC(CVFP) matches extAC(ATTr) using the matching function, if not return 'False'.
    4. (BEXACTSC) If ATTr is SATT
       4.1 If ATTr is not valid, return 'False'
       4.2 If ATTr is valid, then authorize, go to 7.
@@ -725,8 +725,8 @@ Implementation 1:
 
 Implementation 2:
    1. (BEXACTSC) If CATT is DATT, fail and instruct using Authenticating DATT.
-   2. (Registry) If hash(tbd_CVF) does not match the DDS State, returns 'False'.
-   3. (Registry) If extAC(tbd_CVF) matches extAC(ATTr) using the matching function, if not return 'False'.
+   2. (Registry) If hash(CVFP) does not match the DDS State, returns 'False'.
+   3. (Registry) If extAC(CVFP) matches extAC(ATTr) using the matching function, if not return 'False'.
    4. (Registry) If ATTr is SATT
       4.1 If ATTr is not valid, return 'False'
       4.2 If ATTr is valid, then authorize, go to 7.

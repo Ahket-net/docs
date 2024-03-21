@@ -1,45 +1,44 @@
 # STASH Reference Manual
 
 ## Table of Contents <!-- omit from toc -->
-- [STASH Reference Manual](#markdown-header-stash-reference-manual)
-   - [About STASH](#markdown-header-about-stash)
-   - [STASH Components:](#markdown-header-stash-components)
-      - [Registries](#markdown-header-registries)
-         - [Issuer Registry](#markdown-header-issuer-registry)
-      - [Body of EXACT Smart Contracts (BEXACTSC)](#markdown-header-body-of-exact-smart-contracts-bexactsc)
-         - [EXACT Protocol (EXACTP)](#markdown-header-exact-protocol-exactp)
-            - [Insurance Protocol (Insurance EXACTP)](#markdown-header-insurance-protocol-insurance-exactp)
-               - [Basic Insurance](#markdown-header-basic-insurance)
-               - [Revenue Insurance](#markdown-header-revenue-insurance)
-            - [Registration Protocol (Registration EXACTP)](#markdown-header-registration-protocol-registration-exactp)
-               - [Oblivious Transfer](#markdown-header-oblivious-transfer)
-               - [Exception](#markdown-header-exception)
-            - [Verification Protocol (Verification EXACTP)](#markdown-header-verification-protocol-verification-exactp)
-               - [Ambiguous Result](#markdown-header-ambiguous-result)
-               - [Exception](#markdown-header-exception-1)
-            - [Arbitration Protocol (Arbtiration EXACTP)](#markdown-header-arbitration-protocol-arbtiration-exactp)
-               - [Types of Challenges](#markdown-header-types-of-challenges)
-         - [BEXACTSC](#markdown-header-bexactsc)
-            - [DBN Contract](#markdown-header-dbn-contract)
-            - [Tickets Contract](#markdown-header-tickets-contract)
-            - [Registries Contract](#markdown-header-registries-contract)
-            - [Payments Contract](#markdown-header-payments-contract)
-            - [Arbitration Contract](#markdown-header-arbitration-contract)
-   - [Achieving EXACT Through Financial Enforcement](#markdown-header-achieving-exact-through-financial-enforcement)
-      - [Financial Rewards](#markdown-header-financial-rewards)
-      - [Financial Penalties](#markdown-header-financial-penalties)
-   - [Interacting with STASH](#markdown-header-interacting-with-stash)
-      - [DDS Interactions](#markdown-header-dds-interactions)
-         - [Creating a DDS](#markdown-header-creating-a-dds)
-         - [Changing an existing DDS](#markdown-header-changing-an-existing-dds)
-         - [Verifying a DDS](#markdown-header-verifying-a-dds)
-         - [DDS Arbitration](#markdown-header-dds-arbitration)
-      - [Registry Management Interactions](#markdown-header-registry-management-interactions)
-   - [STASH Accounting](#markdown-header-stash-accounting)
-         - [STASH DBN Treasury](#markdown-header-stash-dbn-treasury)
-         - [STASH DBN Account](#markdown-header-stash-dbn-account)
-
-
+- [STASH Reference Manual](#stash-reference-manual)
+   - [About STASH](#about-stash)
+   - [STASH Components:](#stash-components)
+      - [Registries](#registries)
+         - [Issuer Registry](#issuer-registry)
+      - [Body of EXACT Smart Contracts (BEXACTSC)](#body-of-exact-smart-contracts-bexactsc)
+         - [EXACT Protocol (EXACTP)](#exact-protocol-exactp)
+            - [Insurance Protocol (Insurance EXACTP)](#insurance-protocol-insurance-exactp)
+               - [Basic Insurance](#basic-insurance)
+               - [Revenue Insurance](#revenue-insurance)
+            - [Registration Protocol (Registration EXACTP)](#registration-protocol-registration-exactp)
+               - [Oblivious Transfer](#oblivious-transfer)
+               - [Exception](#exception)
+            - [Verification Protocol (Verification EXACTP)](#verification-protocol-verification-exactp)
+               - [Ambiguous Result](#ambiguous-result)
+               - [Exception](#exception-1)
+            - [Arbitration Protocol (Arbtiration EXACTP)](#arbitration-protocol-arbtiration-exactp)
+               - [Types of Challenges](#types-of-challenges)
+         - [BEXACTSC](#bexactsc)
+            - [DBN Contract](#dbn-contract)
+            - [Tickets Contract](#tickets-contract)
+            - [Registries Contract](#registries-contract)
+            - [Payments Contract](#payments-contract)
+            - [Arbitration Contract](#arbitration-contract)
+   - [Achieving EXACT Through Financial Enforcement](#achieving-exact-through-financial-enforcement)
+      - [Financial Rewards](#financial-rewards)
+      - [Financial Penalties](#financial-penalties)
+   - [Interacting with STASH](#interacting-with-stash)
+      - [DDS Interactions](#dds-interactions)
+         - [Creating a DDS](#creating-a-dds)
+         - [Changing an existing DDS](#changing-an-existing-dds)
+         - [Verifying a DDS](#verifying-a-dds)
+         - [DDS Arbitration](#dds-arbitration)
+      - [Registry Management Interactions](#registry-management-interactions)
+   - [STASH Accounting](#stash-accounting)
+         - [STASH DBN Treasury](#stash-dbn-treasury)
+         - [STASH DBN Account](#stash-dbn-account)
+---
 
 > **Notes About This Document**
 >  Markdown is used. Also, the marker '$' is used to mark latex mathematics and formulas.
@@ -47,7 +46,7 @@
 
 - Related documents:
    - CADET Reference Manual
-      - In which the terms IDS, SK, POA, SIG, DDS, CL, ACL, ATT, SATT, DATT, CATT, CVF, tbd_CVF, ATTP, and others are defined.
+      - In which the terms IDS, SK, POA, SIG, DDS, CL, ACL, ATT, SATT, DATT, CATT, CVF, CVFP, ATTP, and others are defined.
 
 ## About STASH
 SATSH stands for _System for Truthful and Accountable Secrets-Holding_. It is the underlying system created and used by Ahket Inc. It is responsible for the creation, update, management, and verification of a DDS.

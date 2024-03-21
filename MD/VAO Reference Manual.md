@@ -1,18 +1,28 @@
 # VAO Reference Manual
 
 ## Table of Contents <!-- omit from toc -->
-- [VAO Reference Manual](#markdown-header-vao-reference-manual)
-   - [VAO's Glossary Peculiarities](#markdown-header-vaos-glossary-peculiarities)
-      - [Simple Attestation is SATT](#markdown-header-simple-attestation-is-satt)
-      - [Rewarding Attestation is DATT](#markdown-header-rewarding-attestation-is-datt)
-      - [Attestation Owner in VAO](#markdown-header-attestation-owner-in-vao)
-      - [Points](#markdown-header-points)
-      - [Points Redemption Rate (PRR)](#markdown-header-points-redemption-rate-prr)
-   - [VAO Operation](#markdown-header-vao-operation)
-      - [Creating and Verifying Attestations](#markdown-header-creating-and-verifying-attestations)
-   - [Ahket Inc Revenue](#markdown-header-ahket-inc-revenue)
-   - [Access to Ahket's STASH](#markdown-header-access-to-ahkets-stash)
+- [VAO Reference Manual](#vao-reference-manual)
+   - [About VAO](#about-vao)
+   - [VAO's Glossary Peculiarities](#vaos-glossary-peculiarities)
+      - [Simple Attestation](#simple-attestation)
+      - [Rewarding Attestation](#rewarding-attestation)
+      - [Attestation Owner in VAO](#attestation-owner-in-vao)
+      - [Points](#points)
+      - [Points Redemption Rate (PRR)](#points-redemption-rate-prr)
+   - [VAO Operation](#vao-operation)
+      - [Creating and Verifying Attestations](#creating-and-verifying-attestations)
+   - [Ahket Inc Revenue](#ahket-inc-revenue)
+   - [Access to Ahket's STASH](#access-to-ahkets-stash)
 
+---
+
+- Related documents:
+   - CADET Reference Manual
+      - In which the terms IDS, SK, POA, SIG, DDS, CL, ACL, ATT, SATT, DATT, CATT, CVF, CVFP, ATTP, and others are defined.
+   - STASH Reference Manual
+   - VAO User Manual
+
+## About VAO
 VAO is a WEB2 webapp of Ahket, that is:
 - built on top of STASH.
 - the interface between Ahket's users and STASH. It isolates the users from STASH complexity.
@@ -23,12 +33,13 @@ VAO is a WEB2 webapp of Ahket, that is:
 ## VAO's Glossary Peculiarities
 VAO uses different and simpler terms than those used in the CADET and STASH Reference Manuals.
 
-### Simple Attestation is SATT
-
+### Simple Attestation
+Simple Attestation corresponds to SATT.
 This attestation does not generate any revenue to the issuer. When a VAO user creates a Simple Attestation, VAO creates a SATT, and when a VAO user verifies a Simple Attestation, VAO verifies the SATT.
 
-### Rewarding Attestation is DATT
+### Rewarding Attestation
 
+Rewarding Attestation corresponds to DATT.
 Based on the pricing, we have two subtypes:
 - *Individual-Price* Rewarding Attestation
    - A user can create, amend and verify Single-Price Attestations if the user's APB holds enough APs to cover the STASH fees.

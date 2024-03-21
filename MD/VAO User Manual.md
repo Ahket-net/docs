@@ -1,11 +1,19 @@
 # VAO User Manual
 
 ## Table of Contents <!-- omit from toc -->
-- [VAO User Manual](#markdown-header-vao-user-manual)
-   - [Product Overview](#markdown-header-product-overview)
-      - [Key Benefits](#markdown-header-key-benefits)
-      - [Other Standout Features](#markdown-header-other-standout-features)
-   - [Manual](#markdown-header-manual)
+- [VAO User Manual](#vao-user-manual)
+   - [Product Overview](#product-overview)
+      - [Key Benefits](#key-benefits)
+      - [Other Standout Features](#other-standout-features)
+   - [Manual](#manual)
+
+---
+
+- Related documents:
+   - CADET Reference Manual
+      - In which the terms IDS, SK, POA, SIG, DDS, CL, ACL, ATT, SATT, DATT, CATT, CVF, CVFP, ATTP, and others are defined.
+   - STASH Reference Manual
+   - VAO Reference Manual
 
 ## Product Overview
 
