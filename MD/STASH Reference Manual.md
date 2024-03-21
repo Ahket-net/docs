@@ -103,30 +103,30 @@ The RID is the sum of two quantities: "Basic Insurance" and "Revenue Insurance".
 
 ###### Revenue Insurance
 This component is calculated from the "Cumulative Future Revenue" (CFR) generated from a DDS. CFR of a DDS is an estimate of the future revenue that DDS owner expects from a DDS based on "Adjusted Cumulative Past Revenue" (jCPR). jCPR is continuously calculated as follows:
-   - When a DDS is created at $ t_0 $, $ jCPR(t_0) = 0 $
-   - When a DDS is verified at time $ t_n $:
-      $ jCPR(t_n) = jCPR(t_{n-1}) \times 2^{(-(t_n - t_{n-1})/T_H)} + R(t_n) $, where
-         - $ t_{n-1} $ is the last verification time before $ t_n $, or $ t_0 $ if there were no verifications before.
-         - $ R(t_n) $ is the DDS owner's revenue (reward) from verification at $ t_n $.
-         - $ T_H $ is a time constant that determines the discount of previous returns over time—which we call the Owner Reward Half Time. I.e., the value of jCPR of a DDS will be halfed after $ T_H $ time.
-   - At any point of time $  t_n ={ t { t_{n+1} $,
-         - $ jCPR(t) = jCPR(t_n) \times 2^{(-(t - t_n)/T_H)} $
+   - When a DDS is created at $t_0$, $jCPR(t_0) = 0$
+   - When a DDS is verified at time $t_n$:
+      $jCPR(t_n) = jCPR(t_{n-1}) \times 2^{(-(t_n - t_{n-1})/T_H)} + R(t_n)$, where
+         - $t_{n-1}$ is the last verification time before $t_n$, or $t_0$ if there were no verifications before.
+         - $R(t_n)$ is the DDS owner's revenue (reward) from verification at $t_n$.
+         - $ T_H $ is a time constant that determines the discount of previous returns over time—which we call the Owner Reward Half Time. I.e., the value of jCPR of a DDS will be halved after $T_H$ time.
+   - At any point of time $t_n =< t < t_{n+1}$,
+         - $jCPR(t) = jCPR(t_n) \times 2^{(-(t - t_n)/T_H)}$
 
 The CFR is calculated as follows:
-   - $ CFR(t) = RHI \times jCPR(t) $
+   - $CFR(t) = RHI \times jCPR(t)$
       where RHI is some predefined multiplier (most probably is set to 100%) that determines the amount of jCPR that is covered when a loss occurs.
 The insured value of a DDS at time $t$ is its $CFR(t)$.
 
-The "Registry Cumulative Future Revenue" (RCFR) of a Registry is the sum of the RCFs of all the DDSs held in the Registry at time $ t $. It is calculated from the "Registry Adjusted Cumulative Past Revenue" (RjCPR), which is the total sum of the $ jCPR(t) $ values of all the held DDSs. Therefore,
+The "Registry Cumulative Future Revenue" (RCFR) of a Registry is the sum of the RCFs of all the DDSs held in the Registry at time $t$. It is calculated from the "Registry Adjusted Cumulative Past Revenue" (RjCPR), which is the total sum of the $jCPR(t)$ values of all the held DDSs. Therefore,
    - $RCFR(t) =  RHI \times RjCPR(t)$
 
 RjCPR can be calculated in a more efficient way as follows:
    - When the registry is created at $t_0$, $RjCPR(t_0) = 0$
    - When any DDS is verified at time $t_n$, its $RjCPR$ changes as follows: 
       $RjCPR(t_n) = RjCPR(t_{n-1}) \times 2^{(-(t_n - t_{n-1})/T_H)} + R(t_n)$, where
-         - t_{n-1} is the last verification time before $t_n$, or $t_0$ if there were no verifications before,
-         - $ R(t_n)=DDSP$, from the verification VerificationFee at time $ t_n $,
-   - At any point of time $ t $, such that $t_n =< t < t_{n+1}$,
+         - $t_{n-1}$ is the last verification time before $t_n$, or $t_0$ if there were no verifications before,
+         - $R(t_n)=DDSP$, from the verification VerificationFee at time $t_n$,
+   - At any point of time $t$, such that $t_n =< t < t_{n+1}$,
       $RjCPR(t) = RjCPR(t_n) \times 2^{(-(t - t_n)/T_H)}$
 
 For any Registry that is not an Issuer Registry, RID at any time $t$ must be greater than the sum of the required Basic and Revenue Insurances. That is,
@@ -158,7 +158,7 @@ If a DDS is generating no revenue, as in the case DDSP is zero, only the Basic I
 This protocol describes the process of creating or updating a DDS in Registries. The protocol is to uphold the EXclusivity Assurance to by making preventing the leak of the held SIG to the public.
 
 ###### Oblivious Transfer
-Since a leak of a SIG could be from, either, the signer of that DDS or the Registry, it is importatn to identify the culprit when a leak occurs. To do so, a Zero-Knowledge cryptographic technique called 1-n Oblivious Transfer (1-nOT) is used. 
+Since a leak of a SIG could be from, either, the signer of that DDS or the Registry, it is important to identify the culprit when a leak occurs. To do so, a Zero-Knowledge cryptographic technique called 1-n Oblivious Transfer (1-nOT) is used. 
 This is required in the communication between the DDS signer and the Registry, which is not recorded on the blockchain.
 
 Specifications:

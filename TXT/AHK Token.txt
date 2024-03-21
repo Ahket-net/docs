@@ -1,5 +1,6 @@
 # AHK Token
 
+## Table of Contents <!-- omit from toc -->
 - [AHK Token](#markdown-header-ahk-token)
    - [AHK Token Overview](#markdown-header-ahk-token-overview)
    - [Interaction with STASH DBN Treasury](#markdown-header-interaction-with-stash-dbn-treasury)
