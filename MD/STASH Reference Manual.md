@@ -109,8 +109,8 @@ This component is calculated from the "Cumulative Future Revenue" (CFR) generate
          - $t_{n-1}$ is the last verification time before $t_n$, or $t_0$ if there were no verifications before.
          - $R(t_n)$ is the DDS owner's revenue (reward) from verification at $t_n$.
          - $ T_H $ is a time constant that determines the discount of previous returns over time—which we call the Owner Reward Half Time. I.e., the value of jCPR of a DDS will be halved after $T_H$ time.
-   - At any point of time $t_n =< t < t_{n+1}$,
-         - $jCPR(t) = jCPR(t_n) \times 2^{(-(t - t_n)/T_H)}$
+   - At any point of time $t_n =< t < t_{n+1}$, 
+      - $jCPR(t) = jCPR(t_n) \times 2^{(-(t - t_n)/T_H)}$
 
 The CFR is calculated as follows:
    - $CFR(t) = RHI \times jCPR(t)$

@@ -15,7 +15,7 @@
    - [Claim (CL):](#markdown-header-claim-cl)
    - [Attested Claim (ACL)](#markdown-header-attested-claim-acl)
    - [Claim Verification Form (CVF)](#markdown-header-claim-verification-form-cvf)
-      - [Claim Verification Form Prototype (CVF$)](#markdown-header-claim-verification-form-prototype-cvf)
+      - [Claim Verification Form Prototype (tbd\_CVF)](#markdown-header-claim-verification-form-prototype-tbd_cvf)
    - [Attestation (ATT)](#markdown-header-attestation-att)
    - [ATT Package (ATTP):](#markdown-header-att-package-attp)
    - [Examples](#markdown-header-examples)
@@ -128,7 +128,7 @@ DDS Record and STASH:
                - Authorized is an implicit attestation by the signer at a specific date "is authorizing STASH to verify through DDS."
             - `Unauthorized`: The DDS cannot be used for verification.
                - Unauthorized is an implicit attestation by the signer at a specific date "is deauthorizing STASH to verify through DDS."
-            - `ConditionalAuthorization`: The DDS can be used for verification if some conditions satisfied. The condition is described using a special Claim Verification Form Prototype (see CVF$ below). In this case, the DDS is a "conditional DDS" (CDDS).
+            - `ConditionalAuthorization`: The DDS can be used for verification if some conditions satisfied. The condition is described using a special Claim Verification Form Prototype (see tbd_CVF below). In this case, the DDS is a "conditional DDS" (CDDS).
                - `ConditionalAuthorization` is an implicit attestation by the signer at a specific date "is authorizing STASH to verify through DDS provided that certain condition is satisfied."
          - Because of events are recorded at the time of the signer request, the DDS is strongly timestamped by STASH.
       - `Owner`: An entity that earns a portion of the fees paid during verification to STASH. We call the owner of DDS the `DDS owner` or `DDSO`.
@@ -155,7 +155,7 @@ DDS Record and STASH:
 **SimplePresentation**: 
 Is the concatenation of `DDS` and `ID` number. E.g., `DDS01A9F943` for `ID=01A9F943`.
    - In case of conditional DDS, a suffix `?ConditionalAuthorization` is added at the end.
-      - E.g., `DDS1034EB57 ?CVF(\Driver License of {name:$VERIFIER} who lives in {address:$IGNORE}\MD_DMV/, $VTIME)`.
+      - E.g., `DDS1034EB57 ?CVF(\Driver License of {name:tbd_VERIFIER} who lives in {address:tbd_IGNORE}\MD_DMV/, tbd_VTIME)`.
 
 
 ## Claim Template (CLT)
@@ -284,7 +284,7 @@ Components:
       "FormalText": {
          "type": "string",
          "description": "Full representation of Simple Purchase Agreement",
-         "const": "Simple Purchase Agreement \n Seller:{seller:string}\n Buyer:{buyer:string} \n Item:{item:string} \n Price:${price:number} \n Date of Purchase:{date:date}.\n Additional Terms: {additionalTerms:string}"
+         "const": "Simple Purchase Agreement \n Seller:{seller:string}\n Buyer:{buyer:string} \n Item:{item:string} \n Price:{price:number} \n Date of Purchase:{date:date}.\n Additional Terms: {additionalTerms:string}"
       }
    },
    "required": ["variables", "SimplePresentation"]
@@ -400,24 +400,24 @@ CVF = define(CL,IDS,TT)
 - Is the form `CVF(SimplePresentation of ACL, TT)`. 
 - Example: `CVF(\Driver License of {name:Jane Doe} who lives in {address:120 Amber St., Baltimore, MD} \MD_DMV/, Dec 20, 2022)`.
 
-### Claim Verification Form Prototype (CVF$)
+### Claim Verification Form Prototype (tbd_CVF)
 
 Description: 
-Is a special form of CVF, where some of its variable values are special *placeholders* whose actual values would be known at verification time; i.e., when using `POA.verify(CVF.CL,CVF.TT)`. A CVF$ is used to define a group of VFs that match the placeholders.
+Is a special form of CVF, where some of its variable values are special *placeholders* whose actual values would be known at verification time; i.e., when using `POA.verify(CVF.CL,CVF.TT)`. A tbd_CVF is used to define a group of VFs that match the placeholders.
 
-The following are the only allowed placeholders to be used in CVF$.
-   - `$VERIFIER`: Will be replaced with the IDS of the verifier.
-   - `$VTIME`: Will be replaced with the verification time.
-   - `$ISSUER`: Will be replaced with the POA.IDS.
-   - `$HOLDER`: Will be replaced with the POA.Holder.
-   - `$OWNER`: Will be replaced with the POA.Owner.
-   - `$IGNORE`: Means that the variable can take any value.
+The following are the only allowed placeholders to be used in tbd_CVF.
+   - `tbd_VERIFIER`: Will be replaced with the IDS of the verifier.
+   - `tbd_VTIME`: Will be replaced with the verification time.
+   - `tbd_ISSUER`: Will be replaced with the POA.IDS.
+   - `tbd_HOLDER`: Will be replaced with the POA.Holder.
+   - `tbd_OWNER`: Will be replaced with the POA.Owner.
+   - `tbd_IGNORE`: Means that the variable can take any value.
 
-Example: `CVF(Driver License of {name:$VERIFIER} who lives in {address:$IGNORE} \MD_DMV/, $VTIME)`.
+Example: `CVF(Driver License of {name:tbd_VERIFIER} who lives in {address:tbd_IGNORE} \MD_DMV/, tbd_VTIME)`.
 
 Use: 
-- `matchVFPrototype(CVF$,CVF)` checks if CVF values match those in the CVF$; if so, it will return `True`, otherwise `False`. 
-   - Example: If CVF$ is `CVF(\Driver License of {name:$VERIFIER} who lives in {address:$IGNORE} \MD_DMV/, $VTIME)`, then CVF `CVF(\Driver License of {name:verifierIDS} who lives in {address:120 Amber St., Baltimore, MD} \MD_DMV/, Dec 20, 2022)` will be a `True` match if the `verifierIDS` is the actual verifier and Dec 20, 2022 is the verification time. It does not matter whatever the address is.
+- `matchVFPrototype(tbd_CVF,CVF)` checks if CVF values match those in the tbd_CVF; if so, it will return `True`, otherwise `False`. 
+   - Example: If tbd_CVF is `CVF(\Driver License of {name:tbd_VERIFIER} who lives in {address:tbd_IGNORE} \MD_DMV/, tbd_VTIME)`, then CVF `CVF(\Driver License of {name:verifierIDS} who lives in {address:120 Amber St., Baltimore, MD} \MD_DMV/, Dec 20, 2022)` will be a `True` match if the `verifierIDS` is the actual verifier and Dec 20, 2022 is the verification time. It does not matter whatever the address is.
 
 
 ## Attestation (ATT)
@@ -494,7 +494,7 @@ Components:
 
 ### Example 1: 
 
-`\Car Purchase Agreement for a  {car:Toyota Camry} {VIN#:123456789ABCDEF }between {seller:Jack} and {buyer:John} \Jack[DDS12345XYZ ?CVF(\Approval from {name:Jack's Wife} \Jack's Wife/,$IGNORE): Authenticated by Sid}] + John[SIG67890ABC:Authenticated by Tim]/` is a representation of an agreement for the purchase of a Toyota Camry, with a specific VIN number, between the seller Jack and the buyer John. Jack's part of the agreement is backed by a DDS (DDS12345XYZ) which is conditional upon the approval from Jack's wife. DDS12345XYZ has been verified as valid by someone named Sid. The agreement also includes John's part, supported by his digital signature (SIG67890ABC), which has been verified as valid by someone named Tim. The agreement effectively uses a composite structure to integrate multiple ACs (from Jack, Jack's wife, and John) into a single document.
+`\Car Purchase Agreement for a  {car:Toyota Camry} {VIN#:123456789ABCDEF }between {seller:Jack} and {buyer:John} \Jack[DDS12345XYZ ?CVF(\Approval from {name:Jack's Wife} \Jack's Wife/,tbd_IGNORE): Authenticated by Sid}] + John[SIG67890ABC:Authenticated by Tim]/` is a representation of an agreement for the purchase of a Toyota Camry, with a specific VIN number, between the seller Jack and the buyer John. Jack's part of the agreement is backed by a DDS (DDS12345XYZ) which is conditional upon the approval from Jack's wife. DDS12345XYZ has been verified as valid by someone named Sid. The agreement also includes John's part, supported by his digital signature (SIG67890ABC), which has been verified as valid by someone named Tim. The agreement effectively uses a composite structure to integrate multiple ATCs (from Jack, Jack's wife, and John) into a single document.
 
 ReaderFriendlyFormat:
 ```
@@ -506,11 +506,11 @@ ATT - Car Purchase Agreement:
 Attested by:
    Jack[POA ID: DDS12345XYZ] 
    Requires:
-      CVF$ - Approval
+      tbd_CVF - Approval
          Name: Jack's Wife
       Attested by:
          Jack's Wife
-      Target Time: $IGNORE 
+      Target Time: tbd_IGNORE 
    Authenticationd by: Sid
 Attested by:
    John [POA ID: SIG67890ABC]
@@ -704,20 +704,20 @@ BEXACTSC: Means to be handled by BEXACTSC (see STASH Reference Manual).
 Registry: Means to be handled by the right STASH's Registry (see STASH Reference Manual).
 
 ### Authenticating CATT
-By using `CATTAuthentication(TT,CATT,ATr; VerificationFee)`, which is the same as `CATTAuthentication(TT,ACL,DDS?CVF$, ATr; VerificationFee)`. ATr is required ATT that should match.
+By using `CATTAuthentication(TT,CATT,ATTr; VerificationFee)`, which is the same as `CATTAuthentication(TT,ACL,DDS?tbd_CVF, ATTr; VerificationFee)`. ATTr is required ATT that should match.
 
 Implementation 1: 
    1. (BEXACTSC) If CATT is DATT, fail and instruct to use Authenticating DATT.
-   2. (BEXACTSC) If hash(CVF$) does not match the DDS State, returns 'False'.
-   3. (BEXACTSC) If extAC(CVF$) matches extAC(ATr) using the matching function, if not return 'False'.
-   4. (BEXACTSC) If ATr is SATT
-      4.1 If ATr is not valid, return 'False'
-      4.2 If ATr is valid, then authorize, go to 7.
-   5. (BEXACTSC) If ATr is DATT
-      5.1 If extDDS(ATr)== DDS, go to 7.
-      5.2 Check if extDDS(ATr) is authorized. If not, return 'False'.
-      5.3 Rely on Registry to Authentication ATr.
-   6. (Registry) check if ATr is valid. DATAuthentication(TT$,ATr)
+   2. (BEXACTSC) If hash(tbd_CVF) does not match the DDS State, returns 'False'.
+   3. (BEXACTSC) If extAC(tbd_CVF) matches extAC(ATTr) using the matching function, if not return 'False'.
+   4. (BEXACTSC) If ATTr is SATT
+      4.1 If ATTr is not valid, return 'False'
+      4.2 If ATTr is valid, then authorize, go to 7.
+   5. (BEXACTSC) If ATTr is DATT
+      5.1 If extDDS(ATTr)== DDS, go to 7.
+      5.2 Check if extDDS(ATTr) is authorized. If not, return 'False'.
+      5.3 Rely on Registry to Authentication ATTr.
+   6. (Registry) check if ATTr is valid. DATAuthentication(tbd_TT,ATTr)
       - If not valid, return 'False'.
    7. (Registry) check if you hold the '\ extCL(CATT) \ extIDS(CATT)[SIG] /'.
       7.1 If true, return 'True'.
@@ -725,16 +725,16 @@ Implementation 1:
 
 Implementation 2:
    1. (BEXACTSC) If CATT is DATT, fail and instruct using Authenticating DATT.
-   2. (Registry) If hash(CVF$) does not match the DDS State, returns 'False'.
-   3. (Registry) If extAC(CVF$) matches extAC(ATr) using the matching function, if not return 'False'.
-   4. (Registry) If ATr is SATT
-      4.1 If ATr is not valid, return 'False'
-      4.2 If ATr is valid, then authorize, go to 7.
-   5. (Registry) If ATr is DATT
-      5.1 If extDDS(ATr)== DDS, go to 7. // "Circular conditional authorization" intended to match format only.
-      5.2 Check if extDDS(ATr) is authorized. If not, return 'False'.
-      5.3 Rely on Registry to Authentication ATr.
-   6. (Registry) check if ATr is valid. DATAuthentication(TT$,ATr)
+   2. (Registry) If hash(tbd_CVF) does not match the DDS State, returns 'False'.
+   3. (Registry) If extAC(tbd_CVF) matches extAC(ATTr) using the matching function, if not return 'False'.
+   4. (Registry) If ATTr is SATT
+      4.1 If ATTr is not valid, return 'False'
+      4.2 If ATTr is valid, then authorize, go to 7.
+   5. (Registry) If ATTr is DATT
+      5.1 If extDDS(ATTr)== DDS, go to 7. // "Circular conditional authorization" intended to match format only.
+      5.2 Check if extDDS(ATTr) is authorized. If not, return 'False'.
+      5.3 Rely on Registry to Authentication ATTr.
+   6. (Registry) check if ATTr is valid. DATAuthentication(tbd_TT,ATTr)
       - If not valid, return 'False'.
    7. (Registry) check if you hold the `\ extCL(CATT) \extIDS(CATT)[SIG]/`.
       7.1 If true, return 'True'.
@@ -742,10 +742,10 @@ Implementation 2:
 
 
    Example of "circular conditional authorization":
-      CATT = `\ ID {Name: Jane Doe} {Expiration Date: Oct 12,2024} \IDS_gov[DDSid? CVF(\ ID {Name:$IGNORE} {Expiration Date:::}}$VTIME} \IDS_gov/, $VTIME )]/` 
+      CATT = `\ ID {Name: Jane Doe} {Expiration Date: Oct 12,2024} \IDS_gov[DDSid? CVF(\ ID {Name:tbd_IGNORE} {Expiration Date:::}}tbd_VTIME} \IDS_gov/, tbd_VTIME )]/` 
       Authentication as follows:
-         `CDATAuthentication(VTIME, ACL, DDSid?CVF(\ ID {Name:$IGNORE} {Expiration Date:::}}$VTIME} \IDS_gov/, $VTIME), \ ID {Name: Jane Doe} {Expiration Date: Oct 12,2024} \IDS_gov[DDSid]/; VerificationFee)`
-      Note that the rAT is the same as the original CATT, which is a circular condition. In this case, the rAT will be considered authenticated, so that we benefit from the matching of the CVF Prototype `CVF(\ ID {Name:$IGNORE} {Expiration Date:::}}$VTIME} \IDS_gov/, $VTIME )`. The matching makes sure that the verification time is prior to the expiration date. Otherwise, the DDS will be unauthorized.
+         `CDATAuthentication(VTIME, ACL, DDSid?CVF(\ ID {Name:tbd_IGNORE} {Expiration Date:::}}tbd_VTIME} \IDS_gov/, tbd_VTIME), \ ID {Name: Jane Doe} {Expiration Date: Oct 12,2024} \IDS_gov[DDSid]/; VerificationFee)`
+      Note that the rAT is the same as the original CATT, which is a circular condition. In this case, the rAT will be considered authenticated, so that we benefit from the matching of the CVF Prototype `CVF(\ ID {Name:tbd_IGNORE} {Expiration Date:::}}tbd_VTIME} \IDS_gov/, tbd_VTIME )`. The matching makes sure that the verification time is prior to the expiration date. Otherwise, the DDS will be unauthorized.
       In this example, we can check that the VTIME is before the expiration date, without having to change authorization at the expiration date.
 
 ## Validation of ATTP
