@@ -2,7 +2,7 @@
 
 - Related documents:
    - CADET Reference Manual
-      - In which the terms IDS, SK, POA, SIG, DDS, CL, AC, AT, SAT, DAT, VF, VFP, ATP, and others are defined.
+      - In which the terms IDS, SK, POA, SIG, DDS, CL, ACL, ATT, SATT, DATT, CATT, CVF, CVFP, ATTP, and others are defined.
 
 ## Overview
 
