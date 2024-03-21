@@ -47,7 +47,7 @@
 
 - Related documents:
    - CADET Reference Manual
-      - In which the terms IDS, SK, POA, SIG, DDS, CL, ACL, ATT, SATT, DATT, CATT, CVF, CVF$, ATTP, and others are defined.
+      - In which the terms IDS, SK, POA, SIG, DDS, CL, ACL, ATT, SATT, DATT, CATT, CVF, tbd_CVF, ATTP, and others are defined.
 
 ## STASH (System for Truthful and Accountable Secrets-Holding)
 - STASH is the underlying system created and used by Ahket Inc. It is responsible for the creation, update, management, and verification of a DDS.
@@ -106,15 +106,15 @@ This component is calculated from the "Cumulative Future Revenue" (CFR) generate
    - When a DDS is created at $t_0$, $jCPR(t_0) = 0$
    - When a DDS is verified at time $t_n$:
       $jCPR(t_n) = jCPR(t_{n-1}) \times 2^{(-(t_n - t_{n-1})/T_H)} + R(t_n)$, where
-         - $t_{n-1}$ is the last verification time before $t_n$, or $t_0$ if there were no verifications before.
-         - $R(t_n)$ is the DDS owner's revenue (reward) from verification at $t_n$.
-         - $ T_H $ is a time constant that determines the discount of previous returns over time—which we call the Owner Reward Half Time. I.e., the value of jCPR of a DDS will be halved after $T_H$ time.
+      - $t_{n-1}$ is the last verification time before $t_n$, or $t_0$ if there were no verifications before.
+      - $R(t_n)$ is the DDS owner's revenue (reward) from verification at $t_n$.
+      - $T_H$ is a time constant that determines the discount of previous returns over time—which we call the Owner Reward Half Time. I.e., the value of jCPR of a DDS will be halved after $T_H$ time.
    - At any point of time $t_n =< t < t_{n+1}$, 
       - $jCPR(t) = jCPR(t_n) \times 2^{(-(t - t_n)/T_H)}$
 
 The CFR is calculated as follows:
    - $CFR(t) = RHI \times jCPR(t)$
-      where RHI is some predefined multiplier (most probably is set to 100%) that determines the amount of jCPR that is covered when a loss occurs.
+      - where RHI is some predefined multiplier (most probably is set to 100%) that determines the amount of jCPR that is covered when a loss occurs.
 The insured value of a DDS at time $t$ is its $CFR(t)$.
 
 The "Registry Cumulative Future Revenue" (RCFR) of a Registry is the sum of the RCFs of all the DDSs held in the Registry at time $t$. It is calculated from the "Registry Adjusted Cumulative Past Revenue" (RjCPR), which is the total sum of the $jCPR(t)$ values of all the held DDSs. Therefore,
@@ -124,8 +124,8 @@ RjCPR can be calculated in a more efficient way as follows:
    - When the registry is created at $t_0$, $RjCPR(t_0) = 0$
    - When any DDS is verified at time $t_n$, its $RjCPR$ changes as follows: 
       $RjCPR(t_n) = RjCPR(t_{n-1}) \times 2^{(-(t_n - t_{n-1})/T_H)} + R(t_n)$, where
-         - $t_{n-1}$ is the last verification time before $t_n$, or $t_0$ if there were no verifications before,
-         - $R(t_n)=DDSP$, from the verification VerificationFee at time $t_n$,
+      - $t_{n-1}$ is the last verification time before $t_n$, or $t_0$ if there were no verifications before,
+      - $R(t_n)=DDSP$, from the verification VerificationFee at time $t_n$,
    - At any point of time $t$, such that $t_n =< t < t_{n+1}$,
       $RjCPR(t) = RjCPR(t_n) \times 2^{(-(t - t_n)/T_H)}$
 
@@ -140,9 +140,9 @@ When a Registry is challenged or penalized (See the Arbitration Protocol) at tim
    $RID(t_n) = RID(t_{n-1}) - CP(t)$
 
 A Registry can withdraw an amount $w(t)$ at any time $t$ from the RID with the following limitation:
-   $w(t) < RID(t) - BI(t) - k \times RCF(t)$.
-   - This is the Registry's insurance surplus, or profit.
-   - Because of the half-time effect, $w(t)$ will increase with time if there are no verification activities.
+   - $w(t) < RID(t) - BI(t) - k \times RCF(t)$.
+      - This is the Registry's insurance surplus, or profit.
+      - Because of the half-time effect, $w(t)$ will increase with time if there are no verification activities.
 
 A Registry can create a DDS for a DDS signer, it must have sufficient RID to do so. 
    - A Registry can create the DDS if the following condition is true:
