@@ -44,3 +44,23 @@
       - Reaching healthy number of use of VAO, and the number of users that are actively using it.
       - The appetite of the market for WEB3 solutions. Such in the case that the crypto market is growing with more adoption.
    - Transition to Phase 3 will be decided after confirming the stability of Phase 2 for some period of time with healthy growth in the number of active users.
+
+
+The equation for a geometric series can be expressed in a couple of key ways, depending on whether you're dealing with a finite or infinite geometric series.
+
+1. **Finite Geometric Series**: The sum \( S \) of the first \( n \) terms of a geometric series can be calculated using the formula:
+   \[
+   S = a + ar + ar^2 + \cdots + ar^{n-1} = \frac{a(1 - r^n)}{1 - r}
+   \]
+   where:
+   - \( a \) is the first term of the series,
+   - \( r \) is the common ratio between consecutive terms, and
+   - \( n \) is the number of terms.
+
+2. **Infinite Geometric Series**: If a geometric series has an infinite number of terms and the absolute value of the common ratio \( r \) is less than 1 (\(|r| < 1\)), then the sum \( S \) of the series converges to:
+   \[
+   S = \frac{a}{1 - r}
+   \]
+   This formula applies only when the series is convergent, meaning \( |r| < 1 \).
+
+These formulas provide a compact way to sum geometric series, which are a fundamental concept in algebra and calculus, with applications in various areas of mathematics and science.
