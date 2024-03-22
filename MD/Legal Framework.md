@@ -1,7 +1,7 @@
 # Legal Framework
 
 - [Legal Framework](#legal-framework)
-   - [Overview](#overview)
+   - [Introduction](#introduction)
    - [AT as an Executed Document](#at-as-an-executed-document)
       - [Digital Signature (SIG)](#digital-signature-sig)
          - [Signature Block](#signature-block)
@@ -13,16 +13,16 @@
 ---
 - Related documents:
    - CADET Reference Manual
-      - In which the terms IDS, SK, POA, SIG, DDS, CL, ACL, ATT, SATT, DATT, CATT, CVF, CVFP, ATTP, and others are defined.
+      - In which the terms IDS, SK, POA, SIG, DDS, CL, ACL, ATT, SATTT, DATT, CATT, CVF, CVFP, ATTP, and others are defined.
 
-## Overview
+## Introduction
 
 The legal framework outlined in the document mainly discusses the legal aspects of CADET (Cryptographic Attestation Documentation and Evidence Technology), focusing on attestations, digital signatures, and contracts.
 
 ## AT as an Executed Document
 
-The legality of a SAT, described as `\ Claim \IDS[SIG]/`, depends on the claim. A SAT represens an "executed document", and the type of the executed document depends on the context of the claim. We can consider two types of claims here: attestation and agreement.
-When a claim is digitally signed by one, or more, entity, it is actually an executed document. For simplicity, we will mostly discuss an AT, but the discussion applies to composite SAT as well.
+The legality of a SATT, described as `\ Claim \IDS[SIG]/`, depends on the claim. A SATT represents an "executed document", and the type of the executed document depends on the context of the claim. We can consider two types of claims here: attestation and agreement.
+When a claim is digitally signed by one, or more, entity, it is actually an executed document. For simplicity, we will mostly discuss an AT, but the discussion applies to composite SATT as well.
 
 ### Digital Signature (SIG)
 
@@ -66,7 +66,7 @@ The signature block is a critical component, as it symbolizes the parties' agree
 
 ## Claim's Boilerplate Clauses
 
-Every Claim Template is advised to have its "boilerplate clause". We consider two cases here: Attestation Document and Conatract, and we suggest the boilerplate clause that must be part of the CT's `FormalText`.
+Every Claim Template is advised to have its "boilerplate clause". We consider two cases here: Attestation Document and Contract, and we suggest the boilerplate clause that must be part of the CT's `FormalText`.
 
 ### Case 1: Attestation Document
 
@@ -74,7 +74,7 @@ In this case, the boilerplate clause is the "Attestation Clause" (AttestationCla
 
 AttestationClause = '''I, [IDS], hereby attest and affirm that the statement provided herein, along with all associated attachments and exhibits, including digital files, are true and accurate to the best of my knowledge and belief. The attachments are identified as follows: [List Attachments with Descriptions or Identifiers]. This attestation is made on [Date].'''
 
-Therefore, the CT of a SAT should have this AttestationClause as part of its CL.
+Therefore, the CT of a SATT should have this AttestationClause as part of its CL.
 
 ### Case 2: Contract
 
@@ -94,8 +94,10 @@ AcknowledgmentandAgreement = '''The parties to this agreement, hereby acknowledg
 
 Digitally Signed:
 
+```
 [Party 1 Digital Signature]     Date: [____/____/____]
-[Party 2 Digital Signature]     Date: [____/____/____]'''
+[Party 2 Digital Signature]     Date: [____/____/____]
+```
 
 Legally, the "Acknowledgment and Agreement" section in a binding legal document, such as a contract, serves a few specific purposes:
 
@@ -112,14 +114,19 @@ Legally, the "Acknowledgment and Agreement" section in a binding legal document,
 In essence, the "Acknowledgment and Agreement" section is a critical component of legal documents, ensuring that all parties are aware of, and agree to, the terms and conditions they are committing to.
 
 ## DDS and CDDS
-The basic principal in CADET is the SAT as it represents an executed document. However, when the signer of the SAT decides to convert it to a DDS and CDDS, the signer is entrusting a Registry to 1) store the SIG part of the SAT in a private storage, and 2) authorizing the Registry to answer requests to verify the authenticity of the AC of the SAT. The process of creating the DDS (or CDDS) for the first time includes the following SAT:
+
+The basic principle in CADET is the SATT as it represents an executed document. However, when the signer of the SATT decides to convert it to a DDS and CDDS, the signer is entrusting a Registry to 1) store the SIG part of the SATT in a private storage, and 2) authorizing the Registry to answer requests to verify the authenticity of the ACL of the SATT. The process of creating the DDS (or CDDS) for the first time includes the following SATT:
+
 `\ I, [IDS], hereby grant authorization to Registry [RegistryID] to validate and authenticate the attested claim linked with the Delegated Digital Signature [DDS.ID] on [date]. \ IDS [SIG]/`
 
-Whenever the signer would like to disable the authenticaion, it will use the following SAT:
+Whenever the signer would like to disable the authentication, it will use the following SATT:
+
 `\ I, [IDS], hereby revoke and nullify any previous authorization to Registry [RegistryID] to validate and authenticate the attested claim linked with the Delegated Digital Signature [DDS.ID] on [date], irrespective of any prior authorizations granted, revoked, or otherwise altered. This authorization supersedes and renders null any previous directives to the contrary. \ IDS [SIG]/`
 
-The signer can reauthorize again using the following SAT:
+The signer can reauthorize again using the following SATT:
+
 `\ I, [IDS], hereby grant authorization to Registry [RegistryID] to validate and authenticate the attested claim linked with the Delegated Digital Signature [DDS.ID] on [date], irrespective of any prior authorizations granted, revoked, or otherwise altered. This authorization supersedes and renders null any previous directives to the contrary. \ IDS [SIG]/`
 
 The same if the authorization is to be conditional in case of CDDS:
+
 `\ I, [IDS], hereby grant authorization to Registry [RegistryID] to validate and authenticate the attested claim linked with the Delegated Digital Signature [DDS.ID] on [date], contingent upon the fulfillment of the stipulated condition [VF$], irrespective of any prior authorizations granted, revoked, or otherwise altered. This authorization supersedes and renders null any previous directives to the contrary. \ IDS [SIG]/`

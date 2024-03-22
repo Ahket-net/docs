@@ -55,10 +55,10 @@ First, here is the Claim Template for a membership card (CT1):
 }
 ```
 
-An example VAT of the CT1 (VAT1):
+An example ATT of the CT1 (VAT1):
 ```json
 {
-   "VAT": {
+   "ATT": {
       "AT": {
          "CL": {
             "Claim Template": "Membership Card",
@@ -85,9 +85,9 @@ An example VAT of the CT1 (VAT1):
 }
 ```
 
-The reader-friendly form of VAT1 is:
+The ReaderFriendlyFormat of VAT1 is:
 ```
-VAT - Membership Card:
+ATT - Membership Card:
    Member Name: John Doe
    Member IDS: 47034078473098
    Membership ID: 12345XYZ
@@ -97,12 +97,10 @@ Attested by:
    Cary Country Club [POA ID: DDS9876ABC]
 ```
 
-The Simple Presentation Format of VAT1 is:
-```
-\Membership Card for {memberName:John Doe} ({memberIDS:47034078473098}) with ID {membershipID:12345XYZ}. Valid from {startDate:2023-01-01} to {endDate:2024-01-01}. Photo: {photoAttachment:attachment JohnDoePhoto.jpg:5d41402abc4b2a76b9719d911017c592} \Cary Country Club[DDS9876ABC]/
-```
+The SimplePresentation of VAT1 is:
 
-The Simple Presentation Format of a VFP of VAT1 (VF1) is:
-```
-VF(\Membership Card for {memberName:$IGNORE} ({memberIDS:$HOLDER}) with ID {membershipID:$IGNORE}. Valid from {startDate:$IGNORE} to {endDate:$IGNORE}. Photo: {photoAttachment:attachment $IGNORE} \Cary Country Club/, $IGNORE)
-```
+`\Membership Card for {memberName:John Doe} ({memberIDS:47034078473098}) with ID {membershipID:12345XYZ}. Valid from {startDate:2023-01-01} to {endDate:2024-01-01}. Photo: {photoAttachment:attachment JohnDoePhoto.jpg:5d41402abc4b2a76b9719d911017c592} \Cary Country Club[DDS9876ABC]/`
+
+The SimplePresentation of a CVFP of VAT1 (VF1) is:
+
+`CVF(\Membership Card for {memberName:$IGNORE} ({memberIDS:$HOLDER}) with ID {membershipID:$IGNORE}. Valid from {startDate:$IGNORE} to {endDate:$IGNORE}. Photo: {photoAttachment:attachment $IGNORE} \Cary Country Club/, $IGNORE)`
