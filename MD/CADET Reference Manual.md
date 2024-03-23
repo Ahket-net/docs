@@ -33,13 +33,12 @@
 - [Validation of ATTP](#validation-of-attp)
 ---
 
-> **Note About This Document**
+> **Note**
 >
->  - Any object described will have both public and private attributes and public and private methods.
+>  - For any element in this document, `element.attribute` refers to the `element`'s attribute, while `element.method()` refers to calling its method.
+>     - The attributes can be public or private. So are the methods.
 > 
->  - `object.attribute` refers to the `object`'s attribute, while `object.method()` refers to calling its method.
-> 
->  - **SimplePresentation** is used to present any object or item in a document, book, or webpage that explain or demonstrate their use and applications.
+>  - **SimplePresentation** is used to present any element or item in a document, book, or webpage that explain or demonstrate their use and applications.
 
 - Related documents:
    - STASH Reference Manual
@@ -47,7 +46,7 @@
 
 ## Introduction
 
-CADET stands for _Cryptographic Attestation Documentation and Evidence Technology_. It defines the basic elements and structure developed by Ahket Inc.
+CADET stands for _Cryptographic Attestation Documentation and Evidence Technology_. It defines the basic elements and structure used by Ahket Inc to define and interact with attestations.
 
 We will discuss the elements of the CADER in the following sections.
 
@@ -66,10 +65,12 @@ A key pair is used for cryptographic operations, such as digital signature.
 ## Proof of Attestation (POA)
 
 **Definition**:\
-An incontrovertible evidence that an entity ("signer") has made a formal attestation to a "claim".
+POA is an incontrovertible evidence that an entity ('signer'), which is identified by an IDS, has made a formal attestation to a 'claim'.
 
 **Description**:\
-POA serves as a compelling evidence that a signer has committed to a claim. E.g., the digital signature of a message that affirms the message's authenticity. Any entity can "verify" that the signer attested a claim using the POA. POA might require a fee payment to do the verification.
+POA serves as a compelling evidence that a signer has committed to a claim. 
+E.g., the digital signature of a message that affirms the message's authenticity. 
+Any entity can "verify" that the signer attested a claim using the POA. POA might require a fee payment to do the verification.
 
 **Attributes**:
 - `Type`: The category of the POA. There are two types: `SIG` and `DDS`.
@@ -84,10 +85,12 @@ POA serves as a compelling evidence that a signer has committed to a claim. E.g.
 
 ### The Two Types of POA
 
+There are two types of POA used in CADET.
+
 #### Digital Signature (SIG)
 
 **Description**: \
-The common digital signature created by a public-private key pair. There are no fees to verify a SIG.
+This is the common digital signature created by a public-private key pair. There are no fees to verify a SIG.
 
 **Creation**:
 - `CreatePOA(SIG, SK, claim)` creates an instant of PAO whose `Type` is `SIG` and `ID` is the result of the common digital signing function `sign(date, IDS)`. 
@@ -97,7 +100,8 @@ The common digital signature created by a public-private key pair. There are no 
 The method `verify(claim,time)` returns the result of the common digital signature verification `verify(claim,POA.IDS,POA.ID)`, regardless of `time`.
 
 **Notation**: \
-A signature created for a specific `claim` and signer '`IDS` can be noted as `SIG[claim,IDS]`. This means that this signature is created by the `SK` associated with that `IDS`. This means that the common digital signature verification function `verify(claim,IDS,SIG[claim,IDS])` is always `True`.
+A signature created for a specific `claim` and signer `IDS` can be noted as `SIG[claim,IDS]`. This means that this signature is created by the `SK` associated with that `IDS`. 
+Given that, the common digital signature verification function `verify(claim,IDS,SIG[claim,IDS])` is always `True`.
 
 **SimplePresentation**: 
 Is a concatenation of `SIG` and `ID` value. E.g., `SIG1234AB56`.
