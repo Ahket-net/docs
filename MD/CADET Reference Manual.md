@@ -8,17 +8,22 @@
       - [Digital Signature (SIG)](#digital-signature-sig)
       - [Delegated Digital Signature (DDS)](#delegated-digital-signature-dds)
          - [DDS Record](#dds-record)
-            - [The SimplePresentation of a DDS](#the-simplepresentation-of-a-dds)
+            - [SimplePresentation of a DDS](#simplepresentation-of-a-dds)
 - [Claim Template (CLT)](#claim-template-clt)
    - [Examples of CLT:](#examples-of-clt)
       - [Example 1](#example-1)
       - [Example 2](#example-2)
 - [Claim (CL):](#claim-cl)
+   - [SimplePresentation of CL](#simplepresentation-of-cl)
 - [Attested Claim (ACL)](#attested-claim-acl)
+   - [SimplePresentation of ACL](#simplepresentation-of-acl)
 - [Claim Verification Form (CVF)](#claim-verification-form-cvf)
+   - [SimplePresentation of CVF](#simplepresentation-of-cvf)
    - [Claim Verification Form Prototype (CVFP)](#claim-verification-form-prototype-cvfp)
 - [Attestation (ATT)](#attestation-att)
+   - [SimplePresentation of ATT](#simplepresentation-of-att)
 - [ATT Package (ATTP):](#att-package-attp)
+   - [SimplePresentation of ATTP](#simplepresentation-of-attp)
 - [Examples](#examples)
    - [Example 1:](#example-1-1)
    - [Example 2](#example-2-1)
@@ -31,7 +36,7 @@
    - [Authenticating SATT](#authenticating-satt)
    - [Authenticating DATT](#authenticating-datt)
    - [Authenticating CATT](#authenticating-catt)
-      - [Authetnticating a "circular conditional authorization"](#authetnticating-a-circular-conditional-authorization)
+      - [Authenticating a "circular conditional authorization"](#authenticating-a-circular-conditional-authorization)
 - [Validation of ATTP](#validation-of-attp)
 ---
 
@@ -189,7 +194,7 @@ Is a concatenation of `SIG` and `ID` value. E.g., `SIG1234AB56`.
 - `getFee()`:\
    It returns the value of `VerificationFee`.
 
-###### The SimplePresentation of a DDS
+###### SimplePresentation of a DDS
 It is the concatenation of `DDS` and `ID` number. E.g., `DDS01A9F943` for `ID=01A9F943`.
 
 In case of a conditional DDS, the SimplePresentation of the condition (see CVFP below) is added at the end.
@@ -201,18 +206,19 @@ In case of a conditional DDS, the SimplePresentation of the condition (see CVFP 
 CLT is a JSON schema describing the blueprint of a claim. It could be considered as an "empty form".
 
 **Components**:
-- `variables` that describe the variables of the template.
+- `variables`: Describe the variables of the template.
 
 - `SimplePresentation`: Is a "string" that provides concise textual representation of the variables, each represented as `{variable name : variable type}`. It is used when demonstrating or educating about CADET structures.
    - Example: "Driver License of {name:text} who lives in {address:text}"
    - Example: "File Attachment {passport: attachment}"
-   - Example: In case a variable that is `CL`, `ACL` or `ATT` (see below), "Attested Balance is {account balance: ACL}"
+- A variable can be `CL`, `ACL` or `ATT` (see below).
+   - Example: "Attested Balance is {account balance: ACL}"
 
-- `ReaderFriendlyFormat`: Is a reformatting of the SimplePresentation of an object using indentations and line breaks to make it easier to read. It is used when demonstrating or educating about CADET structures.
+- `ReaderFriendlyFormat`: Is a representation form that differs from SimplePresentation of an element as it uses indentations and line breaks to make it easier to read. It is used for demonstrations or educating about CADET structures.
 
 - `FormalText`: Is the formal layout to present a thorough textual representation. It ALWAYS includes a boilerplate clause that is appropriate for the type of document being templates. The boilerplate clause should reflect the legal and formal aspects relevant to the specific type of document. It is used as the primary presentation to the public.
    - Example: "Driver License \n Name: {name:text} \n Address: {address:text}".
-   - Note that if `FormalText` is not provided, then the `ReaderFriendlyFormat` acts as `FormalText`, and ADDING to it a relevant boilerplate clause.
+   - Note that if a `FormalText` is not provided for an element, then its `ReaderFriendlyFormat` is used as `FormalText` with the addition of its relevant boilerplate clause at the end.
 
 ### Examples of CLT:
 
@@ -333,16 +339,17 @@ CLT is a JSON schema describing the blueprint of a claim. It could be considered
 
 ## Claim (CL):
 
-**Description**: \
-A sequence of bytes whose structure is defined by Claim Template. 
+**Description**:\
+CL is a sequence of bytes whose structure is defined by a Claim Template. 
 
 **Components**: \
 - `CLT`: The CLT defining the Claim structure.
+
 - `variableValues`: The values of the `variables` of the CLT and match the `variable type`.
 
-`CL = define(CLT, variableValues)`, where `define` means the creation of a json object.
+- CL = define(CLT, variableValues)`, where `define` means the creation of a json object.
 
-Here is a generic JSON form of CL:
+The generic JSON form of CL is
 ```json
 {
 "CL": {
@@ -356,7 +363,8 @@ Here is a generic JSON form of CL:
 }
 ```
 
-**SimplePresentation** of CL: 
+### SimplePresentation of CL
+
 - Is a modification of the SimplePresentation of its CLT, where each variable is shown as `{variable name:variable value}`.
 
 - Example: The SimplePresentation of a driver license claim is `Driver License of {name:Jane Doe} who lives in {address:120 Amber St., Baltimore, MD}`.
@@ -373,7 +381,7 @@ A Claim could be considered a "filled form".
 
 ## Attested Claim (ACL)
 
-**Description**: \
+**Description**:\
 ACL associates a claim with a single entity that is called the "issuer" of that claim. We can also say that "the claim is attested by that issuer." We can also call the issuer the "attestor" of that claim.
 
 **Components**:
@@ -400,7 +408,8 @@ Here is the generic JSON form of an ACL:
 
 If a single Claim needs to be attested by multiple issuers, then an ACL must be created by each issuer for that Claim. We call the group of ATTs that have the same Claim a "composite ACL".
 
-**SimplePresentation** of ACL: 
+### SimplePresentation of ACL
+
 - Is in the form `\SimplePresentation of CL \IDS/`. 
 
 - Example: The SimplePresentation of an ACL of a driver license is `\Driver License of {name:Jane Doe} who lives in {address:120 Amber St., Baltimore, MD} \MD_DMV/`.
@@ -413,7 +422,7 @@ An ACL could be considered a "filled form" with a name representing the `IDS` at
 
 ## Claim Verification Form (CVF)
 
-**Description**: \
+**Description**:\
 It provides the needed information for verification.
 
 **Components**:
@@ -446,13 +455,14 @@ The generic JSON of a CVF is:
 
 `extAC(CVF)` extracts the ACL `define(CL,IDS)` from CVF.
 
-**SimplePresentation** of CVF
+### SimplePresentation of CVF
+
 - Is the form `CVF(SimplePresentation of ACL, TT)`. 
 - Example: `CVF(\Driver License of {name:Jane Doe} who lives in {address:120 Amber St., Baltimore, MD} \MD_DMV/, Dec 20, 2022)`.
 
 ### Claim Verification Form Prototype (CVFP)
 
-**Description**: \
+**Description**:\
 Is a special form of CVF, where some of its variable values are special *placeholders* whose actual values would be known at verification time; i.e., when using `POA.verify(CVF.CL,CVF.TT)`. A CVFP is used to define a group of VFs that match the placeholders.
 
 The following are the only allowed placeholders to be used in CVFP.
@@ -465,8 +475,9 @@ The following are the only allowed placeholders to be used in CVFP.
 
 Example: `CVF(Driver License of {name:tbd_VERIFIER} who lives in {address:tbd_IGNORE} \MD_DMV/, tbd_VTIME)`.
 
-**Use**: \
-`matchVFPrototype(CVFP,CVF)` checks if CVF values match those in the CVFP; if so, it will return `True`, otherwise `False`. 
+**Use**:
+
+- `matchVFPrototype(CVFP,CVF)` checks if CVF values match those in the CVFP; if so, it will return `True`, otherwise `False`. 
    - **Example**: If CVFP is `CVF(\Driver License of {name:tbd_VERIFIER} who lives in {address:tbd_IGNORE} \MD_DMV/, tbd_VTIME)`, then CVF `CVF(\Driver License of {name:verifierIDS} who lives in {address:120 Amber St., Baltimore, MD} \MD_DMV/, Dec 20, 2022)` will be a `True` match if the `verifierIDS` is the actual verifier and Dec 20, 2022 is the verification time. It does not matter whatever the address is.
 
 
@@ -518,7 +529,8 @@ Generic JSON form of an ATT:
 
 `extIDS(ATT) = extIDS(extAC(ATT))`
 
-**SimplePresentation** of ATT: 
+### SimplePresentation of ATT
+
 - Is the SimplePresentation of the ACL, but replacing the `IDS` with `IDS[POA]`.
    - E.g., `\Driver License of {name:Jane Doe} who lives in {address:120 Amber St., Baltimore, MD} \MD_DMV[SIG14393A93]/`.
 
@@ -531,27 +543,28 @@ Generic JSON form of an ATT:
 
 ## ATT Package (ATTP):
 
-**Description**: \
+**Description**:\
 Is a package that contains the Attestation (ATT) and all associated files referenced in as attachment in the variables of the ATT's claim. If there are no files, then an ATTP is identical to ATT.
 
 **Components**:
 - `ATT`: The Attestation, which is a signed ACL.
 - `Files`: All files, documents, or supplementary materials in the attachment fields of the ATT's CL. These files are essential for verifiability. Each file is identified by its name.
 
-**SimplePresentation** of ATTP: 
+### SimplePresentation of ATTP
+
 - Is the SimplePresentation of the ATT followed by a list of attachments, each denoted by its file name. The format is `SimplePresentation of ATT | Files: [File1, File2, ...]`.
 
 - For example, if an ATT for a driver's license has two attached files (a photo and a supporting document), its SimplePresentation could be: \
    `\Driver License of {name:Jane Doe}, {photo:attachment Photo.jpg:5d41402abc4b2a76b9719d911017c592} who lives in {address:120 Amber St., Baltimore, MD}. Included {Supporting Material: attachment Document.pdf:202cb962ac59075b964b07152d234b70} \MD_DMV[SIG14393A93]/ Files: [Photo.jpg, Document.pdf]`.
 
-`extAT(ATTP)` extracts the ATT from ATTP.
+- `extAT(ATTP)` extracts the ATT from ATTP.
 
-`extFiles(ATT)` extracts the files from ATTP.
+- `extFiles(ATT)` extracts the files from ATTP.
 
 ## Examples
 
 ### Example 1: 
-Here is the SimplePresentation:
+Here is a SimplePresentation:
 
 `\Car Purchase Agreement for a  {car:Toyota Camry} {VIN#:123456789ABCDEF }between {seller:Jack} and {buyer:John} \Jack[DDS12345XYZ ?CVF(\Approval from {name:Jack's Wife} \Jack's Wife/,tbd_IGNORE): Authenticated by Sid}] + John[SIG67890ABC:Authenticated by Tim]/` 
 
@@ -561,7 +574,7 @@ DDS12345XYZ has been verified as valid by someone named Sid.
 The agreement also includes John's part, supported by his digital signature (SIG67890ABC), which has been verified as valid by someone named Tim. 
 The agreement effectively uses a composite structure to integrate multiple ACLs (from Jack, Jack's wife, and John) into a single document.
 
-ReaderFriendlyFormat:
+The ReaderFriendlyFormat for this example is:
 ```
 ATT - Car Purchase Agreement:
    Car: Toyota Camry
@@ -588,7 +601,7 @@ Here is the SimplePresentation of a valid USA passport:
 
 `\Passport of {name:Jane Doe} with {nationality:USA}, {passport number:US987654321}, {date of birth:Jan 1, 1990}, {place of birth:New York, USA}, {issue date:Jan 1, 2023}, {expiration date:Jan 1, 2033} \US Department of getState[SIG12345ABC]/`
 
-ReaderFriendlyFormat:
+The ReaderFriendlyFormat is:
 ```
 ATT - Passport Information:
    Name: Jane Doe
@@ -642,10 +655,11 @@ An example CLT of a property sales agreement (an example of `nested ATTs`):
 }
 ```
 
-The SimplePresentation format:
+The SimplePresentation is:
+
 `\Property Sale Agreement for {property:House at 123 Oak Street, Anytown} ({history:\Property Ownership History of {property:House at 123 Oak Street, Anytown} previously owned by {previous owner:John Doe}, {date of last sale:Jan 1, 2020} \John Doe[DDS12345DEF]/}) between {seller:Alice} and {buyer:Bob} \Alice[SIG67890XYZ] + Bob[SIG12345ABC]/`.  
 
-The ReaderFriendlyFormat:
+The ReaderFriendlyFormat is:
 ```
 ATT - Property Sale Agreement:
    Property: House at 123 Oak Street, Anytown
@@ -669,7 +683,7 @@ Here is the SimplePresentation of a nested ATTs package:
 
 `\Property Sale Agreement for {property:House at 456 Maple Drive, Lakeside} ({history:\Property Ownership History of {property:House at 456 Maple Drive, Lakeside} previously owned by {previous owner:Lucas}, {date of last sale:June 15, 2018} {Previous Sale Deed: attachment Sale_Deed_2018.pdf:def456} \Lucas[DDS67890DEF]/}) between {seller:Emily} and {buyer:Mark} {inspection: attachment Inspection_Report.pdf:ab450d} \Emily[SIG12345XYZ] + Mark[SIG98765ABC]/ Files: [Inspection_Report.pdf, Sale_Deed_2018.pdf]`
 
-ReaderFriendlyFormat:
+The ReaderFriendlyFormat is:
 ```
 ATT - Property Sale Agreement:
    Property: House at 456 Maple Drive, Lakeside
@@ -693,11 +707,11 @@ Files:
 
 ### Example 6
 
-The ReaderFriendlyFormat: 
+The SimplePresentation is:
 
 `\Medical Record of {name:Jane Doe}, {age:30}, {blood type:O+}, {allergies:\Allergy Information {allergen:Peanuts} \Allergy Specialist[DDS67890ABC]/}, {last visit:January 1, 2023} \Central Hospital[DDS12345XYZ]/` 
 
-The ReaderFriendlyFormat
+The ReaderFriendlyFormat is:
 ```
 ATT - Medical Record:
    Name: Jane Doe
@@ -813,7 +827,7 @@ Implementation 2:
       7.1 If true, return 'True'.
       7.2 Otherwise return 'False'.
 
-#### Authetnticating a "circular conditional authorization"
+#### Authenticating a "circular conditional authorization"
 
 CATT = `\ ID {Name: Jane Doe} {Expiration Date: Oct 12,2024} \IDS_gov[DDSid? CVF(\ ID {Name:tbd_IGNORE} {Expiration Date:::}}tbd_VTIME} \IDS_gov/, tbd_VTIME )]/` 
 Authentication as follows:
