@@ -33,13 +33,12 @@
 - [Validation of ATTP](#validation-of-attp)
 ---
 
-> **Note About This Document**
+> **Note**
 >
->  - Any object described will have both public and private attributes and public and private methods.
+>  - For any element in this document, `element.attribute` refers to the `element`'s attribute, while `element.method()` refers to calling its method.
+>     - Attributes and methods can be public or private.
 > 
->  - `object.attribute` refers to the `object`'s attribute, while `object.method()` refers to calling its method.
-> 
->  - **SimplePresentation** is used to present any object or item in a document, book, or webpage that explain or demonstrate their use and applications.
+>  - **SimplePresentation** of an element is a simple representation of that element in documents, books, or webpages.
 
 - Related documents:
    - STASH Reference Manual
@@ -47,57 +46,68 @@
 
 ## Introduction
 
-CADET stands for _Cryptographic Attestation Documentation and Evidence Technology_. It defines the basic elements and structure developed by Ahket Inc.
+CADET stands for _Cryptographic Attestation Documentation and Evidence Technology_. It defines the basic elements and structure used by Ahket Inc to define and interact with attestations.
 
-We will discuss the elements of the CADER in the following sections.
+Elements of CADET will be described and explained in the following sections.
 
 ## User Identifier
 
-A user is an entity that can be an organization or a person.
-The entity must have a cryptographic public-private key pair (IDS and SK):
-- Identity Seal (IDS):
-   - The public key.
-   - This is the user's identifier.
-- Secret Key (SK).
-   - The private key.
+- A "user" is an entity, which can be an organization or a person, that uses the Ahket.
+- A user must have a cryptographic public-private key pair (IDS and SK):
+   - Identity Seal (IDS):
+      - The public key.
+      - This is the user's identifier.
+   - Secret Key (SK).
+      - The private key.
 
-A key pair is used for cryptographic operations, such as digital signature.
+- The key pair is used for cryptographic operations, such as digital signature.
 
 ## Proof of Attestation (POA)
 
 **Definition**:\
-An incontrovertible evidence that an entity ("signer") has made a formal attestation to a "claim".
+POA is an incontrovertible evidence that an entity ("signer")---identified by an IDS, has made a formal attestation to a "claim".
 
-**Description**:\
-POA serves as a compelling evidence that a signer has committed to a claim. E.g., the digital signature of a message that affirms the message's authenticity. Any entity can "verify" that the signer attested a claim using the POA. POA might require a fee payment to do the verification.
+**Description**:
+- POA serves as a compelling evidence that a signer has committed to a claim. 
+   - An example for POA is the digital signature of a message that affirms the message's authenticity.
+- Any entity can "verify" that a specific signer attested a claim using a POA. 
+- POA might require a fee payment to do the verification.
 
 **Attributes**:
-- `Type`: The category of the POA. There are two types: `SIG` and `DDS`.
+- `Type`: The type of the POA. There are two types: `SIG` and `DDS`.
 - `ID`: A unique alpha-numeral identifier associated with each instance of a POA.
-- `IDS`: The public key of the signer that created the POA. We can refer to IDS or signer interchangeably.
+- `IDS`: The public key of the signer that created the POA.
+   - "IDS" and "signer" can be used interchangeably.
 
 **Public Methods**:
-- `getVerificationFee()`: Returns the `VerificationFee` value required for verification.
+- `getVerificationFee()`:\
+   Returns the `VerificationFee` value required for verification.
 
 **Creation**:
-- `CreatePOA(POAType, SK, claim)`: Creates and returns a POA, where `SK` is the private key of `IDS`. Its exact implementation depends on `POAType`.
+- `CreatePOA(POAType, SK, claim)`:\
+  Creates and returns a POA, where `SK` is the private key of `IDS`. Its exact implementation depends on `POAType`.
 
 ### The Two Types of POA
 
+There are two types of POA used in CADET: SIG and DDS.
+
 #### Digital Signature (SIG)
 
-**Description**: \
-The common digital signature created by a public-private key pair. There are no fees to verify a SIG.
+**Description**:\
+This is the commonly known digital signature created by a public-private key pair. A SIG does not require any fees for verification.
 
 **Creation**:
-- `CreatePOA(SIG, SK, claim)` creates an instant of PAO whose `Type` is `SIG` and `ID` is the result of the common digital signing function `sign(date, IDS)`. 
-- `CreateSIG(SK, claim)` is the same as `CreatePOA(POAType, SK, claim)`.
+- `CreatePOA(SIG, SK, claim)`:\
+   The function creates an instant of PAO whose `Type` is `SIG` and `ID` is the result of the common digital signing function `sign(date, IDS)`. 
+- `CreateSIG(SK, claim)`:\
+   This function is the same as `CreatePOA(POAType, SK, claim)`.
 
-**Methods**: \
-The method `verify(claim,time)` returns the result of the common digital signature verification `verify(claim,POA.IDS,POA.ID)`, regardless of `time`.
+**Methods**:\
+The method `verify(claim,time)` returns the result of the commonly known digital signature verification `verify(claim,POA.IDS,POA.ID)`, regardless of value of the `time` parameter.
 
-**Notation**: \
-A signature created for a specific `claim` and signer '`IDS` can be noted as `SIG[claim,IDS]`. This means that this signature is created by the `SK` associated with that `IDS`. This means that the common digital signature verification function `verify(claim,IDS,SIG[claim,IDS])` is always `True`.
+**Notation**:\
+A signature created for a specific `claim` and signer `IDS` can be noted as `SIG[claim,IDS]`. This means that this signature is created by the `SK` associated with that `IDS`. 
+Given that, the common digital signature verification function `verify(claim,IDS,SIG[claim,IDS])` is always `True`.
 
 **SimplePresentation**: 
 Is a concatenation of `SIG` and `ID` value. E.g., `SIG1234AB56`.

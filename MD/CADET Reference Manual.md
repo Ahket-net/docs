@@ -7,6 +7,8 @@
    - [The Two Types of POA](#the-two-types-of-poa)
       - [Digital Signature (SIG)](#digital-signature-sig)
       - [Delegated Digital Signature (DDS)](#delegated-digital-signature-dds)
+         - [DDS Record](#dds-record)
+            - [The SimplePresentation of a DDS](#the-simplepresentation-of-a-dds)
 - [Claim Template (CLT)](#claim-template-clt)
    - [Examples of CLT:](#examples-of-clt)
       - [Example 1](#example-1)
@@ -36,9 +38,9 @@
 > **Note**
 >
 >  - For any element in this document, `element.attribute` refers to the `element`'s attribute, while `element.method()` refers to calling its method.
->     - The attributes can be public or private. So are the methods.
+>     - Attributes and methods can be public or private.
 > 
->  - **SimplePresentation** is used to present any element or item in a document, book, or webpage that explain or demonstrate their use and applications.
+>  - **SimplePresentation** of an element is a simple representation of that element in documents, books, or webpages.
 
 - Related documents:
    - STASH Reference Manual
@@ -48,58 +50,64 @@
 
 CADET stands for _Cryptographic Attestation Documentation and Evidence Technology_. It defines the basic elements and structure used by Ahket Inc to define and interact with attestations.
 
-We will discuss the elements of the CADER in the following sections.
+Elements of CADET will be described and explained in the following sections.
 
 ## User Identifier
 
-A user is an entity that can be an organization or a person.
-The entity must have a cryptographic public-private key pair (IDS and SK):
-- Identity Seal (IDS):
-   - The public key.
-   - This is the user's identifier.
-- Secret Key (SK).
-   - The private key.
+- A "user" is an entity, which can be an organization or a person, that uses the Ahket.
+- A user must have a cryptographic public-private key pair (IDS and SK):
+   - Identity Seal (IDS):
+      - The public key.
+      - This is the user's identifier.
+   - Secret Key (SK).
+      - The private key.
 
-A key pair is used for cryptographic operations, such as digital signature.
+- The key pair is used for cryptographic operations, such as digital signature.
 
 ## Proof of Attestation (POA)
 
 **Definition**:\
-POA is an incontrovertible evidence that an entity ('signer'), which is identified by an IDS, has made a formal attestation to a 'claim'.
+POA is an incontrovertible evidence that an entity ("signer")---identified by an IDS, has made a formal attestation to a "claim".
 
-**Description**:\
-POA serves as a compelling evidence that a signer has committed to a claim. 
-E.g., the digital signature of a message that affirms the message's authenticity. 
-Any entity can "verify" that the signer attested a claim using the POA. POA might require a fee payment to do the verification.
+**Description**:
+- POA serves as a compelling evidence that a signer has committed to a claim. 
+   - An example for POA is the digital signature of a message that affirms the message's authenticity.
+- Any entity can "verify" that a specific signer attested a claim using a POA. 
+- POA might require a fee payment to do the verification.
 
 **Attributes**:
-- `Type`: The category of the POA. There are two types: `SIG` and `DDS`.
+- `Type`: The type of the POA. There are two types: `SIG` and `DDS`.
 - `ID`: A unique alpha-numeral identifier associated with each instance of a POA.
-- `IDS`: The public key of the signer that created the POA. We can refer to IDS or signer interchangeably.
+- `IDS`: The public key of the signer that created the POA.
+   - "IDS" and "signer" can be used interchangeably.
 
 **Public Methods**:
-- `getVerificationFee()`: Returns the `VerificationFee` value required for verification.
+- `getVerificationFee()`:\
+   Returns the `VerificationFee` value required for verification.
 
 **Creation**:
-- `CreatePOA(POAType, SK, claim)`: Creates and returns a POA, where `SK` is the private key of `IDS`. Its exact implementation depends on `POAType`.
+- `CreatePOA(POAType, SK, claim)`:\
+  Creates and returns a POA, where `SK` is the private key of `IDS`. Its exact implementation depends on `POAType`.
 
 ### The Two Types of POA
 
-There are two types of POA used in CADET.
+There are two types of POA used in CADET: SIG and DDS.
 
 #### Digital Signature (SIG)
 
-**Description**: \
-This is the common digital signature created by a public-private key pair. There are no fees to verify a SIG.
+**Description**:\
+This is the commonly known digital signature created by a public-private key pair. A SIG does not require any fees for verification.
 
 **Creation**:
-- `CreatePOA(SIG, SK, claim)` creates an instant of PAO whose `Type` is `SIG` and `ID` is the result of the common digital signing function `sign(date, IDS)`. 
-- `CreateSIG(SK, claim)` is the same as `CreatePOA(POAType, SK, claim)`.
+- `CreatePOA(SIG, SK, claim)`:\
+   The function creates an instant of PAO whose `Type` is `SIG` and `ID` is the result of the common digital signing function `sign(date, IDS)`. 
+- `CreateSIG(SK, claim)`:\
+   This function is the same as `CreatePOA(POAType, SK, claim)`.
 
-**Methods**: \
-The method `verify(claim,time)` returns the result of the common digital signature verification `verify(claim,POA.IDS,POA.ID)`, regardless of `time`.
+**Methods**:\
+The method `verify(claim,time)` returns the result of the commonly known digital signature verification `verify(claim,POA.IDS,POA.ID)`, regardless of value of the `time` parameter.
 
-**Notation**: \
+**Notation**:\
 A signature created for a specific `claim` and signer `IDS` can be noted as `SIG[claim,IDS]`. This means that this signature is created by the `SK` associated with that `IDS`. 
 Given that, the common digital signature verification function `verify(claim,IDS,SIG[claim,IDS])` is always `True`.
 
@@ -108,8 +116,9 @@ Is a concatenation of `SIG` and `ID` value. E.g., `SIG1234AB56`.
 
 #### Delegated Digital Signature (DDS)
 
-**Description**: \
-It is a representation of a SIG stored on STASH. It is used to *verify* that there is such SIG and that it is authentic---provided that it is authorized by the signer to answer a verification request. It can be considered a generalization of SIG with more flexibility because of the following *unique properties*:
+**Description**:
+- A DDS is a representation of a SIG stored on STASH. It is used to _verify_ that there is such SIG from the signer and that the signer authorized to answer a verification request. 
+- A DDS is a generalization of SIG with more flexibility due to its *unique properties*:
    - **Transferrable Ownership**: The DDS owner has the right to transfer the ownership to another entity.
    - **Revenue Generating**: It can generate revenue to its owner from verification fees.
    - **Amendable**: The result of a verification can be amended, but not retrospectively.
@@ -117,27 +126,31 @@ It is a representation of a SIG stored on STASH. It is used to *verify* that the
    - **Traceable**: The creation, changes, transfers, verifications are recorded on STASH (see STASH Reference Manual) and can be traced.
 
 **Creation**:
-- `CreatePOA(DDS, SK, claim)` creates through STASH the `DDS Record` associated with the `IDS` and `claim`---where the `IDS` is the public key associated with the `SK`. The STASH thus creates a POA whose `Type` is `DDS` and `ID` is a unique number representing the pair `(IDS,claim)`; i.e., for each new pair of `IDS` and `claim`, a new number is generated for the ID. Only STASH and the signer can relate DDS.ID to the `claim`. For example, it could be just a sequential number for each new `(IDS,claim)`.
+- `CreatePOA(DDS, SK, claim)`\
+   This function creates through STASH a `DDS Record` associated with the `IDS` and `claim`---where the `IDS` is the public key associated with the `SK`. The STASH thus creates a POA whose `Type` is `DDS` and `ID` is a unique number representing the pair `(IDS,claim)`; i.e., for each new pair of `IDS` and `claim`, a new number is generated for the ID. Only STASH and the signer can relate DDS.ID to the `claim`. For example, it could be just a sequential number for each new `(IDS,claim)`.
 - `CreateDDS(SK, claim)` is a shorter way to write `CreatePOA(DDS, SK, claim)`.
 
-Note that NO ONE can change the claim of a created DDS once created.
+> **Note**
+> 
+> NO ONE can change the claim of a DDS once created.
 
-**DDS Record and STASH**:
+##### DDS Record
 - STASH is required to create, update and verify a DDS.
-- `DDS Record`: Each DDS references a DDS Record stored in STASH. The record has a private and public components.
-   - **Private DDS Information**: This information is held with the highest security in STASH.
+- A DDS references a DDS Record stored in STASH. 
+- The DDS Record has the following private and public properties.
+   - **Private DDS Information**: This information is held with the HIGHEST SECURITY in STASH.
       - The `claim` hash. STASH does not save the claim itself.
       - The SIG associated with the `claim` hash.
 
    - **Public DDS Information**:
       - `AuthorizationLog`: Is a sequence of events representing changes to the DDS authorization through creation or update requests to STASH. Each event is recorded with the time of change and a SIG issued by the signer (IDS) authenticating the change request. 
-         - The change of the authorization could be one of the following:
-            - `Authorized`: The DDS can be used for verification. When a DDS is created for the first time, its authorization is `Authorized`.
-               - Authorized is an implicit attestation by the signer at a specific date "is authorizing STASH to verify through DDS."
-            - `Unauthorized`: The DDS cannot be used for verification.
-               - Unauthorized is an implicit attestation by the signer at a specific date "is deauthorizing STASH to verify through DDS."
-            - `ConditionalAuthorization`: The DDS can be used for verification if some conditions satisfied. The condition is described using a special Claim Verification Form Prototype (see CVFP below). In this case, the DDS is a "conditional DDS" (CDDS).
-               - `ConditionalAuthorization` is an implicit attestation by the signer at a specific date "is authorizing STASH to verify through DDS provided that certain condition is satisfied."
+         - The change of the authorization could be to one of the following:
+            - `Authorized`, which means that the DDS can be used for verification. When a DDS is created for the first time, its authorization is `Authorized`.
+               - `Authorized` is a signed attestation by the signer at a specific time that "the signer is authorizing STASH to verify through DDS."
+            - `Unauthorized`, which means that the DDS cannot be used for verification.
+               - `Unauthorized` is a signed attestation by the signer at a specific time that "the signer is deauthorizing STASH to verify through DDS."
+            - `ConditionalAuthorization`, which means that the DDS can be used for verification if some conditions are satisfied. The condition is described using a special Claim Verification Form Prototype (see CVFP below). In this case, the DDS is a "conditional DDS" (CDDS).
+               - `ConditionalAuthorization` is a signed attestation by the signer at a specific time that "the signer is authorizing STASH to verify through DDS provided that certain condition is satisfied."
          - Because of events are recorded at the time of the signer request, the DDS is strongly timestamped by STASH.
   
       - `Owner`: An entity that earns a portion of the fees paid during verification to STASH. We call the owner of DDS the `DDS owner` or `DDSO`.
@@ -147,34 +160,44 @@ Note that NO ONE can change the claim of a created DDS once created.
       - `Holder`: An entity that has some rights. We call the holder of DDS the `DDS Holder` or `DDSH`.
       
       - `HoldTransferrable`: Is a boolean value. If `True` and the holder is NOT the signer of the DDS, then the current holder can transfer the DDS to a new holder; i.e., change `Holder` to the new holder's IDS. It can only be changed by the signer.
+  
       - `VerificationFee`: The fee required for verification. See STASH.
+      
       - `DDSP`: DDS Price. See STASH.
+      
       - `UnprotectedRevenue`: Is a boolean value. See STASH. 
    
-   - When created for the first time, the `Owner` and `Holder` are `IDS`.
+   - When a DDS Record is created for the first time, the `Owner` and `Holder` are `IDS`.
    
-   - The DDS Record in STASH is what gives DDS its **unique properties**.
+   - The DDS Record in STASH is what gives its associated DDS its _unique properties_.
 
-**Limited-access Methods**:
-- `ChangeAuthorization(newState)`: It uses STASH to add an event to `AuthorizationLog` at the event time and change the DDS authorization. The change of the DDS authorization applies from the event time forward. ONLY the DDS signer can call this method.
-- `SetDDSP(value)` sets the value of `DDSP`. Only the DDS owner can use this, if allowed by STASH.
+**Limited-access DDS Methods**:
+- `ChangeAuthorization(newState)`:\
+  It uses STASH to add an event to `AuthorizationLog` at the event time and change the DDS authorization. The change of the DDS authorization applies from the event time forward. ONLY the DDS signer can call this method.
+  
+- `SetDDSP(value)`:\
+   It sets the value of `DDSP`. Only the DDS owner can use this, if allowed by STASH.
 
-**Public Methods**:
-- `getState(targetTime)`: Returns the authorization state of a DDS at some point of time (`targetTime`). It returns the authorization state after the latest change in `AuthorizationLog` on or before `targetTime`. If the `targetTime` is before the creation of the DDS, then the state is `Unauthorized`.
+**Public DDS Methods**:
+- `getState(targetTime)`:\
+  It returns the authorization state of a DDS at `targetTime`.
+  It returns the authorization state after the latest change in `AuthorizationLog` on or before `targetTime`, or return `unauthorized` if the `targetTime` is before the creation of the DDS.
 
-- `isConditional(targetTime)`: Is a boolean value. It returns `True` only if `getState(targetTime)` is `ConditionalAuthorization`.
+- `isConditional(targetTime)`:\
+   It returns the boolean value of `True` only if `getState(targetTime)` is `ConditionalAuthorization`, otherwise it retuens `False`.
 
-- `getFee()` returns the value of `VerificationFee`.
+- `getFee()`:\
+   It returns the value of `VerificationFee`.
 
-**SimplePresentation**: \
+###### The SimplePresentation of a DDS
 It is the concatenation of `DDS` and `ID` number. E.g., `DDS01A9F943` for `ID=01A9F943`.
-   - In case of conditional DDS, a suffix `?ConditionalAuthorization` is added at the end.
-      - E.g., `DDS1034EB57 ?CVF(\Driver License of {name:tbd_VERIFIER} who lives in {address:tbd_IGNORE}\MD_DMV/, tbd_VTIME)`.
 
+In case of a conditional DDS, the SimplePresentation of the condition (see CVFP below) is added at the end.
+   - E.g., `DDS1034EB57 ?CVF(\Driver License of {name:tbd_VERIFIER} who lives in {address:tbd_IGNORE}\MD_DMV/, tbd_VTIME)`.
 
 ## Claim Template (CLT)
 
-**Description**: \
+**Description**:\
 CLT is a JSON schema describing the blueprint of a claim. It could be considered as an "empty form".
 
 **Components**:

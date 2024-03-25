@@ -152,11 +152,11 @@ VAO creates and manages attestations as detailed in the Creation and Verificatio
 
 > **Notes**
 > 
-> - All DBNs are redeemable from GUSDA by burning DBNs and withdraw the equivalend USDs.
+> - All DBNs are redeemable from GUSDA by burning DBNs and withdraw the equivalent USDs.
 > 
 > - The RPR is variable according to the activities.
 >
-> - In case of reduced collected SFs---in case of promotion and free trials, the PRR adjusts accordingly.
+> - In case of reduced collected SFs---in case of a promotion and free trials, the PRR adjusts accordingly.
 
 ## Access to Ahket's STASH
 
@@ -165,7 +165,7 @@ Ahket's STASH can be accessed by users as follows:
    - VerifyAtOnce (VAO)
       - VAO is the main product of Ahket Inc.
       - It is a web application.
-      - This is a conventional Web 2.0 (WEB2) solution. Therefore it is a centralized service.
+      - This is a conventional Web 2.0 (WEB2) solution. Therefore, it is a centralized service.
       - Further details is provided in the CADET, STASH, and VAO User Manuals.
    
    - Later, through Decentralized Application (DAPP)
