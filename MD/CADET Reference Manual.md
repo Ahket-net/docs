@@ -8,7 +8,7 @@
       - [Digital Signature (SIG)](#digital-signature-sig)
       - [Delegated Digital Signature (DDS)](#delegated-digital-signature-dds)
          - [DDS Record](#dds-record)
-            - [SimplePresentation of a DDS](#simplepresentation-of-a-dds)
+         - [SimplePresentation of a DDS](#simplepresentation-of-a-dds)
 - [Claim Template (CLT)](#claim-template-clt)
    - [Examples of CLT:](#examples-of-clt)
       - [Example 1](#example-1)
@@ -194,7 +194,7 @@ Is a concatenation of `SIG` and `ID` value. E.g., `SIG1234AB56`.
 - `getFee()`:\
    It returns the value of `VerificationFee`.
 
-###### SimplePresentation of a DDS
+##### SimplePresentation of a DDS
 It is the concatenation of `DDS` and `ID` number. E.g., `DDS01A9F943` for `ID=01A9F943`.
 
 In case of a conditional DDS, the SimplePresentation of the condition (see CVFP below) is added at the end.
